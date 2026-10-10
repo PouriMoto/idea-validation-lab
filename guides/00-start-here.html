@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شروع کنید: نقشه راه اعتبارسنجی ایده | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">راهنمای شروع و نقشه راه</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="../workbench/experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="01-business-basics.html" class="nav-btn">شروع گام‌به‌گام</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container">
+        <!-- Breadcrumb / مسیر راهنما -->
+        <div class="breadcrumb" style="margin-bottom: 2rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#guides">راهنماها</a> / <span>شروع کنید</span>
+        </div>
+
+        <!-- Guide Header / هدر راهنما -->
+        <div class="guide-header card" style="margin-bottom: 2.5rem; background: var(--color-surface);">
+            <span class="badge" style="background: var(--color-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">راهنمای شماره ۰۰</span>
+            <h2 style="margin-top: 0.75rem; color: var(--color-primary);">از کجا شروع کنم؟ (نقشه راه اعتبارسنجی)</h2>
+            <p style="color: var(--color-muted); margin-top: 0.5rem; font-size: 1.1rem;">راهنمای گام‌به‌گام برای کارآفرینان تازه‌کار تا بدانند از میان ایده‌ها، ابزارها و راهنماها از کدام نقطه شروع کنند و مسیر خود را چگونه پیش ببرند.</p>
+        </div>
+
+        <!-- Table of Contents / فهرست مطالب -->
+        <div class="card" style="background: var(--color-background); margin-bottom: 2rem;">
+            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">فهرست مطالب این راهنما</h4>
+            <ul style="padding-right: 1.2rem; line-height: 1.8; font-size: 0.95rem;">
+                <li><a href="#section-1">۱. شروع از مسئله، نه از ساخت محصول</a></li>
+                <li><a href="#section-2">۲. مسیر اصلی اعتبارسنجی (گام‌به‌گام)</a></li>
+                <li><a href="#section-3">۳. تفاوت مفاهیم پایه در اعتبارسنجی</a></li>
+                <li><a href="#section-4">۴. انتخاب مسیر بر اساس وضعیت فعلی شما</a></li>
+                <li><a href="#section-5">۵. اولین آزمایش در عمل (تمرین کوتاه)</a></li>
+                <li><a href="#section-6">۶. اشتباهات رایج تازه‌کارها</a></li>
+                <li><a href="#section-7">۷. تعریف پایان یک دور آزمایش</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Start from the problem -->
+        <section id="section-1" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۱. شروع از مسئله، نه از ساخت محصول</h3>
+            <p style="margin-top: 0.75rem;">بسیاری از افراد وقتی ایده جدیدی به ذهنشان می‌رسد، بلافاصله به فکر ساخت اپلیکیشن، طراحی وب‌سایت پیچیده یا ثبت شرکت می‌افتند. فرض کنید فردی تصمیم می‌گیرد یک سامانه آنلاین تحویل پوشاک محلی راه‌اندازی کند؛ اما بدون اینکه بداند آیا اصلاً افراد ترجیح می‌دهند لباس‌هایشان را به شخص دیگری بسپارند یا خیر.</p>
+            <p style="margin-top: 0.5rem;">ساخت محصول بدون شناخت دقیق مسئله، یعنی شلیک در تاریکی. پیش از هرگونه توسعه‌ای، باید مطمئن شویم که مخاطب با مشکلی دردناک روبه‌روست که برای حل آن حاضر است وقت یا پول صرف کند.</p>
+        </section>
+
+        <!-- Section 2: Main Validation Path -->
+        <section id="section-2" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۲. مسیر اصلی اعتبارسنجی</h3>
+            <p style="margin-top: 0.75rem;">این آزمایشگاه شما را در ۷ گام منطقی همراهی می‌کند:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۱: تعریف مسئله و ایده</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: درد اصلی مخاطب چیست؟ | <a href="01-business-basics.html">مطالعه راهنمای شناخت کسب‌وکار</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۲: مشخص‌کردن مخاطب هدف</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چه کسی همین امروز با این مشکل درگیر است؟ | <a href="04-audience-acquisition.html">مطالعه راهنمای جذب مخاطب</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۳: نوشتن فرضیه قابل آزمون</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چه ادعایی داریم که اگر غلط باشد ارمان‌شهر ما فرو می‌ریزد؟ | <a href="../workbench/experiment-planner.html">ورود به برنامه‌ریز آزمایش</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۴: انتخاب کوچک‌ترین آزمایش مفید</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: بدون کدنویسی چطور می‌توانم این فرض را بسنجم؟ | <a href="02-experiments-without-product.html">مطالعه روش‌های بدون محصول</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۵: جذب مخاطب مناسب</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چطور افراد واجد شرایط را پیدا کنم؟ | <a href="03-warm-to-cold-testing.html">مطالعه تست گرم تا سرد</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۶: ثبت رفتار و شواهد</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چه داده عینی از واکنش کاربر دارم؟ | <a href="05-tools-and-measurement.html">مطالعه ابزارها و سنجش</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
+                    <strong>گام ۷: بررسی نتیجه و انتخاب اقدام بعدی</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: داده‌ها چه چیزی را نشان می‌دهند؟ | <a href="06-results-and-decisions.html">مطالعه تحلیل نتایج</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Core Differences -->
+        <section id="section-3" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۳. تفاوت مفهوم‌های پایه</h3>
+            <p style="margin-top: 0.75rem;">در ادبیات اعتبارسنجی، تفکیک این مفاهیم کلیدی است:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li><strong>ایده در برابر فرضیه:</strong> ایده یک تصور کلی است، اما فرضیه ادعایی است مشخص و قابل سنجش.</li>
+                <li><strong>مسئله در برابر راه‌حل:</strong> مسئله درد واقعی کاربر است، راه‌حل ابزاری است که ما پیشنهاد می‌دهیم.</li>
+                <li><strong>بازخورد کلامی در برابر شواهد رفتاری:</strong> نظر شخصی افراد ارزش کمتری نسبت به رفتار واقعی آن‌ها (مثل وقت یا پول گذاشتن) دارد.</li>
+                <li><strong>علاقه در برابر تعهد:</strong> لبخند زدن و تعریف کردن از ایده علاقه است، اما پرداخت بیعانه یا وقت گذاشتن برای جلسه تعهد است.</li>
+                <li><strong>نتیجه نامشخص در برابر نتیجه منفی:</strong> نامشخص یعنی داده کافی نداریم، منفی یعنی فرضیه ما رد شده است که هر دو ارزشمندند.</li>
+            </ul>
+        </section>
+
+        <!-- Section 4: Choose Path Based on Status -->
+        <section id="section-4" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۴. انتخاب مسیر بر اساس وضعیت کاربر</h3>
+            <p style="margin-top: 0.75rem;">بسته به اینکه در چه نقطه‌ای قرار دارید، یکی از مسیرهای زیر را انتخاب کنید:</p>
+            <div class="grid-3" style="margin-top: 1rem;">
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>«هنوز نمی‌دانم مشتری من کیست»</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">مسیر پیشنهادی: شناخت ایده و مخاطب اولیه.<br><a href="01-business-basics.html">رفتن به راهنمای شماره ۰۱ ←</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>«مخاطب را می‌شناسم، اما نمی‌دانم چه آزمایشی اجرا کنم»</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">مسیر پیشنهادی: طراحی برنامه اجرایی.<br><a href="../workbench/experiment-planner.html">ورود به برنامه‌ریز آزمایش ←</a></p>
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>«آزمایش را اجرا کرده‌ام و نمی‌دانم نتیجه چه معنایی دارد»</strong>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">مسیر پیشنهادی: تحلیل داده‌ها و تصمیم بعدی.<br><a href="06-results-and-decisions.html">رفتن به راهنمای تحلیل نتایج ←</a></p>
+                </div>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--color-muted);">سایر ابزارهای مفید میز کار شامل <a href="../workbench/interview-builder.html">سازنده مصاحبه</a> و <a href="../workbench/channel-tracker.html">ردیاب کانال</a> نیز در مراحل مختلف به کمک شما می‌آیند.</p>
+        </section>
+
+        <!-- Section 5: First Experiment in Action -->
+        <section id="section-5" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۵. اولین آزمایش در عمل (تمرین کوتاه)</h3>
+            <p style="margin-top: 0.75rem;">برای اینکه کار را شروع کنید، به این ۶ پرسش درباره ایده‌تان فکر کنید (این تمرین جایگزین برنامه‌ریز کامل نمی‌شود):</p>
+            <div style="background: var(--color-background); padding: 1.25rem; border-radius: 6px; margin-top: 1rem;">
+                <ol style="padding-right: 1.2rem; line-height: 2.2;">
+                    <li>چه مسئله‌ای را دارم بررسی می‌کنم؟</li>
+                    <li>چه کسانی این مسئله را به طور ملموس تجربه کرده‌اند؟</li>
+                    <li>چه بخشی از ایده‌ام را هنوز اصلاً نمی‌دانم؟</li>
+                    <li>چه رفتار قابل‌مشاهده‌ای نشان می‌دهد که مخاطب این مشکل را جدی می‌داند؟</li>
+                    <li>کوچک‌ترین آزمایش بدون محصول برای سنجش این مورد چیست؟</li>
+                    <li>نتایج و یادداشت‌هایم را کجا ثبت خواهم کرد؟</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section 6: Common Beginner Mistakes -->
+        <section id="section-6" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۶. اشتباهات رایج تازه‌کارها</h3>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li>ساخت محصول کامل قبل از اثبات تقاضا و کشف مسئله.</li>
+                <li>پرسیدن سوالات جهت‌دار و تشویق‌کننده از مخاطب.</li>
+                <li>انتخاب دوستان و اعضای خانواده به عنوان تنها گروه نمونه.</li>
+                <li>تفسیر تعداد بازدیدهای بالا به عنوان اثبات قطعی فروش.</li>
+                <li>تغییر دادن چند متغیر مختلف (قیمت، پیام، مخاطب) به‌صورت هم‌زمان در یک آزمایش.</li>
+                <li>ادامه دادن آزمایش بدون داشتن معیارهای موفقیت از پیش‌تعیین‌شده.</li>
+            </ul>
+        </section>
+
+        <!-- Section 7: Definition of Loop End -->
+        <section id="section-7" class="guide-section card" style="background: var(--color-background); border-color: var(--color-secondary);">
+            <h3 style="color: var(--color-primary);">۷. تعریف پایان یک دور آزمایش</h3>
+            <p style="margin-top: 0.5rem;">هدف از اجرای آزمایش‌ها در این جعبه‌ابزار، اثبات صددرصدی موفقیت کسب‌وکار نیست. هدف اصلی این است که <strong>یک لایه از عدم‌قطعیت را کم کنیم</strong> و مشخص کنیم قدم بعدی چیست: آیا مسیر را ادامه می‌دهیم، فرض خود را اصلاح می‌کنیم یا کلاً تغییر مسیر می‌دهیم؟</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="01-business-basics.html" class="btn btn-primary" style="margin-left: 1rem;">شروع گام اول (شناخت کسب‌وکار)</a>
+                <a href="../workbench/experiment-planner.html" class="btn btn-secondary">رفتن به برنامه‌ریز آزمایش</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+</body>
+</html>
