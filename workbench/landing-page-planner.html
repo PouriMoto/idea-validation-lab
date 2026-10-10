@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه‌ریز صفحه فرود آزمایشی | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .form-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; }
+        .hint-text { font-size: 0.85rem; color: var(--color-muted); margin-top: -0.5rem; margin-bottom: 1rem; }
+        .preview-box { background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-top: 1rem; }
+        .checklist-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .checklist-item input[type="checkbox"] { margin-top: 0.3rem; width: 18px; height: 18px; accent-color: var(--color-secondary); cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">میز کار: برنامه‌ریز صفحه فرود</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="channel-tracker.html">ردیاب کانال</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 900px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>برنامه‌ریز لندینگ</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">برنامه‌ریز صفحه فرود آزمایشی (Landing Page Planner)</h2>
+            <p style="color: var(--color-muted);">ساختار، متن و پیام اصلی صفحه فرود آزمایش خود را طراحی کنید تا تقاضای مخاطب را بدون ساخت محصول کامل بسنجید.</p>
+            
+            <div class="notice-box" style="margin-top: 1rem; margin-bottom: 0;">
+                <h4>⚠️ نکته مهم</h4>
+                <p>این ابزار یک سازنده سایت کامل نیست؛ بلکه یک ساختار و پیش‌نویس متنی استاندارد برای اجرای تست تقاضا تولید می‌کند تا متن و مسیر تبدیل مخاطب را از قبل برنامه‌ریزی کنید.</p>
+            </div>
+        </div>
+
+        <form id="landing-planner-form">
+            
+            <!-- بخش اول: اطلاعات پایه آزمایش و ایده -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۱. اطلاعات پایه آزمایش</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label>نام آزمایش</label>
+                    <input type="text" id="lp-exp-name" placeholder="مثلاً: تست تقاضای پیش‌خرید پلتفرم مالی">
+                    <p class="hint-text">نام یا شناسه این آزمایش در برنامه‌ریز آزمایش.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>عنوان ایده یا خدمت</label>
+                    <input type="text" id="lp-title" placeholder="مثلاً: دستیار هوشمند مدیریت هزینه‌های کارمندان">
+                    <p class="hint-text">نامی که در بالای صفحه فرود به مخاطب معرفی می‌شود.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>مخاطب هدف</label>
+                    <input type="text" id="lp-audience" placeholder="مثلاً: کارمندان دورکار با درآمد ثابت">
+                    <p class="hint-text">دقیقاً چه کسانی قرار است این صفحه را ببینند؟</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>مسئله اصلی مخاطب</label>
+                    <textarea id="lp-problem" rows="2" placeholder="مثلاً: گم شدن در هزینه‌های خرد و نداشتن پس‌انداز مشخص در پایان ماه"></textarea>
+                    <p class="hint-text">چه درد یا چالشی را قرار است حل کنید؟</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>راه‌حل پیشنهادی</label>
+                    <textarea id="lp-solution" rows="2" placeholder="مثلاً: دسته‌بندی خودکار تراکنش‌ها و پیشنهاد بودجه روزانه"></textarea>
+                    <p class="hint-text">راه‌حل شما به زبان ساده چه کار می‌کند؟</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>پیشنهاد ارزش (Value Proposition)</label>
+                    <input type="text" id="lp-value-prop" placeholder="مثلاً: کنترل کامل بودجه ماهانه بدون نیاز به ورود دستی داده‌ها">
+                    <p class="hint-text">چرا مخاطب باید به این صفحه اهمیت دهد؟</p>
+                </div>
+            </div>
+
+            <!-- بخش دوم: جزئیات اجرا و تبدیل -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۲. ساختار و مسیر تبدیل (Conversion)</h3>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>اقدام مورد انتظار از مخاطب (Call to Action)</label>
+                    <select id="lp-action-type">
+                        <option value="waitlist">ثبت‌نام در فهرست انتظار (Waitlist)</option>
+                        <option value="more-info">درخواست اطلاعات بیشتر</option>
+                        <option value="contact-request">ثبت درخواست تماس</option>
+                        <option value="meeting-request">درخواست رزرو جلسه مصاحبه</option>
+                        <option value="interactive-sample">شروع نمونه تعاملی</option>
+                        <option value="purchase-real">خرید یا پرداخت (فقط با پیشنهاد کاملاً شفاف و واقعی)</option>
+                    </select>
+                    <p class="hint-text">انتخاب این اقدام باید با مرحله فعلی آزمایش هماهنگ باشد.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>اطلاعات ضروری موردنیاز از مخاطب (فیلدهای فرم)</label>
+                    <input type="text" id="lp-form-fields" placeholder="مثلاً: ایمیل و شماره تماس (حداقل فیلدها)">
+                    <p class="hint-text">فقط اطلاعاتی را بگیرید که برای گام بعدی آزمایش واقعاً لازم است.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>شواهد واقعی موجود (اختیاری)</label>
+                    <textarea id="lp-evidence" rows="2" placeholder="مثلاً: نظرات ۳ نفر از کسانی که مصاحبه اولیه را انجام دادند (اگر شواهدی ندارید، خالی بگذارید)"></textarea>
+                    <p class="hint-text">از نوشتن آمار، گواهی یا ادعای ساختگی خودداری کنید.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>وضعیت فعلی محصول یا خدمت</label>
+                    <input type="text" id="lp-current-status" placeholder="مثلاً: در حال حاضر نمونه اولیه دستی در دست توسعه است">
+                    <p class="hint-text">توضیح شفاف به مخاطب درباره اینکه محصول هنوز در چه مرحله‌ای است.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>کانال‌های جذب اصلی</label>
+                    <input type="text" id="lp-channels" placeholder="مثلاً: گروه‌های تخصصی تلگرام و لینکدین">
+                    <p class="hint-text">مخاطبان از چه مسیری به این صفحه هدایت می‌شوند؟</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>معیار اصلی سنجش (Metric)</label>
+                    <input type="text" id="lp-metric" placeholder="مثلاً: تعداد ثبت‌نام‌های معتبر در فهرست انتظار ظرف ۷ روز">
+                    <p class="hint-text">موفقیت این صفحه فرود چگونه اندازه‌گیری می‌شود؟</p>
+                </div>
+            </div>
+
+            <!-- بخش سوم: پیش‌نویس قابل ویرایش صفحه فرود -->
+            <div class="form-section" style="background: var(--color-surface); border-color: var(--color-secondary);">
+                <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">۳. پیش‌نویس متنی ساختار صفحه فرود</h3>
+                <p class="hint-text">متن زیر بر اساس اطلاعات وارد شده تولید شده است. می‌توانید آن را مستقیماً ویرایش کنید یا کپی نمایید.</p>
+                
+                <div style="margin-top: 1rem;">
+                    <textarea id="lp-generated-draft" rows="15" style="width: 100%; font-family: inherit; padding: 1rem; border: 1px solid var(--color-border); border-radius: 4px; line-height: 1.8; background: var(--color-background);"></textarea>
+                </div>
+            </div>
+
+            <!-- بخش چهارم: چک‌لیست پیش از انتشار -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۴. چک‌لیست قبل از انتشار صفحه فرود</h3>
+                <p class="hint-text">پیش از راه‌رسانی یا انتشار صفحه، موارد زیر را بررسی کنید (تکمیل این چک‌لیست تضمین‌کننده موفقیت ایده نیست، اما دقت اجرا را بالا می‌برد):</p>
+                
+                <div class="checklist-item"><input type="checkbox" id="chk-1"> <label for="chk-1" style="font-weight: normal; cursor: pointer;">مخاطب هدف کاملاً مشخص و واجد شرایط است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-2"> <label for="chk-2" style="font-weight: normal; cursor: pointer;">مسئله و چالش مخاطب در متن به‌روشنی بیان شده است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-3"> <label for="chk-3" style="font-weight: normal; cursor: pointer;">پیشنهاد ارزش (Value Prop) در نگاه اول قابل فهم است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-4"> <label for="chk-4" style="font-weight: normal; cursor: pointer;">اقدام مورد انتظار (CTA) مشخص و متناسب با مرحله آزمایش است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-5"> <label for="chk-5" style="font-weight: normal; cursor: pointer;">معیار سنجش موفقیت از قبل تعیین شده است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-6"> <label for="chk-6" style="font-weight: normal; cursor: pointer;">هیچ ادعا یا آمار ساختگی و اثبات‌نشده‌ای در متن وجود ندارد.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-7"> <label for="chk-7" style="font-weight: normal; cursor: pointer;">نمایش صفحه روی موبایل و تبلت بررسی شده است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-8"> <label for="chk-8" style="font-weight: normal; cursor: pointer;">فرم اطلاعات حداقلی و ضروری را می‌گیرد (نه اطلاعات شخصی اضافی).</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-9"> <label for="chk-9" style="font-weight: normal; cursor: pointer;">روش ثبت منبع جذب (مانند لینک‌های UTM) مشخص شده است.</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk-10"> <label for="chk-10" style="font-weight: normal; cursor: pointer;">مسیر پیگیری درخواست‌ها و پاسخ به لیدها مشخص است.</label></div>
+            </div>
+
+            <!-- دکمه‌های کنترل و عملیات -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="generateDraft()" class="btn btn-primary">به‌روزرسانی پیش‌نویس</button>
+                <button type="button" onclick="copyDraftText()" class="btn btn-secondary">کپی متن پیش‌نویس</button>
+                <button type="button" onclick="window.print()" class="btn btn-secondary">چاپ / ذخیره PDF</button>
+                <button type="button" onclick="clearForm()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن فرم</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت ابزار برنامه‌ریز لندینگ -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_landing_planner_v1';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            generateDraft();
+
+            // به‌روزرسانی خودکار پیش‌نویس هنگام تغییر ورودی‌ها
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.id !== 'lp-generated-draft') {
+                    el.addEventListener('input', () => {
+                        generateDraft();
+                        saveToLocalStorage(false);
+                    });
+                }
+            });
+        });
+
+        function getFormData() {
+            return {
+                expName: document.getElementById('lp-exp-name').value,
+                title: document.getElementById('lp-title').value,
+                audience: document.getElementById('lp-audience').value,
+                problem: document.getElementById('lp-problem').value,
+                solution: document.getElementById('lp-solution').value,
+                valueProp: document.getElementById('lp-value-prop').value,
+                actionType: document.getElementById('lp-action-type').value,
+                formFields: document.getElementById('lp-form-fields').value,
+                evidence: document.getElementById('lp-evidence').value,
+                currentStatus: document.getElementById('lp-current-status').value,
+                channels: document.getElementById('lp-channels').value,
+                metric: document.getElementById('lp-metric').value
+            };
+        }
+
+        function generateDraft() {
+            const data = getFormData();
+            
+            let actionText = 'ثبت‌نام در فهرست انتظار';
+            if (data.actionType === 'more-info') actionText = 'دریافت اطلاعات بیشتر';
+            else if (data.actionType === 'contact-request') actionText = 'درخواست تماس';
+            else if (data.actionType === 'meeting-request') actionText = 'رزرو جلسه مصاحبه';
+            else if (data.actionType === 'interactive-sample') actionText = 'شروع نمونه تعاملی';
+            else if (data.actionType === 'purchase-real') actionText = 'پیش‌خرید / پرداخت';
+
+            const draft = 
+`========================================
+پیش‌نویس صفحه فرود: ${data.title || '[عنوان ایده]'}
+آزمایش: ${data.expName || '[نام آزمایش]'}
+========================================
+
+۱. تیتر اصلی (Headline):
+${data.valueProp || data.title || '[ارزش پیشنهادی اصلی]'}
+
+۲. توضیح کوتاه (Sub-headline):
+ما برای "${data.audience || 'مخاطب هدف'}" کمک می‌کنیم تا با "${data.solution || 'راه‌حل پیشنهادی'}" مشکل "${data.problem || 'مسئله اصلی'}" را به سادگی حل کنند.
+
+۳. شرح مسئله:
+آیا شما هم با این مشکل درگیر هستید؟
+${data.problem || '[توضیح درد و چالش مخاطب]'}
+
+۴. معرفی پیشنهاد (راه‌حل):
+ما ${data.solution || '[توضیح خدمت یا ایده شما]'} را پیشنهاد می‌دهیم.
+
+۵. نحوه عملکرد:
+- گام اول: ثبت نام در صفحه
+- گام دوم: دریافت دسترسی اولیه
+- گام سوم: ارزیابی و بازخورد
+
+۶. شواهد واقعی:
+${data.evidence ? data.evidence : '[توجه: تاکنون شواهد رسمی ثبت نشده است. از درج آمار یا گواهی ساختگی خودداری کنید.]'}
+
+۷. وضعیت فعلی محصول:
+${data.currentStatus || '[توضیح درباره اینکه محصول هنوز در دست توسعه یا تست است]'}
+
+۸. دعوت به اقدام اصلی (CTA):
+[ دکمه: ${actionText} ]
+فرم دریافت اطلاعات شامل: ${data.formFields || 'اطلاعات ضروری'}
+
+----------------------------------------
+توجه حریم خصوصی: اطلاعات شما صرفاً برای بررسی اولیه این ایده استفاده می‌شود و به هیچ عنوان به اشتراک گذاشته نخواهد شد.
+`;
+
+            // فقط اگر کاربر خودش متن پیش‌نویس را به طور دستی دستکاری نکرده باشد یا بار اول باشد به‌روزرسانی شود
+            const textarea = document.getElementById('lp-generated-draft');
+            if (!textarea.dataset.userEdited || textarea.value.trim() === '') {
+                textarea.value = draft;
+            }
+        }
+
+        // علامت‌گذاری ویرایش دستی کاربر
+        document.getElementById('lp-generated-draft').addEventListener('input', () => {
+            document.getElementById('lp-generated-draft').dataset.userEdited = 'true';
+        });
+
+        function saveToLocalStorage(showAlert = true) {
+            try {
+                const data = {
+                    form: getFormData(),
+                    draftText: document.getElementById('lp-generated-draft').value,
+                    updatedAt: new Date().toISOString()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                if (showAlert) {
+                    showStatus('اطلاعات با موفقیت ذخیره شد (فقط در حافظه مرورگر شما).');
+                }
+            } catch (e) {
+                console.error('Storage error', e);
+                if (showAlert) alert('خطا در ذخیره‌سازی محلی.');
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    const f = parsed.form || {};
+                    if (f.expName) document.getElementById('lp-exp-name').value = f.expName;
+                    if (f.title) document.getElementById('lp-title').value = f.title;
+                    if (f.audience) document.getElementById('lp-audience').value = f.audience;
+                    if (f.problem) document.getElementById('lp-problem').value = f.problem;
+                    if (f.solution) document.getElementById('lp-solution').value = f.solution;
+                    if (f.valueProp) document.getElementById('lp-value-prop').value = f.valueProp;
+                    if (f.actionType) document.getElementById('lp-action-type').value = f.actionType;
+                    if (f.formFields) document.getElementById('lp-form-fields').value = f.formFields;
+                    if (f.evidence) document.getElementById('lp-evidence').value = f.evidence;
+                    if (f.currentStatus) document.getElementById('lp-current-status').value = f.currentStatus;
+                    if (f.channels) document.getElementById('lp-channels').value = f.channels;
+                    if (f.metric) document.getElementById('lp-metric').value = f.metric;
+
+                    if (parsed.draftText) {
+                        document.getElementById('lp-generated-draft').value = parsed.draftText;
+                        document.getElementById('lp-generated-draft').dataset.userEdited = 'true';
+                    }
+                }
+            } catch (e) {
+                console.error('Load error', e);
+            }
+        }
+
+        function clearForm() {
+            if (confirm('آیا از پاک کردن تمام اطلاعات فرم و پیش‌نویس اطمینان دارید؟ اطلاعات ذخیره‌شده پاک خواهد شد.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        function copyDraftText() {
+            const text = document.getElementById('lp-generated-draft').value;
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('متن پیش‌نویس با موفقیت در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+
+        function showStatus(msg) {
+            const statusEl = document.getElementById('save-status');
+            statusEl.textContent = msg;
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
