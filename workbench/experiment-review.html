@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بررسی آزمایش و تصمیم‌گیری | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .form-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; }
+        .hint-text { font-size: 0.85rem; color: var(--color-muted); margin-top: -0.5rem; margin-bottom: 1rem; }
+        .decision-card { border: 2px solid var(--color-border); border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s; background: var(--color-background); }
+        .decision-card:hover { border-color: var(--color-secondary); }
+        .decision-card input[type="radio"] { margin-left: 0.5rem; }
+        .conditional-box { display: none; margin-top: 1rem; padding: 1rem; background: var(--color-background); border-radius: var(--border-radius); border-right: 4px solid var(--color-secondary); }
+        .conditional-box.active { display: block; }
+        .preview-report { background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; font-family: inherit; line-height: 1.8; white-space: pre-wrap; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">میز کار: بررسی آزمایش و تصمیم‌گیری</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="metrics-calculator.html">محاسبه‌گر معیارها</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 950px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>بررسی آزمایش</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">ابزار بررسی نتیجه آزمایش و تعیین اقدام بعدی</h2>
+            <p style="color: var(--color-muted);">نتایج واقعی آزمایش را با برنامه اولیه مقایسه کنید، شواهد موافق و مخالف را تفکیک نمایید و بر اساس مستندات تصمیم‌گیری کنید.</p>
+            
+            <div class="notice-box" style="margin-top: 1rem; margin-bottom: 0;">
+                <h4>💡 اصل راهنما</h4>
+                <p>تصمیم‌گیری را صرفاً بر اساس یک عدد انجام ندهید. نبود شواهد کافی به معنای شکست قطعی ایده نیست؛ بلکه نشان‌دهنده نیاز به داده‌های بیشتر یا اصلاح مسیر است.</p>
+            </div>
+        </div>
+
+        <form id="experiment-review-form">
+            
+            <!-- بخش اول: اطلاعات آزمایش -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۱. اطلاعات پایه و فرضیه آزمایش</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label>نام آزمایش</label>
+                    <input type="text" id="rev-name" placeholder="مثلاً: سنجش تمایل به پیش‌خرید پلتفرم مالی">
+                    <p class="hint-text">نام یا شناسه این آزمایش در میز کار.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>فرضیه اولیه (چه چیزی را می‌خواستیم بسنجیم؟)</label>
+                    <textarea id="rev-hypothesis" rows="2" placeholder="مثلاً: کارمندان دورکار حاضرند برای ابزار مدیریت بودجه اتوماتیک هزینه کنند."></textarea>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;" class="grid-2">
+                    <div>
+                        <label>مخاطب هدف</label>
+                        <input type="text" id="rev-audience" placeholder="مثلاً: کارمندان دفتری ۲۵ تا ۳۵ سال">
+                    </div>
+                    <div>
+                        <label>روش آزمایش</label>
+                        <input type="text" id="rev-method" placeholder="مثلاً: صفحه فرود و فرم ثبت‌نام فهرست انتظار">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;" class="grid-3">
+                    <div>
+                        <label>تاریخ شروع</label>
+                        <input type="date" id="rev-start-date">
+                    </div>
+                    <div>
+                        <label>تاریخ پایان</label>
+                        <input type="date" id="rev-end-date">
+                    </div>
+                    <div>
+                        <label>تعداد نمونه / افراد بررسی‌شده</label>
+                        <input type="number" id="rev-sample-size" min="0" placeholder="مثلاً: ۱۰۰">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>معیار اصلی و شرط تصمیم‌گیری تعیین‌شده پیش از اجرا</label>
+                    <textarea id="rev-success-criteria" rows="2" placeholder="مثلاً: ثبت‌نام حداقل ۱۵ نفر واجد شرایط ظرف ۷ روز"></textarea>
+                    <p class="hint-text">این شرط را قبل از دیدن نتایج تعیین کرده بودید یا خیر؟</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>منابع مصرف‌شده و محدودیت‌های آزمایش</label>
+                    <input type="text" id="rev-constraints" placeholder="مثلاً: بودجه نقدی صفر، ۱۰ ساعت زمان شخصی">
+                </div>
+            </div>
+
+            <!-- بخش دوم: ثبت نتیجه و شواهد -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۲. ثبت نتایج، داده‌ها و شواهد (تفکیک مشاهده از تفسیر)</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label>داده‌های کمی (اعداد، بازدیدها، نرخ‌ها)</label>
+                    <textarea id="rev-quantitative" rows="2" placeholder="مثلاً: ۱۰۰ بازدید واجد شرایط، ۴۰ شروع تعامل، ۱۰ ثبت‌نام نهایی"></textarea>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>مشاهدات کیفی (رفتارها، نقل‌قول‌ها)</label>
+                    <textarea id="rev-qualitative" rows="2" placeholder="مثلاً: کاربران در بخش قیمت‌گذاری تردید داشتند و صفحه را ترک کردند."></textarea>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;" class="grid-2">
+                    <div>
+                        <label>شواهد موافق فرضیه</label>
+                        <textarea id="rev-evidence-pro" rows="3" placeholder="چه مواردی ادعای ما را تأیید کرد؟"></textarea>
+                    </div>
+                    <div>
+                        <label>شواهد مخالف فرضیه</label>
+                        <textarea id="rev-evidence-con" rows="3" placeholder="چه مواردی ادعای ما را زیر سوال برد؟"></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>پاسخ‌ها یا رفتارهای غیرمنتظره</label>
+                    <textarea id="rev-unexpected" rows="2" placeholder="چه چیزی خارج از انتظار ما اتفاق افتاد؟"></textarea>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;" class="grid-3">
+                    <div>
+                        <label>مشکلات اجرایی</label>
+                        <input type="text" id="rev-exec-issues" placeholder="مثلاً: کندی بارگذاری یا اشکال در لینک">
+                    </div>
+                    <div>
+                        <label>هزینه نقدی واقعی</label>
+                        <input type="text" id="rev-cash-spent" placeholder="مثلاً: ۰ تومان">
+                    </div>
+                    <div>
+                        <label>ساعت زمان صرف‌شده</label>
+                        <input type="number" id="rev-hours-spent" min="0" placeholder="مثلاً: ۱۵">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>اطلاعاتی که هنوز نداریم (جاهای خالی شناخت)</label>
+                    <textarea id="rev-unknowns" rows="2" placeholder="چه ابهاماتی باقی مانده که در این آزمایش پاسخ داده نشد؟"></textarea>
+                </div>
+            </div>
+
+            <!-- بخش سوم: انتخاب تصمیم -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۳. انتخاب تصمیم نهایی</h3>
+                <p class="hint-text">بر اساس شواهد ثبت‌شده، یکی از گزینه‌های زیر را انتخاب کنید (می‌توانید گزینه عدم قطعیت را انتخاب کنید):</p>
+
+                <!-- گزینه ۱: ادامه -->
+                <div class="decision-card">
+                    <label style="cursor: pointer; font-weight: bold; color: var(--color-primary); display: block;">
+                        <input type="radio" name="decision-type" value="continue" onchange="toggleDecisionBoxes()"> ۱. ادامه آزمایش و جمع‌آوری شواهد بیشتر
+                    </label>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">شواهد اولیه امیدوارکننده است، اما برای اطمینان کامل به داده‌های بیشتری نیاز داریم.</p>
+                    
+                    <div id="box-continue" class="conditional-box">
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>چه چیزی در نتایج امیدوارکننده است؟</label>
+                            <input type="text" id="cont-promising" placeholder="دلیل امیدواری...">
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>هنوز چه اطلاعاتی کم داریم؟</label>
+                            <input type="text" id="cont-missing" placeholder="اطلاعات مفقوده...">
+                        </div>
+                        <div>
+                            <label>چه آزمایش کوچک دیگری لازم است؟</label>
+                            <input type="text" id="cont-next-test" placeholder="آزمایش تکمیلی...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- گزینه ۲: اصلاح -->
+                <div class="decision-card">
+                    <label style="cursor: pointer; font-weight: bold; color: var(--color-primary); display: block;">
+                        <input type="radio" name="decision-type" value="pivot-tweak" onchange="toggleDecisionBoxes()"> ۲. اصلاح فرضیه یا روش آزمایش (تغییر جزئی یا پیروت)
+                    </label>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">بخش‌هایی از ایده یا روش اجرا نیاز به تغییر دارد تا دوباره سنجیده شود.</p>
+                    
+                    <div id="box-pivot" class="conditional-box">
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>کدام فرضیه یا بخش اجرا نیازمند تغییر است؟</label>
+                            <input type="text" id="piv-change-target" placeholder="بخش نیازمند تغییر...">
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>چه متغیری دقیقاً تغییر خواهد کرد؟</label>
+                            <input type="text" id="piv-variable" placeholder="متغیر جدید...">
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>چه چیزهایی ثابت می‌مانند؟</label>
+                            <input type="text" id="piv-constant" placeholder="امور ثابت...">
+                        </div>
+                        <div>
+                            <label>نتیجه جدید چگونه مقایسه خواهد شد؟</label>
+                            <input type="text" id="piv-comparison" placeholder="نحوه مقایسه...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- گزینه ۳: توقف -->
+                <div class="decision-card">
+                    <label style="cursor: pointer; font-weight: bold; color: var(--color-primary); display: block;">
+                        <input type="radio" name="decision-type" value="stop" onchange="toggleDecisionBoxes()"> ۳. توقف آزمایش یا تغییر مسیر کلی (Kill / Pivot)
+                    </label>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">شواهد، هزینه یا ریسک‌های کشف‌شده ادامه دادن در این مسیر را توجیه نمی‌کنند.</p>
+                    
+                    <div id="box-stop" class="conditional-box">
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>چه شواهدی این تصمیم را توجیه می‌کند؟</label>
+                            <input type="text" id="stop-evidence" placeholder="شواهد توجیه‌کننده توقف...">
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>چه هزینه یا ریسکی از ادامه جلوگیری می‌کند؟</label>
+                            <input type="text" id="stop-risk" placeholder="هزینه یا ریسک...">
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            <label>چه چیزی از این آزمایش یاد گرفته‌ایم؟</label>
+                            <input type="text" id="stop-learned" placeholder="درس‌آموخته‌ها...">
+                        </div>
+                        <div>
+                            <label>چه مسیر جایگزینی ارزش بررسی دارد؟</label>
+                            <input type="text" id="stop-alternative" placeholder="مسیر جایگزین...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- گزینه ۴: نامشخص -->
+                <div class="decision-card">
+                    <label style="cursor: pointer; font-weight: bold; color: var(--color-primary); display: block;">
+                        <input type="radio" name="decision-type" value="uncertain" onchange="toggleDecisionBoxes()"> ۴. هنوز اطلاعات کافی ندارم (نیاز به بازنگری داده‌ها)
+                    </label>
+                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">داده‌های فعلی برای تصمیم‌گیری قطعی کافی نیستند و باید بیشتر بررسی کنیم.</p>
+                </div>
+            </div>
+
+            <!-- بخش چهارم: برنامه اقدام بعدی -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۴. برنامه اقدام بعدی (Action Plan)</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label>اقدام بعدی مشخص</label>
+                    <input type="text" id="act-next-step" placeholder="مثلاً: اصلاح متن صفحه فرود و ارسال مجدد به گروه هدف">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;" class="grid-2">
+                    <div>
+                        <label>مسئول اجرا (در صورت وجود تیم)</label>
+                        <input type="text" id="act-owner" placeholder="مثلاً: خودم / شخص مشخص">
+                    </div>
+                    <div>
+                        <label>تاریخ هدف اجرا</label>
+                        <input type="date" id="act-target-date">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;" class="grid-2">
+                    <div>
+                        <label>معیار بررسی اقدام بعدی</label>
+                        <input type="text" id="act-review-metric" placeholder="مثلاً: دریافت حداقل ۵ پاسخ جدید">
+                    </div>
+                    <div>
+                        <label>تاریخ بازبینی بعدی</label>
+                        <input type="date" id="act-review-date">
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش پنجم: پیش‌نویس گزارش نهایی -->
+            <div class="form-section" style="background: var(--color-surface); border-color: var(--color-secondary);">
+                <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">۵. گزارش نهایی یک‌صفحه‌ای آزمایش</h3>
+                <p class="hint-text">گزارش زیر بر اساس اطلاعات بالا تولید شده است. می‌توانید آن را کپی یا چاپ کنید.</p>
+                
+                <div style="margin-top: 1rem;">
+                    <div id="final-report-preview" class="preview-report">[لطفاً اطلاعات فرم را تکمیل کنید تا گزارش نهایی ساخته شود...]</div>
+                </div>
+            </div>
+
+            <!-- دکمه‌های کنترل -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="generateReport()" class="btn btn-primary">به‌روزرسانی و تولید گزارش</button>
+                <button type="button" onclick="copyReportText()" class="btn btn-secondary">کپی گزارش نهایی</button>
+                <button type="button" onclick="window.print()" class="btn btn-secondary">چاپ گزارش / PDF</button>
+                <button type="button" onclick="clearReviewForm()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن اطلاعات</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت اختصاصی بررسی آزمایش -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_experiment_review_v1';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            generateReport();
+
+            // رویدادهای تغییر برای به‌روزرسانی خودکار
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                el.addEventListener('input', () => {
+                    generateReport();
+                    saveToLocalStorage(false);
+                });
+                el.addEventListener('change', () => {
+                    generateReport();
+                    saveToLocalStorage(false);
+                });
+            });
+        });
+
+        function toggleDecisionBoxes() {
+            document.getElementById('box-continue').classList.remove('active');
+            document.getElementById('box-pivot').classList.remove('active');
+            document.getElementById('box-stop').classList.remove('active');
+
+            const selected = document.querySelector('input[name="decision-type"]:checked');
+            if (!selected) return;
+
+            if (selected.value === 'continue') {
+                document.getElementById('box-continue').classList.add('active');
+            } else if (selected.value === 'pivot-tweak') {
+                document.getElementById('box-pivot').classList.add('active');
+            } else if (selected.value === 'stop') {
+                document.getElementById('box-stop').classList.add('active');
+            }
+            generateReport();
+        }
+
+        function getReviewData() {
+            const decisionRadio = document.querySelector('input[name="decision-type"]:checked');
+            let decisionText = 'هنوز تصمیم‌گیری نشده است';
+            if (decisionRadio) {
+                if (decisionRadio.value === 'continue') decisionText = 'ادامه آزمایش و جمع‌آوری شواهد بیشتر';
+                else if (decisionRadio.value === 'pivot-tweak') decisionText = 'اصلاح فرضیه یا روش آزمایش (پیروت / تغییر جزئی)';
+                else if (decisionRadio.value === 'stop') decisionText = 'توقف آزمایش یا تغییر مسیر کلی';
+                else if (decisionRadio.value === 'uncertain') decisionText = 'هنوز اطلاعات کافی ندارم (نیاز به بررسی بیشتر)';
+            }
+
+            return {
+                name: document.getElementById('rev-name').value,
+                hypothesis: document.getElementById('rev-hypothesis').value,
+                audience: document.getElementById('rev-audience').value,
+                method: document.getElementById('rev-method').value,
+                startDate: document.getElementById('rev-start-date').value,
+                endDate: document.getElementById('rev-end-date').value,
+                sampleSize: document.getElementById('rev-sample-size').value,
+                successCriteria: document.getElementById('rev-success-criteria').value,
+                constraints: document.getElementById('rev-constraints').value,
+                quantitative: document.getElementById('rev-quantitative').value,
+                qualitative: document.getElementById('rev-qualitative').value,
+                evidencePro: document.getElementById('rev-evidence-pro').value,
+                evidenceCon: document.getElementById('rev-evidence-con').value,
+                unexpected: document.getElementById('rev-unexpected').value,
+                execIssues: document.getElementById('rev-exec-issues').value,
+                cashSpent: document.getElementById('rev-cash-spent').value,
+                hoursSpent: document.getElementById('rev-hours-spent').value,
+                unknowns: document.getElementById('rev-unknowns').value,
+                decision: decisionText,
+                decisionVal: decisionRadio ? decisionRadio.value : '',
+                contPromising: document.getElementById('cont-promising').value,
+                contMissing: document.getElementById('cont-missing').value,
+                contNextTest: document.getElementById('cont-next-test').value,
+                pivChange: document.getElementById('piv-change-target').value,
+                pivVar: document.getElementById('piv-variable').value,
+                pivConst: document.getElementById('piv-constant').value,
+                pivComp: document.getElementById('piv-comparison').value,
+                stopEv: document.getElementById('stop-evidence').value,
+                stopRisk: document.getElementById('stop-risk').value,
+                stopLearn: document.getElementById('stop-learned').value,
+                stopAlt: document.getElementById('stop-alternative').value,
+                actStep: document.getElementById('act-next-step').value,
+                actOwner: document.getElementById('act-owner').value,
+                actTargetDate: document.getElementById('act-target-date').value,
+                actReviewMetric: document.getElementById('act-review-metric').value,
+                actReviewDate: document.getElementById('act-review-date').value
+            };
+        }
+
+        function generateReport() {
+            const d = getReviewData();
+
+            let decisionDetails = '';
+            if (d.decisionVal === 'continue') {
+                decisionDetails = `جزئیات ادامه:\n- موارد امیدوارکننده: ${d.contPromising || '-'}\n- اطلاعات مفقوده: ${d.contMissing || '-'}\n- آزمایش تکمیلی: ${d.contNextTest || '-'}\n`;
+            } else if (d.decisionVal === 'pivot-tweak') {
+                decisionDetails = `جزئیات اصلاح/پیروت:\n- بخش نیازمند تغییر: ${d.pivChange || '-'}\n- متغیر جدید: ${d.pivVar || '-'}\n- امور ثابت: ${d.pivConst || '-'}\n- روش مقایسه: ${d.pivComp || '-'}\n`;
+            } else if (d.decisionVal === 'stop') {
+                decisionDetails = `جزئیات توقف/تغییر مسیر:\n- شواهد توجیه‌کننده: ${d.stopEv || '-'}\n- ریسک یا هزینه: ${d.stopRisk || '-'}\n- درس‌آموخته‌ها: ${d.stopLearn || '-'}\n- مسیر جایگزین: ${d.stopAlt || '-'}\n`;
+            }
+
+            const report = 
+`========================================
+گزارش بررسی آزمایش: ${d.name || '[بدون نام]'}
+========================================
+
+۱. مشخصات آزمایش:
+- فرضیه اولیه: ${d.hypothesis || '-'}
+- مخاطب هدف: ${d.audience || '-'}
+- روش آزمایش: ${d.method || '-'}
+- بازه زمانی: از ${d.startDate || 'نامشخص'} تا ${d.endDate || 'نامشخص'} (تعداد نمونه: ${d.sampleSize || '-'})
+- معیار موفقیت پیش‌تعیین‌شده: ${d.successCriteria || '-'}
+- محدودیت‌ها و منابع: ${d.constraints || '-'}
+
+۲. نتایج و شواهد ثبت‌شده:
+- داده‌های کمی: ${d.quantitative || '-'}
+- مشاهدات کیفی: ${d.qualitative || '-'}
+- شواهد موافق: ${d.evidencePro || '-'}
+- شواهد مخالف: ${d.evidenceCon || '-'}
+- رفتارهای غیرمنتظره: ${d.unexpected || '-'}
+- مشکلات اجرایی: ${d.execIssues || '-'}
+- منابع مصرفی: هزینه نقدی (${d.cashSpent || 'صفر'}), زمان (${d.hoursSpent || 'صفر'} ساعت)
+- جاهای خالی و ابهامات باقی‌مانده: ${d.unknowns || '-'}
+
+۳. تصمیم نهایی اتخاذشده:
+➡️ ${d.decision}
+${decisionDetails}
+
+۴. برنامه اقدام بعدی:
+- گام بعدی: ${d.actStep || '-'}
+- مسئول اجرا: ${d.actOwner || '-'} (تاریخ هدف: ${d.actTargetDate || '-'})
+- معیار بازبینی: ${d.actReviewMetric || '-'} (تاریخ بازبینی: ${d.actReviewDate || '-'})
+----------------------------------------
+(این داده‌ها صرفاً در حافظه محلی مرورگر شما ذخیره شده و به سرور ارسال نشده‌اند.)
+`;
+
+            document.getElementById('final-report-preview').textContent = report;
+        }
+
+        function saveToLocalStorage(showAlert = true) {
+            try {
+                const data = {
+                    form: getReviewData(),
+                    selectedDecision: document.querySelector('input[name="decision-type"]:checked') ? document.querySelector('input[name="decision-type"]:checked').value : '',
+                    updatedAt: new Date().toISOString()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                if (showAlert) {
+                    showStatus('اطلاعات بررسی آزمایش با موفقیت در مرورگر ذخیره شد.');
+                }
+            } catch (e) {
+                console.error('Storage error', e);
+                if (showAlert) alert('خطا در ذخیره‌سازی محلی اطلاعات.');
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    const f = parsed.form || {};
+                    
+                    document.getElementById('rev-name').value = f.name || '';
+                    document.getElementById('rev-hypothesis').value = f.hypothesis || '';
+                    document.getElementById('rev-audience').value = f.audience || '';
+                    document.getElementById('rev-method').value = f.method || '';
+                    document.getElementById('rev-start-date').value = f.startDate || '';
+                    document.getElementById('rev-end-date').value = f.endDate || '';
+                    document.getElementById('rev-sample-size').value = f.sampleSize || '';
+                    document.getElementById('rev-success-criteria').value = f.successCriteria || '';
+                    document.getElementById('rev-constraints').value = f.constraints || '';
+                    document.getElementById('rev-quantitative').value = f.quantitative || '';
+                    document.getElementById('rev-qualitative').value = f.qualitative || '';
+                    document.getElementById('rev-evidence-pro').value = f.evidencePro || '';
+                    document.getElementById('rev-evidence-con').value = f.evidenceCon || '';
+                    document.getElementById('rev-unexpected').value = f.unexpected || '';
+                    document.getElementById('rev-exec-issues').value = f.execIssues || '';
+                    document.getElementById('rev-cash-spent').value = f.cashSpent || '';
+                    document.getElementById('rev-hours-spent').value = f.hoursSpent || '';
+                    document.getElementById('rev-unknowns').value = f.unknowns || '';
+
+                    if (parsed.selectedDecision) {
+                        const radio = document.querySelector(`input[name="decision-type"][value="${parsed.selectedDecision}"]`);
+                        if (radio) {
+                            radio.checked = true;
+                            toggleDecisionBoxes();
+                        }
+                    }
+
+                    document.getElementById('cont-promising').value = f.contPromising || '';
+                    document.getElementById('cont-missing').value = f.contMissing || '';
+                    document.getElementById('cont-next-test').value = f.contNextTest || '';
+                    document.getElementById('piv-change-target').value = f.pivChange || '';
+                    document.getElementById('piv-variable').value = f.pivVar || '';
+                    document.getElementById('piv-constant').value = f.pivConst || '';
+                    document.getElementById('piv-comparison').value = f.pivComp || '';
+                    document.getElementById('stop-evidence').value = f.stopEv || '';
+                    document.getElementById('stop-risk').value = f.stopRisk || '';
+                    document.getElementById('stop-learned').value = f.stopLearn || '';
+                    document.getElementById('stop-alternative').value = f.stopAlt || '';
+
+                    document.getElementById('act-next-step').value = f.actStep || '';
+                    document.getElementById('act-owner').value = f.actOwner || '';
+                    document.getElementById('act-target-date').value = f.actTargetDate || '';
+                    document.getElementById('act-review-metric').value = f.actReviewMetric || '';
+                    document.getElementById('act-review-date').value = f.actReviewDate || '';
+                }
+            } catch (e) {
+                console.error('Load error', e);
+            }
+        }
+
+        function clearReviewForm() {
+            if (confirm('آیا از پاک کردن تمام اطلاعات این بررسی و گزارش اطمینان دارید؟')) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        function copyReportText() {
+            const text = document.getElementById('final-report-preview').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('گزارش نهایی با موفقیت در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن گزارش.');
+            });
+        }
+
+        function showStatus(msg) {
+            const statusEl = document.getElementById('save-status');
+            statusEl.textContent = msg;
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
