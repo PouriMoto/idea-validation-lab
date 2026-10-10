@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه‌گر معیارها و تحلیل رفتار | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .input-group { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.25rem; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 0.4rem; color: var(--color-primary); }
+        .input-group input, .input-group select { margin-bottom: 0.25rem; }
+        .hint-text { font-size: 0.8rem; color: var(--color-muted); line-height: 1.4; }
+        .result-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.25rem; margin-bottom: 1rem; border-right: 4px solid var(--color-secondary); }
+        .result-value { font-size: 1.5rem; font-weight: bold; color: var(--color-primary); margin: 0.5rem 0; }
+        .warning-box { background: #fef3c7; border: 1px solid #f59e0b; color: #b45309; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; display: none; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">میز کار: محاسبه‌گر معیارها</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="channel-tracker.html">ردیاب کانال</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 1000px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>محاسبه‌گر معیارها</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">محاسبه‌گر معیارهای آزمایش بازار</h2>
+            <p style="color: var(--color-muted);">داده‌های کمی آزمایش خود را وارد کنید تا نرخ‌های رفتاری و هزینه‌های دستی یا نقدی به‌طور دقیق محاسبه شوند.</p>
+            
+            <div style="margin-top: 1rem;">
+                <button type="button" class="btn btn-secondary" onclick="loadSampleData()">بارگذاری داده‌های فرضی (مثال آموزشی)</button>
+            </div>
+        </div>
+
+        <!-- هشدار ناسازگاری داده‌ها -->
+        <div id="data-warning" class="warning-box">
+            <strong>⚠️ هشدار ناسازگاری داده‌ها:</strong> <span id="warning-text">تعداد رویدادهای پایین‌دستی نمی‌تواند بیشتر از رویدادهای بالادستی باشد. لطفاً ورودی‌ها را بررسی کنید.</span>
+        </div>
+
+        <form id="calculator-form">
+            
+            <!-- ورودی‌ها -->
+            <div class="calc-grid">
+                <div class="input-group">
+                    <label>بازدیدهای واجد شرایط</label>
+                    <input type="number" id="inp-qualified-visits" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد افرادی که واجد شرایط بوده و صفحه یا پیام شما را دیده‌اند.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>شروع تعامل</label>
+                    <input type="number" id="inp-interaction-starts" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد افرادی که روی دکمه شروع یا فرم کلیک کرده‌اند.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>تکمیل تعامل</label>
+                    <input type="number" id="inp-interaction-completes" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد افرادی که فرم یا جریان تعامل را با موفقیت کامل کرده‌اند.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>تعداد درخواست‌ها (لیدها)</label>
+                    <input type="number" id="inp-total-leads" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد درخواست‌های ثبت‌شده اولیه.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>درخواست‌های واجد شرایط</label>
+                    <input type="number" id="inp-qualified-leads" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعدادی از درخواست‌ها که پس از بررسی واجد شرایط واقعی بوده‌اند.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>جلسات برنامه‌ریزی‌شده</label>
+                    <input type="number" id="inp-meetings-scheduled" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد جلسات مصاحبه یا مشاوره‌ای که هماهنگ شده است.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>جلسات برگزارشده</label>
+                    <input type="number" id="inp-meetings-attended" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد جلساتی که واقعاً برگزار شده است.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>تعهدها یا خریدهای واقعی</label>
+                    <input type="number" id="inp-commitments" min="0" value="" placeholder="خالی یا صفر">
+                    <span class="hint-text">تعداد افرادی که تعهد معتبر یا پرداخت واقعی انجام داده‌اند.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>هزینه نقدی آزمایش</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="number" id="inp-cash-cost" min="0" value="" placeholder="۰" style="flex: 2;">
+                        <select id="inp-currency" style="flex: 1; margin-bottom: 0.25rem;">
+                            <option value="تومان">تومان</option>
+                            <option value="ریال">ریال</option>
+                        </select>
+                    </div>
+                    <span class="hint-text">مجموع هزینه نقدی مستقیم برای اجرای آزمایش.</span>
+                </div>
+
+                <div class="input-group">
+                    <label>زمان صرف‌شده (ساعت)</label>
+                    <input type="number" id="inp-time-spent" min="0" step="0.5" value="" placeholder="۰">
+                    <span class="hint-text">مجموع ساعات کاری صرف‌شده برای طراحی و اجرا.</span>
+                </div>
+            </div>
+
+            <!-- نتایج محاسبات -->
+            <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">نتایج محاسبات و تحلیل رفتار</h3>
+                
+                <div class="calc-grid" style="margin-bottom: 0;">
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">نرخ شروع تعامل</label>
+                        <div class="result-value" id="res-interaction-rate">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> جذابیت اولیه پیام.<br><strong>چه چیزی را اثبات نمی‌کند؟</strong> خرید یا تعهد نهایی را تضمین نمی‌کند.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">نرخ تکمیل تعامل</label>
+                        <div class="result-value" id="res-completion-rate">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> روانی و سادگی مسیر تعامل.<br><strong>چه چیزی را اثبات نمی‌کند؟</strong> تمایل به پرداخت یا کیفیت لیدها را نشان نمی‌دهد.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">نرخ کل درخواست (تبدیل)</label>
+                        <div class="result-value" id="res-lead-rate">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> نسبت بازدیدکننده به درخواست‌دهنده اولیه.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">نرخ کیفیت درخواست</label>
+                        <div class="result-value" id="res-quality-rate">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> چه درصدی از لیدها واقعاً واجد شرایط بوده‌اند.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">نرخ حضور در جلسه</label>
+                        <div class="result-value" id="res-meeting-rate">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> میزان تعهد عملی مخاطب برای گفت‌وگو.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">نرخ تعهد / خرید</label>
+                        <div class="result-value" id="res-commitment-rate">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> بالاترین سطح شواهد از ارزش پیشنهادی.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">هزینه نقدی هر درخواست</label>
+                        <div class="result-value" id="res-cost-per-lead">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> هزینه مالی تمام‌شده برای هر لید.</p>
+                    </div>
+
+                    <div class="result-card">
+                        <label style="color: var(--color-muted); font-size: 0.85rem;">زمان صرف‌شده به‌ازای هر درخواست</label>
+                        <div class="result-value" id="res-time-per-lead">قابل محاسبه نیست</div>
+                        <p class="hint-text"><strong>این عدد چه چیزی را نشان می‌دهد؟</strong> حجم زمان انسانی مصرف‌شده برای هر لید.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- دکمه‌های کنترل -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="window.print()" class="btn btn-secondary">چاپ گزارش</button>
+                <button type="button" onclick="copyResultsSummary()" class="btn btn-secondary">کپی خلاصه نتایج</button>
+                <button type="button" onclick="clearCalculator()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن فرم</button>
+                <span style="margin-right: auto; font-size: 0.9rem; color: var(--color-muted); align-self: center;">
+                    راهنمای مرتبط: <a href="06-results-and-decisions.html">تحلیل نتایج و تصمیم‌گیری</a>
+                </span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت محاسبه‌گر -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // محاسبه خودکار به ازای تغییرات ورودی‌ها
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('input', calculateMetrics);
+            });
+            calculateMetrics();
+        });
+
+        function parseVal(id) {
+            const val = document.getElementById(id).value;
+            if (val === '' || val === null) return null;
+            const num = parseFloat(val);
+            if (isNaN(num) || num < 0) return null;
+            return num;
+        }
+
+        function formatPercent(num, den) {
+            if (den === null || den === 0 || num === null) return 'قابل محاسبه نیست';
+            const pct = (num / den) * 100;
+            return pct.toFixed(1) + '%';
+        }
+
+        function formatCost(cost, count, currency) {
+            if (count === null || count === 0 || cost === null) return 'قابل محاسبه نیست';
+            const perLead = cost / count;
+            return Math.round(perLead).toLocaleString() + ' ' + currency;
+        }
+
+        function formatTime(hours, count) {
+            if (count === null || count === 0 || hours === null) return 'قابل محاسبه نیست';
+            const perLead = hours / count;
+            return perLead.toFixed(1) + ' ساعت';
+        }
+
+        function calculateMetrics() {
+            const qw = parseVal('inp-qualified-visits');
+            const is = parseVal('inp-interaction-starts');
+            const ic = parseVal('inp-interaction-completes');
+            const tl = parseVal('inp-total-leads');
+            const ql = parseVal('inp-qualified-leads');
+            const ms = parseVal('inp-meetings-scheduled');
+            const ma = parseVal('inp-meetings-attended');
+            const cm = parseVal('inp-commitments');
+            const cc = parseVal('inp-cash-cost') || 0;
+            const ts = parseVal('inp-time-spent') || 0;
+            const currency = document.getElementById('inp-currency').value;
+
+            // بررسی هشدار ناسازگاری داده‌ها
+            let hasInconsistency = false;
+            let warningMsg = '';
+
+            if (qw !== null && is !== null && is > qw) {
+                hasInconsistency = true;
+                warningMsg = 'تعداد شروع تعامل نمی‌تواند بیشتر از بازدیدهای واجد شرایط باشد.';
+            } else if (is !== null && ic !== null && ic > is) {
+                hasInconsistency = true;
+                warningMsg = 'تعداد تکمیل تعامل نمی‌تواند بیشتر از شروع تعامل باشد.';
+            } else if (ic !== null && tl !== null && tl > ic) {
+                hasInconsistency = true;
+                warningMsg = 'تعداد درخواست‌ها نمی‌تواند بیشتر از تکمیل تعامل باشد.';
+            } else if (tl !== null && ql !== null && ql > tl) {
+                hasInconsistency = true;
+                warningMsg = 'درخواست‌های واجد شرایط نمی‌تواند بیشتر از کل درخواست‌ها باشد.';
+            } else if (ms !== null && ma !== null && ma > ms) {
+                hasInconsistency = true;
+                warningMsg = 'جلسات برگزارشده نمی‌تواند بیشتر از جلسات برنامه‌ریزی‌شده باشد.';
+            }
+
+            const warningBox = document.getElementById('data-warning');
+            if (hasInconsistency) {
+                document.getElementById('warning-text').textContent = warningMsg;
+                warningBox.style.display = 'block';
+            } else {
+                warningBox.style.display = 'none';
+            }
+
+            // محاسبات
+            document.getElementById('res-interaction-rate').textContent = formatPercent(is, qw);
+            document.getElementById('res-completion-rate').textContent = formatPercent(ic, is);
+            document.getElementById('res-lead-rate').textContent = formatPercent(tl, qw);
+            document.getElementById('res-quality-rate').textContent = formatPercent(ql, tl);
+            document.getElementById('res-meeting-rate').textContent = formatPercent(ma, ms);
+            document.getElementById('res-commitment-rate').textContent = formatPercent(cm, ql);
+            document.getElementById('res-cost-per-lead').textContent = formatCost(cc, tl, currency);
+            document.getElementById('res-time-per-lead').textContent = formatTime(ts, tl);
+        }
+
+        function loadSampleData() {
+            document.getElementById('inp-qualified-visits').value = 250;
+            document.getElementById('inp-interaction-starts').value = 80;
+            document.getElementById('inp-interaction-completes').value = 35;
+            document.getElementById('inp-total-leads').value = 30;
+            document.getElementById('inp-qualified-leads').value = 18;
+            document.getElementById('inp-meetings-scheduled').value = 10;
+            document.getElementById('inp-meetings-attended').value = 8;
+            document.getElementById('inp-commitments').value = 3;
+            document.getElementById('inp-cash-cost').value = 500000;
+            document.getElementById('inp-currency').value = 'تومان';
+            document.getElementById('inp-time-spent').value = 12;
+
+            calculateMetrics();
+            alert('داده‌های فرضی نمونه بارگذاری شد (توجه: این اعداد صرفاً نمونه آموزشی هستند).');
+        }
+
+        function clearCalculator() {
+            if (confirm('آیا از پاک کردن تمام مقادیر فرم اطمینان دارید؟')) {
+                document.getElementById('calculator-form').reset();
+                calculateMetrics();
+            }
+        }
+
+        function copyResultsSummary() {
+            const text = `=== خلاصه نتایج محاسبات آزمایش (Idea Validation Lab) ===\n` +
+                `نرخ شروع تعامل: ${document.getElementById('res-interaction-rate').textContent}\n` +
+                `نرخ تکمیل تعامل: ${document.getElementById('res-completion-rate').textContent}\n` +
+                `نرخ کل درخواست: ${document.getElementById('res-lead-rate').textContent}\n` +
+                `نرخ کیفیت درخواست: ${document.getElementById('res-quality-rate').textContent}\n` +
+                `نرخ تعهد / خرید: ${document.getElementById('res-commitment-rate').textContent}\n` +
+                `هزینه هر درخواست: ${document.getElementById('res-cost-per-lead').textContent}\n` +
+                `زمان هر درخواست: ${document.getElementById('res-time-per-lead').textContent}\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert('خلاصه نتایج با موفقیت در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+    </script>
+</body>
+</html>
