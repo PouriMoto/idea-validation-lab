@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روش‌های بدون محصول (آزمایش قبل از ساخت) | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">راهنمای روش‌های بدون محصول</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="01-business-basics.html">راهنمای قبلی</a>
+                <a href="../workbench/experiment-planner.html" class="nav-btn">میز کار</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container">
+        <!-- Breadcrumb / مسیر راهنما -->
+        <div class="breadcrumb" style="margin-bottom: 2rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#guides">راهنماها</a> / <span>روش‌های بدون محصول</span>
+        </div>
+
+        <!-- Guide Header / هدر راهنما -->
+        <div class="guide-header card" style="margin-bottom: 2.5rem; background: var(--color-surface);">
+            <span class="badge" style="background: var(--color-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">راهنمای شماره ۰۲</span>
+            <h2 style="margin-top: 0.75rem; color: var(--color-primary);">روش‌های بدون محصول (اعتبارسنجی قبل از ساخت)</h2>
+            <p style="color: var(--color-muted); margin-top: 0.5rem; font-size: 1.1rem;">چگونه بدون نوشتن حتی یک خط کد نرم‌افزاری یا صرف هزینه‌های سنگین، تقاضا و ارزش ایده خود را در بازار آزمایش کنیم.</p>
+        </div>
+
+        <!-- Table of Contents / فهرست مطالب -->
+        <div class="card" style="background: var(--color-background); margin-bottom: 2rem;">
+            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">فهرست مطالب این راهنما</h4>
+            <ul style="padding-right: 1.2rem; line-height: 1.8; font-size: 0.95rem;">
+                <li><a href="#section-1">۱. چرا ساخت محصول در روز اول اشتباه است؟</a></li>
+                <li><s href="#section-2">۲. چهار سطح تعهد و شواهد در بازار</a></li>
+                <li><a href="#section-3">۳. معرفی آزمایش‌های کم‌هزینه و عملی</a></li>
+                <li><a href="#section-4">۴. مقایسه جامع روش‌های آزمایش (جدول)</a></li>
+                <li><a href="#section-5">۵. مثال پیوسته: خدمات برنامه‌ریزی مالی شخصی</a></li>
+                <li><a href="#section-6">۶. خطاهای رایج در اجرای آزمایش‌ها</a></li>
+                <li><a href="#section-7">۷. چک‌لیست انتخاب آزمایش و اقدام بعدی</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Why No Product First -->
+        <section id="section-1" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۱. چرا لازم نیست برای آزمایش هر ایده، محصول کامل بسازیم؟</h3>
+            <p style="margin-top: 0.75rem;">بسیاری از کارآفرینان فکر می‌کنند برای اینکه بفهمند ایده‌شان مشتری دارد یا نه، باید چند ماه وقت بگذارند و اپلیکیشن، سایت پیچیده یا محصول نهایی را آماده کنند. این روش معمولاً به هدررفت سرمایه، زمان و انرژی منجر می‌شود.</p>
+            <p style="margin-top: 0.5rem;">هدف آزمایش بدون محصول این است که پیش از ساخت، از طریق <strong>رفتار واقعی مخاطب</strong> بفهمیم آیا مسئله‌ای که حل می‌کنیم به اندازه کافی دردناک هست و آیا راه‌حل ما ارزش پرداخت هزینه را دارد یا خیر.</p>
+        </section>
+
+        <!-- Section 2: Four Levels of Engagement -->
+        <section id="section-2" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۲. چهار سطح تعهد و شواهد</h3>
+            <p style="margin-top: 0.75rem;">تمام تعاملات کاربران با ایده شما در یکی از این چهار سطح قرار می‌گیرد. هرچقدر به سمت تعهد بالا برویم، شواهد ما معتبرتر می‌شود:</p>
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>۱. توجه (Attention):</strong> مخاطب محتوا، بنر یا پیام شما را دیده است. (شاهد ضعیف: لایک یا بازدید).
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>۲. علاقه (Interest):</strong> برای کسب اطلاعات بیشتر وقت گذاشته یا متن را کامل خوانده است.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>۳. قصد اقدام (Intent):</strong> قدم معناداری مثل ثبت‌نام در لیست انتظار یا تکمیل فرم درخواست برداشته است.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>۴. تعهد جدی (Commitment):</strong> اقدامی پرهزینه‌تر مثل رزرو قطعی، معرفی فرد تصمیم‌گیرنده یا پرداخت واقعی انجام داده است.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Low-Cost Experiments -->
+        <section id="section-3" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۳. معرفی آزمایش‌های کم‌هزینه و عملی</h3>
+            <p style="margin-top: 0.75rem;">در این بخش روش‌های مختلف را به همراه جزئیات بررسی می‌کنیم:</p>
+
+            <!-- روش اول: گفت‌وگوی مسئله‌محور -->
+            <div style="margin-top: 1.5rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">الف) گفت‌وگوی مسئله‌محور (Problem Interview)</h4>
+                <p><strong>فرضیه:</strong> آیا مخاطب با این مشکل دست‌وپنجه نرم می‌کند و چقدر برایش اهمیت دارد؟</p>
+                <p><strong>چه چیزی باید ساخته شود؟</strong> فقط یک راهنمای مصاحبه ۴ الی ۵ سوالی (بدون صحبت از راه‌حل یا محصول خودتان).</p>
+                <p><strong>محدودیت:</strong> نظرات افراد در گفت‌وگو لزوماً به خرید قطعی تبدیل نمی‌شود.</p>
+                <details style="margin-top: 0.5rem;">
+                    <summary>جزئیات بیشتر و نحوه اجرا</summary>
+                    <p style="margin-top: 0.5rem; font-size: 0.95rem; color: var(--color-muted);">با ۵ الی ۱۰ نفر از افراد جامعه هدف گفتگو کنید. بپرسید آخرین بار کی با این مشکل مواجه شدند و برای حل آن چه کار کرده‌اند و چقدر هزینه پرداخت کرده‌اند.</p>
+                </details>
+            </div>
+
+            <!-- روش دوم: صفحه معرفی ساده -->
+            <div style="margin-top: 1.5rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">ب) صفحه معرفی ساده (Landing Page / Smoke Test)</h4>
+                <p><strong>فرضیه:</strong> آیا پیام ما برای مخاطب جذاب است و آیا تقاضای عمومی وجود دارد؟</p>
+                <p><strong>چه چیزی باید ساخته شود؟</strong> یک صفحه وب تک‌صفحه‌ای ساده که ارزش پیشنهادی را توضیح دهد و یک دکمه ثبت‌نام داشته باشد.</p>
+                <p><strong>محدودیت:</strong> کلیک و بازدید بالا لزوماً به معنای خریدار واقعی نیست.</p>
+            </div>
+
+            <!-- روش سوم: ارائه دستی خدمت -->
+            <div style="margin-top: 1.5rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">ج) ارائه دستی یک خدمت پیش از ساخت سیستم (Concierge / Wizard of Oz)</h4>
+                <p><strong>فرضیه:</strong> آیا راه‌حل پیشنهادی ما ارزش واقعی و تکرارپذیر برای مشتری خلق می‌کند؟</p>
+                <p><strong>چه چیزی باید ساخته شود؟</strong> هیچ سیستم خودکاری ساخته نمی‌شود؛ تمام مراحل پشت صحنه به صورت دستی انجام می‌شود.</p>
+                <p><strong>محدودیت:</strong> مقیاس‌پذیر نیست اما برای اثبات ارزش اولیه فوق‌العاده است.</p>
+            </div>
+
+            <!-- روش چهارم: پیش‌فروش یا دریافت تعهد با شفافیت -->
+            <div style="margin-top: 1.5rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">د) پیش‌فروش یا دریافت تعهد (با شفافیت کامل)</h4>
+                <p><strong>فرضیه:</strong> آیا مشتری حاضر است قبل از تحویل کامل، هزینه یا بیعانه بپردازد؟</p>
+                <p><strong>چه چیزی باید ساخته شود؟</strong> پیشنهاد قیمت با ذکر صریح اینکه محصول هنوز در دست ساخت است.</p>
+                <p><strong>محدودیت:</strong> نیازمند اعتماد بالا است و در صورت عدم شفافیت، اعتبار شما را مخدوش می‌کند.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Comparison Table -->
+        <section id="section-4" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۴. جدول مقایسه روش‌های آزمایش</h3>
+            <div class="table-container" style="margin-top: 1rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>روش آزمایش</th>
+                            <th>هزینه مالی</th>
+                            <th>زمان موردنیاز</th>
+                            <th>قدرت شواهد</th>
+                            <th>نوع فرضیه اصلی</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>گفت‌وگوی مسئله</strong></td>
+                            <td>صفر</td>
+                            <td>کم (۳ الی ۵ روز)</td>
+                            <td>متوسط به بالا</td>
+                            <td>وجود مسئله و شدت آن</td>
+                        </tr>
+                        <tr>
+                            <td><strong>صفحه معرفی و فرم</strong></td>
+                            <td>بسیار کم</td>
+                            <td>کم (۲ الی ۴ روز)</td>
+                            <td>متوسط</td>
+                            <td>جذابیت پیام و تقاضا</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ارائه دستی خدمت</strong></td>
+                            <td>صفر یا بسیار کم</td>
+                            <td>متوسط (۱ الی ۲ هفته)</td>
+                            <td>بسیار بالا</td>
+                            <td>ارزش راه‌حل و کارایی</td>
+                        </tr>
+                        <tr>
+                            <td><strong>تست قیمت واقعی</strong></td>
+                            <td>بسیار کم</td>
+                            <td>کم (۱ هفته)</td>
+                            <td>قطعی و بالا</td>
+                            <td>تمایل به پرداخت (تعهد)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 5: Continuous Example -->
+        <section id="section-5" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۵. مثال پیوسته: خدمات برنامه‌ریزی مالی شخصی</h3>
+            <p style="margin-top: 0.75rem;">فرض کنید می‌خواهید کسب‌وکار «مشاوره و برنامه‌ریزی مالی شخصی برای کارمندان» را راه‌اندازی کنید. بیوید ببینیم چگونه گام‌به‌گام پیش از ساخت اپلیکیشن یا سایت پیچیده آن را آزمایش می‌کنیم:</p>
+            
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 1rem;">
+                <li><strong>مرحله ۱ (تشخیص مسئله):</strong> با ۸ نفر از کارمندان صحبت می‌کنید تا ببینید بزرگ‌ترین دغدغه مالی‌شان پس‌انداز است یا مدیریت هزینه‌های روزمره.</li>
+                <li><strong>مرحله ۲ (سنجش علاقه):</strong> یک یادداشت آموزشی کوتاه در کانال‌های کاری منتشر می‌کنید و در انتهای آن می‌پرسید چه کسانی مایلند نسخه آزمایشی کاربرگ مالی را دریافت کنند.</li>
+                <li><strong>مرحله ۳ (قصد خرید / تست ارزش دستی):</strong> به ۱۰ نفر از ثبت‌نام‌کنندگان پیشنهاد می‌دهید به جای نرم‌افزار، به صورت دستی و طی یک جلسه آنلاین یک‌ساعته وضعیت مالی‌شان را بررسی کنید.</li>
+                <li><strong>مرحله ۴ (تست قیمت):</strong> در انتهای جلسه مشاوره دستی، اعلام می‌کنید که بسته کامل راهنمای ماهانه با مبلغ مشخصی قابل رزرو است تا تمایل واقعی به پرداخت را بسنجید.</li>
+            </ul>
+        </section>
+
+        <!-- Section 6: Common Mistakes -->
+        <section id="section-6" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۶. خطاهای رایج در اجرای آزمایش‌ها</h3>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li><strong>پرسیدن سوالات جهت‌دار:</strong> مثلاً پرسیدن «آیا این اپلیکیشن عالی نیست؟» به جای «آخرین بار چطور هزینه‌هایت را مدیریت کردی؟»</li>
+                <li><strong>تکیه بر نظرات دوستان و خانواده:</strong> تشویق‌های از سر محبت آن‌ها را به عنوان شواهد بازار حساب نکنید.</li>
+                <li><strong>نظرسنجی به جای رفتار واقعی:</strong> افراد در نظرسنجی می‌گویند «حاضرم پول بدهم»، اما هنگام پرداخت واقعی منصرف می‌شوند.</li>
+                <li><strong>تفسیر اشتباه بازدیدها:</strong> شمار بالای بازدید صفحه لزوماً به معنی تقاضای واقعی نیست؛ معیار اصلی تبدیل‌ها (لیدها و تعهدها) هستند.</li>
+            </ul>
+        </section>
+
+        <!-- Section 7: Checklist & Next Steps -->
+        <section id="section-7" class="guide-section card" style="background: var(--color-background); border-color: var(--color-secondary);">
+            <h3 style="color: var(--color-primary);">۷. چک‌لیست انتخاب آزمایش و اقدام بعدی</h3>
+            <p style="margin-top: 0.5rem;">برای شروع آزمایش خود، این سه سوال را پاسخ دهید:</p>
+            <ol style="padding-right: 1.2rem; line-height: 2; margin-top: 0.5rem;">
+                <li>مهم‌ترین فرض یا ریسک فعلی ایده من چیست؟</li>
+                <li>کدام روش کم‌هزینه می‌تواند این فرض را با بیشترین دقت بسنجد؟</li>
+                <li>معیار موفقیت من (عدد یا رفتار مشخص) دقیقاً چیست؟</li>
+            </ol>
+            <div style="margin-top: 1.5rem;">
+                <a href="../workbench/experiment-planner.html" class="btn btn-primary" style="margin-left: 1rem;">ورود به برنامه‌ریز آزمایش</a>
+                <a href="03-warm-to-cold-testing.html" class="btn btn-secondary">مطالعه راهنمای بعدی: تست گرم تا سرد</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </body>
+</html>
