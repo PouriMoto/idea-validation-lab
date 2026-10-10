@@ -304,4 +304,82 @@
                 const data = getFormData();
                 data.currentStep = currentStep;
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            } ca
+            } catch (e) {
+                console.error('LocalStorage error', e);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    document.getElementById('exp-name').value = data.name || '';
+                    document.getElementById('exp-audience').value = data.audience || '';
+                    document.getElementById('exp-problem').value = data.problem || '';
+                    document.getElementById('exp-hypothesis').value = data.hypothesis || '';
+                    if (data.status) {
+                        const radio = document.querySelector(`input[name="current-status"][value="${data.status}"]`);
+                        if (radio) radio.checked = true;
+                    }
+                    if (data.method) {
+                        document.getElementById('selected-method').value = data.method;
+                    }
+                    document.getElementById('metric-name').value = data.metricName || '';
+                    document.getElementById('metric-target').value = data.metricTarget || '';
+                    document.getElementById('exp-duration').value = data.duration || '';
+                    document.getElementById('exec-channel').value = data.channel || '';
+                    document.getElementById('exec-resources').value = data.resources || '';
+                    document.getElementById('exec-actions').value = data.actions || '';
+                    document.getElementById('decision-pass').value = data.decisionPass || '';
+                    document.getElementById('decision-fail').value = data.decisionFail || '';
+                    
+                    if (data.currentStep && data.currentStep >= 1 && data.currentStep <= totalSteps) {
+                        currentStep = data.currentStep;
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading localStorage', e);
+            }
+        }
+
+        function copyCardText() {
+            const data = getFormData();
+            const text = `=== کارت آزمایش: ${data.name} ===\n` +
+                `مخاطب: ${data.audience}\n` +
+                `مسئله: ${data.problem}\n` +
+                `فرضیه: ${data.hypothesis}\n` +
+                `روش: ${data.method}\n` +
+                `معیار موفقیت: ${data.metricName} (هدف: ${data.metricTarget})\n` +
+                `کانال: ${data.channel}\n` +
+                `اقدامات بعدی:\n${data.actions}\n`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('متن کارت آزمایش با موفقیت در کلیپ‌بورد کپی شد!');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+
+        function downloadJSON() {
+            const data = getFormData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'experiment-plan.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function resetWizard() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید آزمایش جدیدی شروع کنید؟ اطلاعات فعلی پاک خواهد شد.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
