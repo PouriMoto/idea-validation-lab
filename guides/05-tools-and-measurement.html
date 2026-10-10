@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزارها و سنجش رفتار مخاطب | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">راهنمای ابزارها و سنجش رفتار</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="04-audience-acquisition.html">راهنمای قبلی</a>
+                <a href="../workbench/metrics-calculator.html" class="nav-btn">محاسبه‌گر معیارها</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container">
+        <!-- Breadcrumb / مسیر راهنما -->
+        <div class="breadcrumb" style="margin-bottom: 2rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#guides">راهنماها</a> / <span>ابزارها و سنجش</span>
+        </div>
+
+        <!-- Guide Header / هدر راهنما -->
+        <div class="guide-header card" style="margin-bottom: 2.5rem; background: var(--color-surface);">
+            <span class="badge" style="background: var(--color-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">راهنمای شماره ۰۵</span>
+            <h2 style="margin-top: 0.75rem; color: var(--color-primary);">ابزارها و سنجش رفتار مخاطب</h2>
+            <p style="color: var(--color-muted); margin-top: 0.5rem; font-size: 1.1rem;">چگونه بدون گرفتار شدن در پیچیدگی فناوری، ساده‌ترین و قابل‌اعتمادترین ابزارها را برای اندازه‌گیری آزمایش انتخاب کنیم.</p>
+        </div>
+
+        <!-- Table of Contents / فهرست مطالب -->
+        <div class="card" style="background: var(--color-background); margin-bottom: 2rem;">
+            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">فهرست مطالب این راهنما</h4>
+            <ul style="padding-right: 1.2rem; line-height: 1.8; font-size: 0.95rem;">
+                <li><a href="#section-1">۱. اصل مهم: ابزار تابع آزمایش است</a></li>
+                <li><a href="#section-2">۲. سطوح سه‌گانه ابزارها (ساده، ساختاریافته، اتوماسیون)</a></li>
+                <li><a href="#section-3">۳. نقشه رویدادها در آزمایش</a></li>
+                <li><a href="#section-4">۴. روش‌های رهگیری (لینک‌ها و UTM)</a></li>
+                <li><a href="#section-5">۵. حریم خصوصی و محدودیت‌های ابزارها</a></li>
+                <li><a href="#section-6">۶. جدول تصمیم‌گیری ابزارها و چک‌لیست</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Core Principle -->
+        <section id="section-1" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۱. اصل مهم: ابزار تابع آزمایش است</h3>
+            <p style="margin-top: 0.75rem;">بسیاری از کارآفرینان وقت زیادی را صرف راه‌اندازی ابزارهای پیچیده، داشبوردهای رنگارنگ یا پلتفرم‌های گران‌قیمت می‌کنند پیش از آنکه اساساً بدانند چه فرضیه‌ای را می‌خواهند آزمایش کنند. یادتان باشد:</p>
+            <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; margin-top: 1rem; border-right: 4px solid var(--color-secondary);">
+                <strong>اصل بنیادین:</strong> ابزار باید تابع آزمایش باشد، نه اینکه آزمایش به‌خاطر قابلیت‌های یک ابزار پیچیده طراحی شود. همیشه ساده‌ترین روش قابل‌اعتماد را انتخاب کنید.
+            </div>
+        </section>
+
+        <!-- Section 2: Three Levels of Tools -->
+        <section id="section-2" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۲. سطوح سه‌گانه ابزارها</h3>
+            
+            <!-- سطح اول -->
+            <div style="margin-top: 1rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">سطح اول: ساده و دستی (Spreadsheet & Manual)</h4>
+                <p><strong>ابزارها:</strong> فایل اکسل یا Google Sheets، فرم‌های ساده، یادداشت‌های مصاحبه، صفحات HTML ساده.</p>
+                <p><strong>چه زمانی مناسب است؟</strong> روز اول آزمایش، مصاحبه‌های اولیه و زمانی که تعداد مخاطبان کم است.</p>
+                <p><strong>هزینه و پیچیدگی:</strong> صفر / بسیار کم.</p>
+                <p><strong>چه زمانی عبور کنیم؟</strong> وقتی حجم داده‌ها یا تعداد کانال‌ها به قدری زیاد شود که ثبت دستی خطا ایجاد کند.</p>
+            </div>
+
+            <!-- سطح دوم -->
+            <div style="margin-top: 1.5rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">سطح دوم: ساختاریافته (Structured Pages & UTM)</h4>
+                <p><strong>ابزارها:</strong> صفحه فرود مستقل، فرم با قابلیت ذخیره، پارامترهای UTM، ابزارهای تحلیلی پایه.</p>
+                <p><strong>چه زمانی مناسب است؟</strong> زمان سنجش تقاضا از طریق صفحات معرفی یا تست پیام.</p>
+                <p><strong>هزینه و پیچیدگی:</strong> کم / نیازمند آشنایی اولیه با ابزارهای وب.</p>
+                <p><strong>چه زمانی عبور کنیم؟</strong> وقتی نیاز به همگام‌سازی خودکار داده‌ها بین پلتفرم‌های مختلف باشد.</p>
+            </div>
+
+            <!-- سطح سوم -->
+            <div style="margin-top: 1.5rem; border-right: 4px solid var(--color-secondary); padding-right: 1rem;">
+                <h4 style="color: var(--color-primary);">سطح سوم: اتصال و اتوماسیون (Automation & Integrations)</h4>
+                <p><strong>ابزارها:</strong> اتصال فرم به پایگاه داده، ابزارهای اتوماسیون گردش کار، وب‌هوک‌ها.</p>
+                <p><strong>چه زمانی مناسب است؟</strong> مقیاس بالای آزمایش و نیاز به پاسخ‌دهی خودکار سریع به لیدها.</p>
+                <p><strong>هزینه و پیچیدگی:</strong> متوسط به بالا / نیازمند زمان نگهداری.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Event Map -->
+        <section id="section-3" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۳. نقشه رویدادها در آزمایش</h3>
+            <p style="margin-top: 0.75rem;">برای ردیابی رفتار مخاطب، رویدادهای زیر را تعریف و ثبت کنید:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li><strong>page_view:</strong> بازدید از صفحه معرفی یا لندینگ.</li>
+                <li><strong>interaction_start:</strong> شروع پر کردن فرم یا کلیک روی دکمه اصلی تعامل.</li>
+                <li><strong>interaction_complete:</strong> تکمیل موفقیت‌آمیز جریان تعامل (مثل ارسال فرم).</li>
+                <li><strong>lead_submit:</strong> ثبت اطلاعات تماس معتبر توسط کاربر.</li>
+                <li><strong>qualified_lead:</strong> لیدی که پس از بررسی اولیه، معیارهای واجدشرایط‌بودن را دارد (صرفاً با بازدید صفحه قابل محاسبه نیست).</li>
+                <li><strong>meeting_booked:</strong> رزرو قطعی جلسه مصاحبه یا مشاوره.</li>
+                <li><strong>paid_commitment:</strong> پرداخت وجه یا تعهد مالی معتبر.</li>
+            </ul>
+        </section>
+
+        <!-- Section 4: Tracking Methods -->
+        <section id="section-4" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۴. روش‌های رهگیری (لینک‌ها و UTM)</h3>
+            <p style="margin-top: 0.75rem;">برای اینکه بدانید هر مخاطب از کدام کانال آمده است، از لینک‌های دارای پارامتر UTM استفاده کنید:</p>
+            <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; margin-top: 1rem; font-family: monospace; font-size: 0.9rem;">
+                https://example.com/landing?utm_source=telegram&utm_medium=group&utm_campaign=validation_v1
+            </div>
+            <p style="margin-top: 0.75rem; font-size: 0.95rem; color: var(--color-muted);">💡 توجه: مثال بالا صرفاً ساختار استاندارد را نشان می‌دهد و دامنه واقعی نیست.</p>
+        </section>
+
+        <!-- Section 5: Privacy & Limitations -->
+        <section id="section-5" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۵. حریم خصوصی و محدودیت‌های ابزارها</h3>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li>از جمع‌آوری داده‌های شخصی غیرضروری (مثل کد ملی یا اطلاعات حساس) خودداری کنید.</li>
+                <li>هدف از جمع‌آوری داده باید برای مخاطب کاملاً شفاف باشد.</li>
+                <li>ابزارهای تحلیل و آمار، رفتار کمی را نشان می‌دهند اما «دلیل قطعی» رفتار کاربر را مشخص نمی‌کنند.</li>
+                <li>حافظه محلی مرورگر (`localStorage`) فقط داده را در همان مرورگر کاربر ذخیره می‌کند و ابزاری برای رهگیری عمومی بازدیدکنندگان نیست.</li>
+            </ul>
+        </section>
+
+        <!-- Section 6: Decision Table & Checklist -->
+        <section id="section-6" class="guide-section card" style="background: var(--color-background); border-color: var(--color-secondary);">
+            <h3 style="color: var(--color-primary);">۶. راهنمای تصمیم‌گیری و چک‌لیست ابزار</h3>
+            <p style="margin-top: 0.5rem;">قبل از اضافه کردن هر ابزار جدید به پروژه، به این چک‌لیست پاسخ دهید:</p>
+            <ol style="padding-right: 1.2rem; line-height: 2; margin-top: 0.5rem;">
+                <li>آیا این ابزار مستقیماً به سنجش فرضیه فعلی من کمک می‌کند؟</li>
+                <li>آیا روش ساده‌تری (مثل گوگل شیت یا فرم ساده) برای این کار وجود ندارد؟</li>
+                <li>آیا وقت کافی برای یادگیری و مدیریت این ابزار دارم؟</li>
+            </ol>
+            <div style="margin-top: 1.5rem;">
+                <a href="../workbench/metrics-calculator.html" class="btn btn-primary" style="margin-left: 1rem;">ورود به محاسبه‌گر معیارها</a>
+                <a href="06-results-and-decisions.html" class="btn btn-secondary">مطالعه راهنمای بعدی: تحلیل نتایج</a>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-muted);">
+                سایر بخش‌ها: <a href="00-start-here.html">شروع کنید</a> | <a href="01-business-basics.html">شناخت کسب‌وکار</a> | <a href="02-experiments-without-product.html">روش‌های بدون محصول</a> | <a href="03-warm-to-cold-testing.html">تست گرم تا سرد</a> | <a href="04-audience-acquisition.html">جذب مخاطب</a> | <a href="../workbench/experiment-planner.html">برنامه‌ریز آزمایش</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+</body>
+</html>
