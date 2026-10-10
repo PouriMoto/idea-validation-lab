@@ -7,21 +7,33 @@
     <!-- استایل مشترک پروژه -->
     <link rel="stylesheet" href="../assets/css/shared.css">
     <style>
-        .wizard-step { display: none; }
-        .wizard-step.active { display: block; }
-        .progress-bar-container { background: var(--color-border); border-radius: 4px; height: 8px; margin-bottom: 2rem; overflow: hidden; }
-        .progress-bar-fill { background: var(--color-secondary); height: 100%; width: 14.28%; transition: width 0.3s ease; }
-        .step-indicator { font-size: 0.9rem; color: var(--color-muted); margin-bottom: 0.5rem; }
-        .method-option { border: 2px solid var(--color-border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s; }
-        .method-option:hover { border-color: var(--color-secondary); background: var(--color-background); }
-        .method-option.selected { border-color: var(--color-primary); background: #f0fdf4; }
-        .card-preview { background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1.5rem; border-radius: 6px; margin-top: 1rem; }
+        .wizard-steps { display: flex; justify-content: space-between; margin-bottom: 2rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1rem; overflow-x: auto; gap: 0.5rem; }
+        .step-indicator { flex: 1; text-align: center; padding: 0.5rem; font-size: 0.85rem; color: var(--color-muted); border-radius: 4px; white-space: nowrap; }
+        .step-indicator.active { background: var(--color-primary); color: white; font-weight: bold; }
+        .step-indicator.completed { color: var(--color-secondary); font-weight: bold; }
+        .planner-step { display: none; }
+        .planner-step.active { display: block; }
+        .form-section-box { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 2rem; margin-bottom: 1.5rem; }
+        .hint-text { font-size: 0.85rem; color: var(--color-muted); margin-top: 0.3rem; margin-bottom: 1rem; line-height: 1.5; }
+        .example-box { background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.7; color: var(--color-text); }
+        .radio-card { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--color-background); border: 1px solid var(--color-border); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 0.75rem; cursor: pointer; transition: border-color 0.2s; }
+        .radio-card:hover { border-color: var(--color-secondary); }
+        .radio-card input[type="radio"] { margin-top: 0.25rem; accent-color: var(--color-secondary); }
+        .card-output { background: var(--color-background); border: 2px solid var(--color-secondary); border-radius: var(--border-radius); padding: 2rem; font-family: inherit; line-height: 1.9; white-space: pre-wrap; font-size: 0.95rem; }
+        
+        @media print {
+            body { background: white; color: black; font-size: 11pt; }
+            .site-header, .site-footer, .no-print, .wizard-steps, button { display: none !important; }
+            .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .form-section-box { border: none !important; box-shadow: none !important; padding: 0 !important; }
+            .card-output { border: 1px solid #999 !important; background: white !important; }
+        }
     </style>
 </head>
 <body>
 
     <!-- Header / هدر سایت -->
-    <header class="site-header">
+    <header class="site-header no-print">
         <div class="container header-container">
             <div class="logo">
                 <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
@@ -29,356 +41,529 @@
             </div>
             <nav class="site-nav">
                 <a href="../index.html">صفحه اصلی</a>
-                <a href="../guides/00-start-here.html">راهنماها</a>
                 <a href="interview-builder.html">سازنده مصاحبه</a>
+                <a href="channel-tracker.html">ردیاب کانال</a>
             </nav>
         </div>
     </header>
 
-    <main class="container section-container" style="max-width: 800px;">
+    <main class="container section-container" style="max-width: 900px;">
         <!-- Breadcrumb / مسیر -->
-        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+        <div class="breadcrumb no-print" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
             <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>برنامه‌ریز آزمایش</span>
         </div>
 
-        <div class="card" style="background: var(--color-surface); padding: 2rem;">
-            <div class="step-indicator" id="step-indicator-text">مرحله ۱ از ۷: تعریف آزمایش</div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progress-fill"></div>
+        <!-- Guide Header -->
+        <div class="card no-print" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">برنامه‌ریز ساختاریافته آزمایش (Experiment Planner)</h2>
+            <p style="color: var(--color-muted);">یک فرضیه کسب‌وکار را در ۷ گام ساده و هدفمند به آزمایشی کوچک، کم‌هزینه و قابل ارزیابی تبدیل کنید.</p>
+        </div>
+
+        <!-- نشانگر مراحل (Stepper) -->
+        <div class="wizard-steps no-print" id="wizard-stepper">
+            <div class="step-indicator active" id="indicator-1">۱. ایده و مسئله</div>
+            <div class="step-indicator" id="indicator-2">۲. عدم‌قطعیت</div>
+            <div class="step-indicator" id="indicator-3">۳. فرضیه</div>
+            <div class="step-indicator" id="indicator-4">۴. روش آزمایش</div>
+            <div class="step-indicator" id="indicator-5">۵. اجرای آزمایش</div>
+            <div class="step-indicator" id="indicator-6">۶. معیار و تصمیم</div>
+            <div class="step-indicator" id="indicator-7">۷. بازبینی و کارت</div>
+        </div>
+
+        <form id="experiment-planner-form">
+            
+            <!-- مرحله اول: ایده و مسئله -->
+            <div class="planner-step active" id="step-1">
+                <div class="form-section-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۱ از ۷: ایده و مسئله اولیه</h3>
+                    <p class="hint-text">به‌یاد داشته باشید که ایده هنوز یک حقیقت اثبات‌شده نیست؛ بلکه یک فرض اولیه است که باید بررسی شود.</p>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label>نام کوتاه آزمایش</label>
+                        <input type="text" id="p-name" placeholder="مثلاً: تست تقاضای سیستم بودجه‌بندی خودکار">
+                        <div class="hint-text">یک نام صریح برای شناسایی این آزمایش.</div>
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label>ایده یا خدمت مورد بررسی</label>
+                        <input type="text" id="p-idea" placeholder="مثلاً: اپلیکیشن مدیریت هزینه‌های ماهانه کارمندان">
+                        <div class="hint-text">شرح بسیار کوتاه چیزی که قصد دارید ارائه دهید.</div>
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label>مسئله‌ای که فکر می‌کنم وجود دارد</label>
+                        <textarea id="p-problem" rows="2" placeholder="مثلاً: کارمندان در روزهای پایانی ماه کنترلی روی هزینه‌های خرد ندارند و دچار استرس می‌شوند."></textarea>
+                        <div class="hint-text">چه درد یا چالشی را در ذهن دارید؟</div>
+                    </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label>گروهی که احتمالاً این مسئله را تجربه می‌کند</label>
+                        <input type="text" id="p-audience" placeholder="مثلاً: کارمندان دفتری ۲۵ تا ۳۵ ساله با درآمد ثابت">
+                        <div class="hint-text">مخاطب اولیه شما چه کسانی هستند؟</div>
+                    </div>
+                </div>
+
+                <div class="no-print" style="display: flex; justify-content: flex-end;">
+                    <button type="button" onclick="nextStep(2)" class="btn btn-primary">مرحله بعد ←</button>
+                </div>
             </div>
 
-            <form id="experiment-wizard-form">
-                
-                <!-- مرحله ۱: تعریف آزمایش -->
-                <div class="wizard-step active" data-step="1">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۱: تعریف ایده و فرضیه</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">پایه و اساس آزمایش خود را مشخص کنید. فرض کنید قرار است مهم‌ترین ریسک کسب‌وکارتان را بسنجید.</p>
-                    
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">نام ایده یا پروژه</label>
-                        <input type="text" id="exp-name" placeholder="مثلاً: پلتفرم غذای خانگی کارمندان" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+            <!-- مرحله دوم: چیزهایی که نمی‌دانم (عدم‌قطعیت) -->
+            <div class="planner-step" id="step-2">
+                <div class="form-section-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۲ از ۷: مهم‌ترین عدم‌قطعیت</h3>
+                    <p class="hint-text">یک آزمایش کوچک بهتر است ابتدا روی یک سوال مهم تمرکز کند، نه اینکه هم‌زمان همه ابعاد کسب‌وکار را بسنجد. مهم‌ترین ابهام فعلی خود را انتخاب کنید:</p>
+
+                    <div class="radio-card" onclick="selectUncertainty(0)">
+                        <input type="radio" name="uncertainty" id="unc-0" value="مسئله واقعاً وجود دارد">
+                        <div>
+                            <strong style="color: var(--color-primary);">الف) آیا این مسئله واقعاً برای مخاطب وجود دارد و مهم است؟</strong>
+                            <div class="hint-text" style="margin-bottom: 0;">شک دارید که آیا این درد برای مخاطب اولویت بالایی دارد یا خیر.</div>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مخاطب هدف</label>
-                        <input type="text" id="exp-audience" placeholder="مثلاً: کارمندان شرکت‌های دفتری در محدوده مرکزی شهر" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+
+                    <div class="radio-card" onclick="selectUncertainty(1)">
+                        <input type="radio" name="uncertainty" id="unc-1" value="مخاطب به دنبال راه‌حل است">
+                        <div>
+                            <strong style="color: var(--color-primary);">ب) آیا مخاطب برای حل آن به دنبال راه‌حل است؟</strong>
+                            <div class="hint-text" style="margin-bottom: 0;">نمی‌دانید آیا افراد برای این مشکل وقت یا ابزار خاصی جستجو می‌کنند یا خیر.</div>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مسئله اصلی مخاطب</label>
-                        <textarea id="exp-problem" rows="2" placeholder="مثلاً: عدم دسترسی به غذای خانگی سالم و مقرون‌به‌صرفه در ساعت ناهار" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;"></textarea>
+
+                    <div class="radio-card" onclick="selectUncertainty(2)">
+                        <input type="radio" name="uncertainty" id="unc-2" value="راه‌حل پیشنهادی مناسب است">
+                        <div>
+                            <strong style="color: var(--color-primary);">ج) آیا راه‌حل پیشنهادی من برای او مناسب و ساده است؟</strong>
+                            <div class="hint-text" style="margin-bottom: 0;">شک دارید که آیا ساختار خدمت شما پاسخی درست برای مسئله است یا خیر.</div>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">فرضیه اصلی که باید آزمایش شود</label>
-                        <textarea id="exp-hypothesis" rows="2" placeholder="مثلاً: معتقدیم حداقل ۳۰٪ از کارمندان این شرکت‌ها حاضرند منوی هفتگی را روز قبل پیش‌خرید کنند." style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;"></textarea>
+
+                    <div class="radio-card" onclick="selectUncertainty(3)">
+                        <input type="radio" name="uncertainty" id="unc-3" value="دسترسی به مخاطبان">
+                        <div>
+                            <strong style="color: var(--color-primary);">د) آیا می‌توانم به این مخاطبان دسترسی پیدا کنم؟</strong>
+                            <div class="hint-text" style="margin-bottom: 0;">نمی‌دانید از چه کانالی می‌توانید افراد واجد شرایط را پیدا کنید.</div>
+                        </div>
+                    </div>
+
+                    <div class="radio-card" onclick="selectUncertainty(4)">
+                        <input type="radio" name="uncertainty" id="unc-4" value="تمایل به پرداخت هزینه">
+                        <div>
+                            <strong style="color: var(--color-primary);">هـ) آیا حاضرند برای حل مسئله هزینه (زمان یا پول) کنند؟</strong>
+                            <div class="hint-text" style="margin-bottom: 0;">شک دارید که ارزش این راه‌حل به اندازه کافی بالا باشد.</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <label>توضیح تکمیلی درباره ابهام انتخاب‌شده (اختیاری)</label>
+                        <input type="text" id="p-uncertainty-note" placeholder="جزئیات بیشتر درباره ابهام...">
                     </div>
                 </div>
 
-                <!-- مرحله ۲: وضعیت فعلی -->
-                <div class="wizard-step" data-step="2">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۲: وضعیت فعلی شما چیست؟</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">انتخاب کنید در چه نقطه‌ای قرار دارید تا بهترین روش آزمایش پیشنهاد شود.</p>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                        <label><input type="radio" name="current-status" value="idea-only" checked> فقط یک ایده دارم و هنوز با کسی صحبت نکرده‌ام</label>
-                        <label><input type="radio" name="current-status" value="interviews-done"> چند مصاحبه اکتشافی با مشتریان انجام داده‌ام</label>
-                        <label><input type="radio" name="current-status" value="prototype-exists"> نمونه اولیه ساده یا ماکت طرح را دارم</label>
-                        <label><input type="radio" name="current-status" value="landing-page"> صفحه فرود یا فرم ثبت‌نام اولیه دارم</label>
-                        <label><input type="radio" name="current-status" value="leads-exist"> تعدادی مخاطب علاقه‌مند (لید) دارم</label>
+                <div class="no-print" style="display: flex; justify-content: space-between;">
+                    <button type="button" onclick="prevStep(1)" class="btn btn-secondary">← مرحله قبل</button>
+                    <button type="button" onclick="nextStep(3)" class="btn btn-primary">مرحله بعد ←</button>
+                </div>
+            </div>
+
+            <!-- مرحله سوم: فرضیه قابل آزمون -->
+            <div class="planner-step" id="step-3">
+                <div class="form-section-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۳ از ۷: فرضیه قابل آزمون</h3>
+                    <p class="hint-text">فرضیه یعنی ادعایی مشخص که می‌توان آن را با مشاهده یا اندازه‌گیری بررسی کرد.</p>
+
+                    <div class="example-box">
+                        <strong>💡 الگوی راهنمای نوشتن فرضیه:</strong><br>
+                        «فکر می‌کنم [گروه مشخصی از افراد] با [مسئله مشخص] روبه‌رو هستند و اگر [اقدام یا راه‌حل ساده‌ای] را ارائه کنم، [رفتار قابل‌مشاهده‌ای] رخ خواهد داد، زیرا...»
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;">
+                        <label>متن فرضیه قابل آزمون</label>
+                        <textarea id="p-hypothesis" rows="4" placeholder="مثلاً: فکر می‌کنم کارمندان دورکار با مشکل بی‌انضباطی بودجه ماهانه روبه‌رو هستند و اگر به آن‌ها پیشنهاد بررسی دستی بودجه بدهیم، حداقل ۱۰ نفر فرم درخواست جلسه را تکمیل خواهند کرد، زیرا نگران کسری بودجه هستند."></textarea>
+                        <div class="hint-text">اطمینان حاصل کنید که فرضیه شما شامل یک رفتار قابل اندازه‌گیری باشد.</div>
                     </div>
                 </div>
 
-                <!-- مرحله ۳: انتخاب روش -->
-                <div class="wizard-step" data-step="3">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۳: انتخاب روش آزمایش</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">بر اساس وضعیت شما، یکی از روش‌های زیر پیشنهاد می‌شود. می‌توانید روش دلخواه را انتخاب کنید:</p>
-                    
-                    <div class="method-option selected" onclick="selectMethod('interview')">
-                        <strong>۱. مصاحبه عمیق مسئله (Problem Interview)</strong>
-                        <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">مناسب برای زمان نامشخص بودن ابعاد درد مشتری. بدون صحبت از راه‌حل، شدت مشکل را می‌سنجید.</p>
-                    </div>
-                    <div class="method-option" onclick="selectMethod('landing-test')">
-                        <strong>۲. تست پیام و لندینگ پیج (Landing Page & Smoke Test)</strong>
-                        <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">مناسب برای سنجش تقاضای عمومی. ساخت یک صفحه ساده و ارزیابی تمایل به ثبت‌نام.</p>
-                    </div>
-                    <div class="method-option" onclick="selectMethod('manual-service')">
-                        <strong>۳. اجرای دستی خدمات (Concierge / Wizard of Oz)</strong>
-                        <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">ارائه خدمت به شکل دستی و بدون ساخت نرم‌افزار برای بررسی ارزش واقعی.</p>
-                    </div>
-                    <input type="hidden" id="selected-method" value="interview">
+                <div class="no-print" style="display: flex; justify-content: space-between;">
+                    <button type="button" onclick="prevStep(2)" class="btn btn-secondary">← مرحله قبل</button>
+                    <button type="button" onclick="nextStep(4)" class="btn btn-primary">مرحله بعد ←</button>
                 </div>
+            </div>
 
-                <!-- مرحله ۴: معیار موفقیت -->
-                <div class="wizard-step" data-step="4">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۴: تعیین معیار موفقیت (متریک)</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">موفقیت در این آزمایش چگونه تعریف می‌شود؟ عدد هدف را واقع‌بینانه انتخاب کنید.</p>
-                    
+            <!-- مرحله چهارم: انتخاب روش آزمایش -->
+            <div class="planner-step" id="step-4">
+                <div class="form-section-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۴ از ۷: انتخاب روش آزمایش بدون محصول</h3>
+                    <p class="hint-text">بر اساس مهم‌ترین عدم‌قطعیتی که دارید، یکی از روش‌های زیر را انتخاب کنید:</p>
+
                     <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">معیار اصلی ارزیابی</label>
-                        <input type="text" id="metric-name" placeholder="مثلاً: تعداد افراد ثبت‌نام‌کننده در فرم پیش‌خرید" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                        <label>روش انتخابی</label>
+                        <select id="p-method" onchange="updateMethodHint()">
+                            <option value="مصاحبه با مشتریان احتمالی">الف) مصاحبه با مشتریان احتمالی (مناسب برای فهم مسئله و رفتار گذشته)</option>
+                            <option value="مشاهده رفتار فعلی مشتری">ب) مشاهده رفتار فعلی مشتری (بررسی نحوه حل فعلی مشکل)</option>
+                            <option value="ارائه دستی و محدود خدمت">ج) ارائه دستی و محدود یک خدمت / Wizard of Oz (سنجش ارزش واقعی خدمت)</option>
+                            <option value="صفحه معرفی یا ثبت درخواست">د) صفحه معرفی یا ثبت درخواست / فهرست انتظار (سنجش جذابیت پیام و قصد اقدام)</option>
+                            <option value="پیش‌فروش یا رزرو شفاف">هـ) پیش‌فروش یا رزرو شفاف (فقط در صورت شفافیت کامل و قانونی)</option>
+                            <option value="روش دیگر">و) روش دیگر</option>
+                        </select>
                     </div>
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مقدار هدف (Target)</label>
-                        <input type="text" id="metric-target" placeholder="مثلاً: حداقل ۲۰ ثبت‌نام معتبر" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
-                    </div>
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مدت زمان اجرا (روز یا هفته)</label>
-                        <input type="text" id="exp-duration" placeholder="مثلاً: ۷ روز کاری" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+
+                    <div class="example-box" id="method-hint-box">
+                        <strong>ℹ️ راهنمای روش:</strong> مصاحبه برای کشف مسئله و رفتار گذشته عالی است، اما به‌تنهایی تمایل به پرداخت واقعی را اثبات نمی‌کند. صفحه فرود هم بازدید بالا ایجاد می‌کند اما به معنای خرید قطعی نیست.
                     </div>
                 </div>
 
-                <!-- مرحله ۵: برنامه اجرا -->
-                <div class="wizard-step" data-step="5">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۵: برنامه اجرایی</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">چگونه و از چه کانالی این آزمایش را اجرا می‌کنید؟</p>
-                    
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">کانال جذب مخاطب</label>
-                        <input type="text" id="exec-channel" placeholder="مثلاً: گروه‌های کاری تلگرام، لینکدین یا تماس مستقیم" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                <div class="no-print" style="display: flex; justify-content: space-between;">
+                    <button type="button" onclick="prevStep(3)" class="btn btn-secondary">← مرحله قبل</button>
+                    <button type="button" onclick="nextStep(5)" class="btn btn-primary">مرحله بعد ←</button>
+                </div>
+            </div>
+
+            <!-- مرحله پنجم: طراحی اجرای آزمایش -->
+            <div class="planner-step" id="step-5">
+                <div class="form-section-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۵ از ۷: طراحی اجرای آزمایش</h3>
+                    <p class="hint-text">جزئیات اجرایی این دور آزمایش را به صورت مشخص مکتوب کنید.</p>
+
+                    <div style="margin-bottom: 1.2rem;" class="grid-2">
+                        <div>
+                            <label>چه کسانی واجد شرایط شرکت در آزمایش هستند؟</label>
+                            <input type="text" id="p-target-audience" placeholder="مثلاً: کارمندان با سابقه بیش از ۱ سال">
+                        </div>
+                        <div>
+                            <label>چگونه به آن‌ها دسترسی پیدا می‌کنم؟ (کانال)</label>
+                            <input type="text" id="p-acquisition-channel" placeholder="مثلاً: گروه‌های تخصصی کاری یا پیام مستقیم">
+                        </div>
                     </div>
+
                     <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">بودجه تقریبی و زمان صرف‌شده</label>
-                        <input type="text" id="exec-resources" placeholder="مثلاً: صفر تومان / ۵ ساعت در هفته" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                        <label>دقیقاً چه کاری انجام می‌دهم؟ (گام‌های اجرا)</label>
+                        <textarea id="p-execution-steps" rows="2" placeholder="مثلاً: انتشار پست در گروه و قرار دادن لینک فرم ساده درخواست مصاحبه"></textarea>
                     </div>
+
                     <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">سه اقدام فوری بعدی (Action Items)</label>
-                        <textarea id="exec-actions" rows="3" placeholder="۱. نوشتن پرسش‌نامه مصاحبه&#10;۲. شناسایی ۵ مخاطب هدف&#10;۳. هماهنگی زمان گفتگو" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;"></textarea>
+                        <label>از مخاطب چه رفتار قابل‌مشاهده‌ای انتظار دارم؟</label>
+                        <input type="text" id="p-expected-behavior" placeholder="مثلاً: تکمیل فرم ثبت‌نام یا حضور در جلسه مصاحبه ۱۵ دقیقه‌ای">
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;" class="grid-3">
+                        <div>
+                            <label>مدت آزمایش</label>
+                            <input type="text" id="p-duration" placeholder="مثلاً: ۷ روز">
+                        </div>
+                        <div>
+                            <label>هزینه نقدی تخمینی</label>
+                            <input type="text" id="p-cash-cost" placeholder="مثلاً: صفر">
+                        </div>
+                        <div>
+                            <label>زمان لازم (ساعت)</label>
+                            <input type="text" id="p-time-spent" placeholder="مثلاً: ۱۰ ساعت">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label>محدودیتی که باید در نظر بگیریم</label>
+                        <input type="text" id="p-constraints" placeholder="مثلاً: دسترسی محدود به شبکه مخاطبان">
                     </div>
                 </div>
 
-                <!-- مرحله ۶: قانون تصمیم -->
-                <div class="wizard-step" data-step="6">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۶: قانون تصمیم‌گیری</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">پیش از شروع، مشخص کنید پس از پایان آزمایش چه تصمیمی خواهید گرفت.</p>
-                    
+                <div class="no-print" style="display: flex; justify-content: space-between;">
+                    <button type="button" onclick="prevStep(4)" class="btn btn-secondary">← مرحله قبل</button>
+                    <button type="button" onclick="nextStep(6)" class="btn btn-primary">مرحله بعد ←</button>
+                </div>
+            </div>
+
+            <!-- مرحله ششم: معیار سنجش و قانون تصمیم -->
+            <div class="planner-step" id="step-6">
+                <div class="form-section-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۶ از ۷: معیار سنجش و قانون تصمیم</h3>
+                    <p class="hint-text">پیش از اجرای آزمایش تعیین کنید چه چیزی را اندازه خواهید گرفت و تصمیم خود را بر چه اساسی اتخاذ می‌کنید.</p>
+
                     <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">اگر نتیجه مثبت بود (هدف محقق شد):</label>
-                        <input type="text" id="decision-pass" placeholder="مثلاً: طراحی نمونه اولیه واقعی و تست قیمت" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                        <label>معیار اصلی سنجش (Metric)</label>
+                        <input type="text" id="p-metric" placeholder="مثلاً: تعداد درخواست‌های معتبر ثبت‌شده در فرم">
                     </div>
-                    <div style="margin-bottom: 1.2rem;">
-                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">اگر نتیجه ضعیف بود (شکست فرضیه):</label>
-                        <input type="text" id="decision-fail" placeholder="مثلاً: تغییر گروه مخاطب هدف یا بازنگری در مسئله" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+
+                    <div style="margin-bottom: 1.2rem;" class="grid-2">
+                        <div>
+                            <label>چه نتیجه‌ای باعث ادامه می‌شود؟</label>
+                            <input type="text" id="p-rule-continue" placeholder="مثلاً: دریافت حداقل ۱۰ درخواست واجد شرایط">
+                        </div>
+                        <div>
+                            <label>چه نتیجه‌ای باعث اصلاح روش می‌شود؟</label>
+                            <input type="text" id="p-rule-pivot" placeholder="مثلاً: استقبال کم ولی بازخورد کلامی مثبت">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.2rem;" class="grid-2">
+                        <div>
+                            <label>چه نتیجه‌ای نشان‌دهنده توقف یا تغییر مسیر است؟</label>
+                            <input type="text" id="p-rule-stop" placeholder="مثلاً: عدم ثبت حتی یک درخواست با وجود بازدید مناسب">
+                        </div>
+                        <div>
+                            <label>در چه شرایطی نتیجه «نامشخص» است؟</label>
+                            <input type="text" id="p-rule-uncertain" placeholder="مثلاً: تعداد نمونه کمتر از حد انتظار برای نتیجه‌گیری">
+                        </div>
                     </div>
                 </div>
 
-                <!-- مرحله ۷: کارت نهایی آزمایش -->
-                <div class="wizard-step" data-step="7">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۷: کارت نهایی آزمایش</h2>
-                    <p style="color: var(--color-muted); margin-bottom: 1rem;">برنامه آزمایش شما آماده است. می‌توانید آن را مرور کرده، کپی کنید یا خروجی بگیرید.</p>
-                    
-                    <div class="card-preview" id="final-card-preview">
-                        <!-- محتوا به صورت پویا پر می‌شود -->
+                <div class="no-print" style="display: flex; justify-content: space-between;">
+                    <button type="button" onclick="prevStep(5)" class="btn btn-secondary">← مرحله قبل</button>
+                    <button type="button" onclick="generateCard(); nextStep(7);" class="btn btn-primary">تولید کارت برنامه آزمایش ←</button>
+                </div>
+            </div>
+
+            <!-- مرحله هفتم: بازبینی و تولید کارت -->
+            <div class="planner-step" id="step-7">
+                <div class="form-section-box" style="background: var(--color-surface); border-color: var(--color-secondary);">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">مرحله ۷ از ۷: کارت برنامه آزمایش (آماده اجرا)</h3>
+                    <p class="hint-text">طرح آزمایش شما آماده است. می‌توانید آن را مرور کرده، چاپ کنید یا متن آن را کپی نمایید.</p>
+
+                    <div style="margin-top: 1.5rem;">
+                        <div id="experiment-card-output" class="card-output"></div>
                     </div>
 
-                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem;">
-                        <button type="button" onclick="copyCardText()" class="btn btn-secondary">کپی متن برنامه</button>
-                        <button type="button" onclick="downloadJSON()" class="btn btn-secondary">دانلود فایل JSON</button>
-                        <button type="button" onclick="window.print()" class="btn btn-secondary">چاپ / ذخیره PDF</button>
-                        <button type="button" onclick="resetWizard()" class="btn" style="background: #e2e8f0; color: var(--color-text);">شروع آزمایش جدید</button>
+                    <!-- بخش پیشنهاد قدم بعدی پس از تولید کارت -->
+                    <div style="margin-top: 2rem; background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1.25rem; border-radius: var(--border-radius);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem; font-size: 1rem;">🔗 قدم‌های بعدی پیشنهادی بر اساس نوع آزمایش:</h4>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <a href="interview-builder.html" class="btn btn-secondary" style="font-size: 0.85rem;">سازنده مصاحبه</a>
+                            <a href="channel-tracker.html" class="btn btn-secondary" style="font-size: 0.85rem;">ردیاب کانال جذب</a>
+                            <a href="../guides/02-experiments-without-product.html" class="btn btn-secondary" style="font-size: 0.85rem;">راهنمای روش‌های بدون محصول</a>
+                            <a href="../guides/06-results-and-decisions.html" class="btn btn-secondary" style="font-size: 0.85rem;">راهنمای تحلیل نتایج</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- دکمه‌های ناوبری و کنترل ویزارد -->
-                <div style="display: flex; justify-content: space-between; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
-                    <button type="button" id="prev-btn" onclick="changeStep(-1)" class="btn" style="background: #e2e8f0; color: var(--color-text); display: none;">مرحله قبل</button>
-                    <div style="margin-right: auto;"></div>
-                    <button type="button" id="next-btn" onclick="changeStep(1)" class="btn btn-primary">مرحله بعد</button>
+                <div class="no-print" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    <button type="button" onclick="prevStep(6)" class="btn btn-secondary">← ویرایش اطلاعات</button>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="button" onclick="copyCardOutput()" class="btn btn-secondary">کپی متن کارت</button>
+                        <button type="button" onclick="window.print()" class="btn btn-primary">چاپ کارت / PDF</button>
+                        <button type="button" onclick="resetPlanner()" class="btn" style="background: #fee2e2; color: #dc2626;">شروع آزمایش جدید</button>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </main>
 
     <!-- Footer / فوتر -->
-    <footer class="site-footer">
+    <footer class="site-footer no-print">
         <div class="container footer-container">
             <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
             <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
         </div>
     </footer>
 
-    <!-- جاوااسکریپت ویزارد و لوکال‌استوریج -->
+    <!-- جاوااسکریپت برنامه‌ریز آزمایش -->
     <script>
-        const STORAGE_KEY = 'idea_validation_lab_planner_v1';
         let currentStep = 1;
         const totalSteps = 7;
+        let selectedUncertaintyVal = '';
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadFromLocalStorage();
-            updateWizardView();
-
-            // ذخیره خودکار به ازای تغییرات ورودی‌ها
-            document.querySelectorAll('input, textarea').forEach(el => {
-                el.addEventListener('input', saveToLocalStorage);
-            });
+            // بارگذاری از حافظه محلی در صورت وجود (سازگار با shared.js یا استاندارد localStorage)
+            loadFromStorage();
         });
 
-        function changeStep(direction) {
-            if (direction === 1 && !validateCurrentStep()) return;
-            currentStep += direction;
-            if (currentStep < 1) currentStep = 1;
-            if (currentStep > totalSteps) currentStep = totalSteps;
-
-            if (currentStep === 7) {
-                generateFinalPreview();
-            }
-
-            updateWizardView();
-            saveToLocalStorage();
-        }
-
-        function validateCurrentStep() {
+        function nextStep(targetStep) {
+            if (targetStep > totalSteps) return;
+            
+            // اعتبارسنجی ساده مرحله اول
             if (currentStep === 1) {
-                const name = document.getElementById('exp-name').value.trim();
+                const name = document.getElementById('p-name').value.trim();
                 if (!name) {
-                    alert('لطفاً حداقل نام ایده را وارد کنید.');
-                    return false;
+                    alert('لطفاً نام کوتاه آزمایش را وارد کنید.');
+                    return;
                 }
             }
-            return true;
+
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            document.getElementById('indicator-' + currentStep).classList.remove('active');
+            document.getElementById('indicator-' + currentStep).classList.add('completed');
+
+            currentStep = targetStep;
+
+            document.getElementById('step-' + currentStep).classList.add('active');
+            document.getElementById('indicator-' + currentStep).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            saveToStorage();
         }
 
-        function updateWizardView() {
-            document.querySelectorAll('.wizard-step').forEach(stepEl => {
-                stepEl.classList.remove('active');
-                if (parseInt(stepEl.dataset.step) === currentStep) {
-                    stepEl.classList.add('active');
-                }
-            });
+        function prevStep(targetStep) {
+            if (targetStep < 1) return;
 
-            const percent = (currentStep / totalSteps) * 100;
-            document.getElementById('progress-fill').style.width = percent + '%';
-            document.getElementById('step-indicator-text').textContent = `مرحله ${currentStep} از ${totalSteps}`;
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            document.getElementById('indicator-' + currentStep).classList.remove('active');
 
-            document.getElementById('prev-btn').style.display = currentStep === 1 ? 'none' : 'inline-block';
-            document.getElementById('next-btn').style.display = currentStep === totalSteps ? 'none' : 'inline-block';
+            currentStep = targetStep;
 
+            document.getElementById('step-' + currentStep).classList.add('active');
+            document.getElementById('indicator-' + currentStep).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function selectMethod(methodVal) {
-            document.getElementById('selected-method').value = methodVal;
-            document.querySelectorAll('.method-option').forEach(opt => opt.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            saveToLocalStorage();
+        function selectUncertainty(index) {
+            const radio = document.getElementById('unc-' + index);
+            radio.checked = true;
+            selectedUncertaintyVal = radio.value;
+            saveToStorage();
         }
 
-        function generateFinalPreview() {
-            const data = getFormData();
-            const previewHtml = `
-                <h3 style="color: var(--color-primary); margin-bottom: 0.75rem;">📋 کارت آزمایش: ${data.name || 'بدون نام'}</h3>
-                <p><strong>مخاطب هدف:</strong> ${data.audience || 'ثبت نشده'}</p>
-                <p><strong>مسئله:</strong> ${data.problem || 'ثبت نشده'}</p>
-                <p><strong>فرضیه اصلی:</strong> ${data.hypothesis || 'ثبت نشده'}</p>
-                <hr style="margin: 0.75rem 0; border: 0; border-top: 1px solid var(--color-border);">
-                <p><strong>روش انتخابی:</strong> ${data.method}</p>
-                <p><strong>معیار موفقیت:</strong> ${data.metricName} (هدف: ${data.metricTarget})</p>
-                <p><strong>مدت زمان:</strong> ${data.duration}</p>
-                <p><strong>کانال جذب:</strong> ${data.channel}</p>
-                <p><strong>اقدامات بعدی:</strong><br>${(data.actions || '').replace(/\n/g, '<br>')}</p>
-                <p><strong>قانون تصمیم (موفقیت):</strong> ${data.decisionPass}</p>
-                <p><strong>قانون تصمیم (شکست):</strong> ${data.decisionFail}</p>
-            `;
-            document.getElementById('final-card-preview').innerHTML = previewHtml;
-        }
-
-        function getFormData() {
-            return {
-                name: document.getElementById('exp-name').value,
-                audience: document.getElementById('exp-audience').value,
-                problem: document.getElementById('exp-problem').value,
-                hypothesis: document.getElementById('exp-hypothesis').value,
-                status: document.querySelector('input[name="current-status"]:checked')?.value || '',
-                method: document.getElementById('selected-method').value,
-                metricName: document.getElementById('metric-name').value,
-                metricTarget: document.getElementById('metric-target').value,
-                duration: document.getElementById('exp-duration').value,
-                channel: document.getElementById('exec-channel').value,
-                resources: document.getElementById('exec-resources').value,
-                actions: document.getElementById('exec-actions').value,
-                decisionPass: document.getElementById('decision-pass').value,
-                decisionFail: document.getElementById('decision-fail').value,
-                updatedAt: new Date().toISOString()
-            };
-        }
-
-        function saveToLocalStorage() {
-            try {
-                const data = getFormData();
-                data.currentStep = currentStep;
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            } catch (e) {
-                console.error('LocalStorage error', e);
+        function updateMethodHint() {
+            const method = document.getElementById('p-method').value;
+            const hintBox = document.getElementById('method-hint-box');
+            if (method.includes('مصاحبه')) {
+                hintBox.innerHTML = '<strong>ℹ️ راهنمای روش:</strong> مصاحبه برای فهم مشکل و رفتار گذشته عالی است، اما تعهد خرید ایجاد نمی‌کند.';
+            } else if (method.includes('ارائه دستی')) {
+                hintBox.innerHTML = '<strong>ℹ️ راهنمای روش:</strong> ارائه دستی (Wizard of Oz) بالاترین سطح ارزش و رضایت را پیش از ساخت سیستم خودکار می‌سنجد.';
+            } else if (method.includes('صفحه معرفی')) {
+                hintBox.innerHTML = '<strong>ℹ️ راهنمای روش:</strong> صفحه فرود جذابیت پیام اولیه را می‌سنجد؛ توجه داشته باشید که کلیک برابر با خرید قطعی نیست.';
+            } else {
+                hintBox.innerHTML = '<strong>ℹ️ راهنمای روش:</strong> اطمینان حاصل کنید روش انتخابی مستقیماً به مهم‌ترین عدم‌قطعیت شما پاسخ می‌دهد.';
             }
         }
 
-        function loadFromLocalStorage() {
+        function generateCard() {
+            const name = document.getElementById('p-name').value || '-';
+            const idea = document.getElementById('p-idea').value || '-';
+            const problem = document.getElementById('p-problem').value || '-';
+            const audience = document.getElementById('p-audience').value || '-';
+            const hypothesis = document.getElementById('p-hypothesis').value || '-';
+            const method = document.getElementById('p-method').value || '-';
+            const targetAud = document.getElementById('p-target-audience').value || '-';
+            const channel = document.getElementById('p-acquisition-channel').value || '-';
+            const steps = document.getElementById('p-execution-steps').value || '-';
+            const behavior = document.getElementById('p-expected-behavior').value || '-';
+            const duration = document.getElementById('p-duration').value || '-';
+            const cost = document.getElementById('p-cash-cost').value || '-';
+            const time = document.getElementById('p-time-spent').value || '-';
+            const metric = document.getElementById('p-metric').value || '-';
+            const rContinue = document.getElementById('p-rule-continue').value || '-';
+            const rPivot = document.getElementById('p-rule-pivot').value || '-';
+            const rStop = document.getElementById('p-rule-stop').value || '-';
+
+            const cardText = 
+`========================================
+کارت برنامه آزمایش: ${name}
+========================================
+
+۱. ایده و مسئله:
+- خدمت: ${idea}
+- مسئله: ${problem}
+- مخاطب هدف: ${audience}
+- مهم‌ترین عدم‌قطعیت: ${selectedUncertaintyVal || '-'}
+
+۲. فرضیه قابل آزمون:
+${hypothesis}
+
+۳. روش آزمایش و اجرا:
+- روش: ${method}
+- مخاطب واجد شرایط: ${targetAud}
+- کانال جذب: ${channel}
+- گام‌های اجرا: ${steps}
+- رفتار مورد انتظار: ${behavior}
+- منابع: مدت (${duration}) | هزینه نقدی (${cost}) | زمان (${time})
+
+۴. معیار و قانون تصمیم:
+- معیار اصلی: ${metric}
+- شرط ادامه: ${rContinue}
+- شرط اصلاح: ${rPivot}
+- شرط توقف: ${rStop}
+----------------------------------------
+(این طرح صرفاً در حافظه محلی مرورگر شما ذخیره شده است.)
+`;
+
+            document.getElementById('experiment-card-output').textContent = cardText;
+        }
+
+        const STORAGE_KEY = 'idea_validation_lab_experiment_planner_v2';
+
+        function saveToStorage() {
+            try {
+                const data = {
+                    name: document.getElementById('p-name').value,
+                    idea: document.getElementById('p-idea').value,
+                    problem: document.getElementById('p-problem').value,
+                    audience: document.getElementById('p-audience').value,
+                    uncertainty: selectedUncertaintyVal,
+                    uncertaintyNote: document.getElementById('p-uncertainty-note').value,
+                    hypothesis: document.getElementById('p-hypothesis').value,
+                    method: document.getElementById('p-method').value,
+                    targetAudience: document.getElementById('p-target-audience').value,
+                    channel: document.getElementById('p-acquisition-channel').value,
+                    steps: document.getElementById('p-execution-steps').value,
+                    behavior: document.getElementById('p-expected-behavior').value,
+                    duration: document.getElementById('p-duration').value,
+                    cost: document.getElementById('p-cash-cost').value,
+                    time: document.getElementById('p-time-spent').value,
+                    constraints: document.getElementById('p-constraints').value,
+                    metric: document.getElementById('p-metric').value,
+                    rContinue: document.getElementById('p-rule-continue').value,
+                    rPivot: document.getElementById('p-rule-pivot').value,
+                    rStop: document.getElementById('p-rule-stop').value,
+                    rUncertain: document.getElementById('p-rule-uncertain').value,
+                    step: currentStep
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.error('Storage error:', e);
+            }
+        }
+
+        function loadFromStorage() {
             try {
                 const saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) {
-                    const data = JSON.parse(saved);
-                    document.getElementById('exp-name').value = data.name || '';
-                    document.getElementById('exp-audience').value = data.audience || '';
-                    document.getElementById('exp-problem').value = data.problem || '';
-                    document.getElementById('exp-hypothesis').value = data.hypothesis || '';
-                    if (data.status) {
-                        const radio = document.querySelector(`input[name="current-status"][value="${data.status}"]`);
-                        if (radio) radio.checked = true;
-                    }
-                    if (data.method) {
-                        document.getElementById('selected-method').value = data.method;
-                    }
-                    document.getElementById('metric-name').value = data.metricName || '';
-                    document.getElementById('metric-target').value = data.metricTarget || '';
-                    document.getElementById('exp-duration').value = data.duration || '';
-                    document.getElementById('exec-channel').value = data.channel || '';
-                    document.getElementById('exec-resources').value = data.resources || '';
-                    document.getElementById('exec-actions').value = data.actions || '';
-                    document.getElementById('decision-pass').value = data.decisionPass || '';
-                    document.getElementById('decision-fail').value = data.decisionFail || '';
+                    const d = JSON.parse(saved);
+                    document.getElementById('p-name').value = d.name || '';
+                    document.getElementById('p-idea').value = d.idea || '';
+                    document.getElementById('p-problem').value = d.problem || '';
+                    document.getElementById('p-audience').value = d.audience || '';
                     
-                    if (data.currentStep && data.currentStep >= 1 && data.currentStep <= totalSteps) {
-                        currentStep = data.currentStep;
+                    if (d.uncertainty) {
+                        selectedUncertaintyVal = d.uncertainty;
+                        document.querySelectorAll('input[name="uncertainty"]').forEach(el => {
+                            if (el.value === d.uncertainty) el.checked = true;
+                        });
                     }
+                    document.getElementById('p-uncertainty-note').value = d.uncertaintyNote || '';
+                    document.getElementById('p-hypothesis').value = d.hypothesis || '';
+                    if (d.method) document.getElementById('p-method').value = d.method;
+                    document.getElementById('p-target-audience').value = d.targetAudience || '';
+                    document.getElementById('p-acquisition-channel').value = d.channel || '';
+                    document.getElementById('p-execution-steps').value = d.steps || '';
+                    document.getElementById('p-expected-behavior').value = d.behavior || '';
+                    document.getElementById('p-duration').value = d.duration || '';
+                    document.getElementById('p-cash-cost').value = d.cost || '';
+                    document.getElementById('p-time-spent').value = d.time || '';
+                    document.getElementById('p-constraints').value = d.constraints || '';
+                    document.getElementById('p-metric').value = d.metric || '';
+                    document.getElementById('p-rule-continue').value = d.rContinue || '';
+                    document.getElementById('p-rule-pivot').value = d.rPivot || '';
+                    document.getElementById('p-rule-stop').value = d.rStop || '';
+                    document.getElementById('p-rule-uncertain').value = d.rUncertain || '';
                 }
             } catch (e) {
-                console.error('Error loading localStorage', e);
+                console.error('Load error:', e);
             }
         }
 
-        function copyCardText() {
-            const data = getFormData();
-            const text = `=== کارت آزمایش: ${data.name} ===\n` +
-                `مخاطب: ${data.audience}\n` +
-                `مسئله: ${data.problem}\n` +
-                `فرضیه: ${data.hypothesis}\n` +
-                `روش: ${data.method}\n` +
-                `معیار موفقیت: ${data.metricName} (هدف: ${data.metricTarget})\n` +
-                `کانال: ${data.channel}\n` +
-                `اقدامات بعدی:\n${data.actions}\n`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                alert('متن کارت آزمایش با موفقیت در کلیپ‌بورد کپی شد!');
-            }).catch(() => {
-                alert('خطا در کپی کردن متن.');
-            });
-        }
-
-        function downloadJSON() {
-            const data = getFormData();
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'experiment-plan.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function resetWizard() {
-            if (confirm('آیا مطمئن هستید که می‌خواهید آزمایش جدیدی شروع کنید؟ اطلاعات فعلی پاک خواهد شد.')) {
+        function resetPlanner() {
+            if (confirm('آیا از شروع آزمایش جدید و پاک کردن اطلاعات فعلی اطمینان دارید؟')) {
                 localStorage.removeItem(STORAGE_KEY);
                 location.reload();
             }
+        }
+
+        function copyCardOutput() {
+            const text = document.getElementById('experiment-card-output').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('کارت برنامه آزمایش با موفقیت در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
         }
     </script>
 </body>
