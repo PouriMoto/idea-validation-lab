@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شروع کنید: نقشه راه اعتبارسنجی ایده | آزمایشگاه تست ایده</title>
+    <title>شروع کنید: نقشه راه و قدم بعدی | آزمایشگاه تست ایده</title>
     <!-- استایل مشترک پروژه -->
     <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .wizard-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 2rem; margin-bottom: 2rem; }
+        .wizard-question { margin-bottom: 1.5rem; }
+        .wizard-question label { display: block; font-weight: bold; color: var(--color-primary); margin-bottom: 0.75rem; font-size: 1.05rem; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; }
+        .option-btn { background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 0.85rem 1rem; text-align: right; cursor: pointer; color: var(--color-text); font-family: inherit; font-size: 0.95rem; transition: all 0.2s ease; }
+        .option-btn:hover { border-color: var(--color-secondary); background: var(--color-surface); }
+        .option-btn.selected { background: var(--color-primary); color: white; border-color: var(--color-primary); font-weight: bold; }
+        .result-recommendation { background: var(--color-background); border: 2px solid var(--color-secondary); border-radius: var(--border-radius); padding: 1.5rem; margin-top: 1.5rem; display: none; }
+        .result-recommendation.active { display: block; }
+        .roadmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .roadmap-card { background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.25rem; }
+        .roadmap-card h4 { color: var(--color-primary); margin-bottom: 0.5rem; }
+        .faq-box { background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.25rem; margin-bottom: 1rem; }
+        .faq-box summary { font-weight: bold; color: var(--color-primary); cursor: pointer; }
+        .faq-box p { margin-top: 0.75rem; font-size: 0.95rem; line-height: 1.7; color: var(--color-muted); }
+    </style>
 </head>
 <body>
 
@@ -14,7 +31,7 @@
         <div class="container header-container">
             <div class="logo">
                 <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
-                <p class="tagline">راهنمای شروع و نقشه راه</p>
+                <p class="tagline">راهنمای شروع و انتخاب قدم بعدی</p>
             </div>
             <nav class="site-nav">
                 <a href="../index.html">صفحه اصلی</a>
@@ -24,147 +41,165 @@
         </div>
     </header>
 
-    <main class="container section-container">
-        <!-- Breadcrumb / مسیر راهنما -->
-        <div class="breadcrumb" style="margin-bottom: 2rem; color: var(--color-muted); font-size: 0.9rem;">
+    <main class="container section-container" style="max-width: 950px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
             <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#guides">راهنماها</a> / <span>شروع کنید</span>
         </div>
 
-        <!-- Guide Header / هدر راهنما -->
-        <div class="guide-header card" style="margin-bottom: 2.5rem; background: var(--color-surface);">
+        <!-- Guide Header -->
+        <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
             <span class="badge" style="background: var(--color-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">راهنمای شماره ۰۰</span>
-            <h2 style="margin-top: 0.75rem; color: var(--color-primary);">از کجا شروع کنم؟ (نقشه راه اعتبارسنجی)</h2>
-            <p style="color: var(--color-muted); margin-top: 0.5rem; font-size: 1.1rem;">راهنمای گام‌به‌گام برای کارآفرینان تازه‌کار تا بدانند از میان ایده‌ها، ابزارها و راهنماها از کدام نقطه شروع کنند و مسیر خود را چگونه پیش ببرند.</p>
+            <h2 style="margin-top: 0.75rem; color: var(--color-primary);">برای ایده‌ات قدم بعدی را پیدا کن</h2>
+            <p style="color: var(--color-muted); margin-top: 0.5rem; font-size: 1.1rem;">لازم نیست از ابتدا همه‌چیز را بدانی. وضعیت فعلی‌ات را انتخاب کن تا ببینی چه کاری برایت مفیدتر است.</p>
         </div>
 
-        <!-- Table of Contents / فهرست مطالب -->
-        <div class="card" style="background: var(--color-background); margin-bottom: 2rem;">
-            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">فهرست مطالب این راهنما</h4>
-            <ul style="padding-right: 1.2rem; line-height: 1.8; font-size: 0.95rem;">
-                <li><a href="#section-1">۱. شروع از مسئله، نه از ساخت محصول</a></li>
-                <li><a href="#section-2">۲. مسیر اصلی اعتبارسنجی (گام‌به‌گام)</a></li>
-                <li><a href="#section-3">۳. تفاوت مفاهیم پایه در اعتبارسنجی</a></li>
-                <li><a href="#section-4">۴. انتخاب مسیر بر اساس وضعیت فعلی شما</a></li>
-                <li><a href="#section-5">۵. اولین آزمایش در عمل (تمرین کوتاه)</a></li>
-                <li><a href="#section-6">۶. اشتباهات رایج تازه‌کارها</a></li>
-                <li><a href="#section-7">۷. تعریف پایان یک دور آزمایش</a></li>
-            </ul>
-        </div>
+        <!-- بخش اول: شروع سریع و تعاملی -->
+        <section class="wizard-card">
+            <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.3rem;">تشخیص وضعیت فعلی و پیشنهاد قدم بعدی</h3>
 
-        <!-- Section 1: Start from the problem -->
-        <section id="section-1" class="guide-section card" style="margin-bottom: 2rem;">
-            <h3 style="color: var(--color-primary);">۱. شروع از مسئله، نه از ساخت محصول</h3>
-            <p style="margin-top: 0.75rem;">بسیاری از افراد وقتی ایده جدیدی به ذهنشان می‌رسد، بلافاصله به فکر ساخت اپلیکیشن، طراحی وب‌سایت پیچیده یا ثبت شرکت می‌افتند. فرض کنید فردی تصمیم می‌گیرد یک سامانه آنلاین تحویل پوشاک محلی راه‌اندازی کند؛ اما بدون اینکه بداند آیا اصلاً افراد ترجیح می‌دهند لباس‌هایشان را به شخص دیگری بسپارند یا خیر.</p>
-            <p style="margin-top: 0.5rem;">ساخت محصول بدون شناخت دقیق مسئله، یعنی شلیک در تاریکی. پیش از هرگونه توسعه‌ای، باید مطمئن شویم که مخاطب با مشکلی دردناک روبه‌روست که برای حل آن حاضر است وقت یا پول صرف کند.</p>
+            <!-- سؤال اول -->
+            <div class="wizard-question">
+                <label>۱. الان بیشتر به چه چیزی نیاز داری؟</label>
+                <div class="options-grid" id="q1-options">
+                    <button type="button" class="option-btn" onclick="selectOption('q1', 0, this)">هنوز نمی‌دانم مشتری من چه کسی است.</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q1', 1, this)">مشتری احتمالی را می‌شناسم، اما از واقعی‌بودن مسئله مطمئن نیستم.</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q1', 2, this)">می‌خواهم ایده‌ام را بدون ساخت محصول آزمایش کنم.</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q1', 3, this)">آزمایش کرده‌ام و می‌خواهم نتایج را بررسی کنم.</button>
+                </div>
+            </div>
+
+            <!-- سؤال دوم -->
+            <div class="wizard-question">
+                <label>۲. آیا تاکنون با مشتریان احتمالی صحبت کرده‌ای؟</label>
+                <div class="options-grid" id="q2-options">
+                    <button type="button" class="option-btn" onclick="selectOption('q2', 0, this)">هنوز نه</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q2', 1, this)">با چند نفر صحبت کرده‌ام</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q2', 2, this)">با افراد مناسب صحبت کرده‌ام و شواهدی دارم</button>
+                </div>
+            </div>
+
+            <!-- سؤال سوم -->
+            <div class="wizard-question">
+                <label>۳. آیا چیزی برای ارائه ساخته‌ای؟</label>
+                <div class="options-grid" id="q3-options">
+                    <button type="button" class="option-btn" onclick="selectOption('q3', 0, this)">هنوز هیچ‌چیز نساخته‌ام</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q3', 1, this)">یک توضیح، نمونه ساده یا صفحه معرفی دارم</button>
+                    <button type="button" class="option-btn" onclick="selectOption('q3', 2, this)">محصول یا خدمت قابل ارائه دارم</button>
+                </div>
+            </div>
+
+            <!-- نتیجه پیشنهادی -->
+            <div id="recommendation-box" class="result-recommendation">
+                <span class="badge" style="background: var(--color-primary); color: white; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem;">قدم بعدی پیشنهادی</span>
+                <h4 id="rec-title" style="color: var(--color-primary); margin-top: 0.75rem; font-size: 1.2rem;"></h4>
+                <p id="rec-desc" style="color: var(--color-muted); margin-top: 0.5rem; line-height: 1.7; font-size: 0.95rem;"></p>
+                <div style="margin-top: 1.25rem;">
+                    <a id="rec-link" href="#" class="btn btn-primary">شروع این مرحله ←</a>
+                </div>
+            </div>
         </section>
 
-        <!-- Section 2: Main Validation Path -->
-        <section id="section-2" class="guide-section card" style="margin-bottom: 2rem;">
-            <h3 style="color: var(--color-primary);">۲. مسیر اصلی اعتبارسنجی</h3>
-            <p style="margin-top: 0.75rem;">این آزمایشگاه شما را در ۷ گام منطقی همراهی می‌کند:</p>
+        <!-- بخش دوم: نقشه ساده مسیر -->
+        <section class="card" style="margin-bottom: 2rem; background: var(--color-surface);">
+            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">نقشه ساده مسیر اعتبارسنجی</h3>
+            <p style="color: var(--color-muted); font-size: 0.9rem; margin-bottom: 1rem;">برای پیشبرد منظم کار، از این گام‌ها استفاده کنید:</p>
+
+            <div class="roadmap-grid">
+                <div class="roadmap-card">
+                    <h4>۱. مسئله را مشخص کن</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.75rem;">بفهم مخاطب با چه دردی درگیر است.</p>
+                    <a href="01-business-basics.html" style="font-size: 0.85rem; color: var(--color-secondary);">شناخت کسب‌وکار ←</a>
+                </div>
+                <div class="roadmap-card">
+                    <h4>۲. مخاطب را بشناس</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.75rem;">دقیقاً بدان چه کسی واجد شرایط است.</p>
+                    <a href="04-audience-acquisition.html" style="font-size: 0.85rem; color: var(--color-secondary);">جذب مخاطب ←</a>
+                </div>
+                <div class="roadmap-card">
+                    <h4>۳. فرضیه قابل آزمون بنویس</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.75rem;">ادعای مشخص خود را مکتوب کن.</p>
+                    <a href="../workbench/experiment-planner.html" style="font-size: 0.85rem; color: var(--color-secondary);">برنامه‌ریز آزمایش ←</a>
+                </div>
+                <div class="roadmap-card">
+                    <h4>۴. آزمایش کوچکی طراحی کن</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.75rem;">بدون ساخت محصول تقاضا را بسنج.</p>
+                    <a href="02-experiments-without-product.html" style="font-size: 0.85rem; color: var(--color-secondary);">روش‌های بدون محصول ←</a>
+                </div>
+                <div class="roadmap-card">
+                    <h4>۵. رفتار و شواهد را ثبت کن</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.75rem;">داده‌های عینی را یادداشت کن.</p>
+                    <a href="05-tools-and-measurement.html" style="font-size: 0.85rem; color: var(--color-secondary);">ابزارها و سنجش ←</a>
+                </div>
+                <div class="roadmap-card">
+                    <h4>۶. نتیجه را بررسی و تصمیم بگیر</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.75rem;">ادامه، اصلاح یا توقف؟</p>
+                    <a href="06-results-and-decisions.html" style="font-size: 0.85rem; color: var(--color-secondary);">تحلیل نتایج ←</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش سوم: رفع ابهام (مفاهیم پایه) -->
+        <section class="card" style="margin-bottom: 2rem; background: var(--color-surface);">
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem;">رفع ابهام و تفاوت مفاهیم کلیدی</h3>
             
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۱: تعریف مسئله و ایده</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: درد اصلی مخاطب چیست؟ | <a href="01-business-basics.html">مطالعه راهنمای شناخت کسب‌وکار</a></p>
+            <details class="faq-box">
+                <summary>ایده با فرضیه چه تفاوتی دارد؟</summary>
+                <p>ایده یک تصویر ذهنی یا تصور کلی از یک کسب‌وکار است؛ اما فرضیه یک ادعای مشخص، قابل سنجش و آسیب‌پذیر است که می‌توان آن را با یک آزمایش رد یا تأیید کرد.</p>
+            </details>
+
+            <details class="faq-box">
+                <summary>تعریف‌کردن از ایده چه تفاوتی با رفتار واقعی مشتری دارد؟</summary>
+                <p>دوستان و آشنایان معمولاً از روی محبت از ایده شما تعریف می‌کنند (بازخورد کلامی). اما رفتار واقعی زمانی است که مخاطب برای حل مسئله وقت، توجه یا پول واقعی صرف کند.</p>
+            </details>
+
+            <details class="faq-box">
+                <summary>علاقه چه تفاوتی با تعهد دارد؟</summary>
+                <p>لبخند زدن یا لایک کردن یک پست، نشانه علاقه است. تعهد یعنی اقدامی معنادار و پرهزینه‌تر مانند حضور در مصاحبه وقت‌گیر یا پرداخت بیعانه.</p>
+            </details>
+
+            <details class="faq-box">
+                <summary>بازدید صفحه چه چیزی را نشان می‌دهد و چه چیزی را ثابت نمی‌کند؟</summary>
+                <p>بازدید بالا فقط نشان می‌دهد که عنوان یا بنر شما دیده شده است؛ اما هرگز اثبات‌کننده تقاضا برای خرید یا حل مشکل نیست.</p>
+            </details>
+
+            <details class="faq-box" style="margin-bottom: 0;">
+                <summary>نتیجه منفی چه تفاوتی با آزمایش ناموفق یا نامشخص دارد؟</summary>
+                <p>نتیجه منفی یعنی فرض شما رد شده که بسیار ارزشمند است (چون مسیر اشتباه را ادامه نمی‌دهید). نتیجه نامشخص یعنی داده کافی ندارید.</p>
+            </details>
+        </section>
+
+        <!-- بخش چهارم: اولین اقدام (تمرین کوتاه و قابل کپی) -->
+        <section class="card" style="background: var(--color-background); border-color: var(--color-secondary);">
+            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">تمرین کوتاه: اولین اقدام شما</h3>
+            <p style="font-size: 0.9rem; color: var(--color-muted); margin-bottom: 1.5rem;">برای شروع سریع، پاسخ‌های خود را یادداشت کنید و در صورت نیاز متن را کپی کنید:</p>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label style="font-weight: bold; font-size: 0.9rem; color: var(--color-primary);">۱. چه ایده‌ای را بررسی می‌کنم؟</label>
+                    <input type="text" id="ex-idea" placeholder="مثلاً: سامانه مدیریت هزینه‌های کارمندان" style="margin-top: 0.3rem;">
                 </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۲: مشخص‌کردن مخاطب هدف</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چه کسی همین امروز با این مشکل درگیر است؟ | <a href="04-audience-acquisition.html">مطالعه راهنمای جذب مخاطب</a></p>
+                <div>
+                    <label style="font-weight: bold; font-size: 0.9rem; color: var(--color-primary);">۲. چه کسی احتمالاً با مسئله روبه‌روست؟</label>
+                    <input type="text" id="ex-audience" placeholder="مثلاً: کارمندان دورکار با درآمد ثابت" style="margin-top: 0.3rem;">
                 </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۳: نوشتن فرضیه قابل آزمون</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چه ادعایی داریم که اگر غلط باشد ارمان‌شهر ما فرو می‌ریزد؟ | <a href="../workbench/experiment-planner.html">ورود به برنامه‌ریز آزمایش</a></p>
+                <div>
+                    <label style="font-weight: bold; font-size: 0.9rem; color: var(--color-primary);">۳. مهم‌ترین چیزی که هنوز نمی‌دانم چیست؟</label>
+                    <input type="text" id="ex-unknown" placeholder="مثلاً: آیا این مشکل برایشان اولویت دارد؟" style="margin-top: 0.3rem;">
                 </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۴: انتخاب کوچک‌ترین آزمایش مفید</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: بدون کدنویسی چطور می‌توانم این فرض را بسنجم؟ | <a href="02-experiments-without-product.html">مطالعه روش‌های بدون محصول</a></p>
+                <div>
+                    <label style="font-weight: bold; font-size: 0.9rem; color: var(--color-primary);">۴. چه رفتار قابل‌مشاهده‌ای می‌تواند به من اطلاعات بدهد؟</label>
+                    <input type="text" id="ex-behavior" placeholder="مثلاً: تعداد کسانی که برای مصاحبه وقت می‌گذارند" style="margin-top: 0.3rem;">
                 </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۵: جذب مخاطب مناسب</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چطور افراد واجد شرایط را پیدا کنم؟ | <a href="03-warm-to-cold-testing.html">مطالعه تست گرم تا سرد</a></p>
-                </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۶: ثبت رفتار و شواهد</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: چه داده عینی از واکنش کاربر دارم؟ | <a href="05-tools-and-measurement.html">مطالعه ابزارها و سنجش</a></p>
-                </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px; border-right: 4px solid var(--color-secondary);">
-                    <strong>گام ۷: بررسی نتیجه و انتخاب اقدام بعدی</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">سؤال راهنما: داده‌ها چه چیزی را نشان می‌دهند؟ | <a href="06-results-and-decisions.html">مطالعه تحلیل نتایج</a></p>
+                <div>
+                    <label style="font-weight: bold; font-size: 0.9rem; color: var(--color-primary);">۵. اولین اقدام مشخص من چیست؟</label>
+                    <input type="text" id="ex-action" placeholder="مثلاً: گفت‌وگو با ۳ نفر از همکاران واجد شرایط" style="margin-top: 0.3rem;">
                 </div>
             </div>
-        </section>
 
-        <!-- Section 3: Core Differences -->
-        <section id="section-3" class="guide-section card" style="margin-bottom: 2rem;">
-            <h3 style="color: var(--color-primary);">۳. تفاوت مفهوم‌های پایه</h3>
-            <p style="margin-top: 0.75rem;">در ادبیات اعتبارسنجی، تفکیک این مفاهیم کلیدی است:</p>
-            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
-                <li><strong>ایده در برابر فرضیه:</strong> ایده یک تصور کلی است، اما فرضیه ادعایی است مشخص و قابل سنجش.</li>
-                <li><strong>مسئله در برابر راه‌حل:</strong> مسئله درد واقعی کاربر است، راه‌حل ابزاری است که ما پیشنهاد می‌دهیم.</li>
-                <li><strong>بازخورد کلامی در برابر شواهد رفتاری:</strong> نظر شخصی افراد ارزش کمتری نسبت به رفتار واقعی آن‌ها (مثل وقت یا پول گذاشتن) دارد.</li>
-                <li><strong>علاقه در برابر تعهد:</strong> لبخند زدن و تعریف کردن از ایده علاقه است، اما پرداخت بیعانه یا وقت گذاشتن برای جلسه تعهد است.</li>
-                <li><strong>نتیجه نامشخص در برابر نتیجه منفی:</strong> نامشخص یعنی داده کافی نداریم، منفی یعنی فرضیه ما رد شده است که هر دو ارزشمندند.</li>
-            </ul>
-        </section>
-
-        <!-- Section 4: Choose Path Based on Status -->
-        <section id="section-4" class="guide-section card" style="margin-bottom: 2rem;">
-            <h3 style="color: var(--color-primary);">۴. انتخاب مسیر بر اساس وضعیت کاربر</h3>
-            <p style="margin-top: 0.75rem;">بسته به اینکه در چه نقطه‌ای قرار دارید، یکی از مسیرهای زیر را انتخاب کنید:</p>
-            <div class="grid-3" style="margin-top: 1rem;">
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
-                    <strong>«هنوز نمی‌دانم مشتری من کیست»</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">مسیر پیشنهادی: شناخت ایده و مخاطب اولیه.<br><a href="01-business-basics.html">رفتن به راهنمای شماره ۰۱ ←</a></p>
-                </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
-                    <strong>«مخاطب را می‌شناسم، اما نمی‌دانم چه آزمایشی اجرا کنم»</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">مسیر پیشنهادی: طراحی برنامه اجرایی.<br><a href="../workbench/experiment-planner.html">ورود به برنامه‌ریز آزمایش ←</a></p>
-                </div>
-                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
-                    <strong>«آزمایش را اجرا کرده‌ام و نمی‌دانم نتیجه چه معنایی دارد»</strong>
-                    <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.5rem;">مسیر پیشنهادی: تحلیل داده‌ها و تصمیم بعدی.<br><a href="06-results-and-decisions.html">رفتن به راهنمای تحلیل نتایج ←</a></p>
-                </div>
-            </div>
-            <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--color-muted);">سایر ابزارهای مفید میز کار شامل <a href="../workbench/interview-builder.html">سازنده مصاحبه</a> و <a href="../workbench/channel-tracker.html">ردیاب کانال</a> نیز در مراحل مختلف به کمک شما می‌آیند.</p>
-        </section>
-
-        <!-- Section 5: First Experiment in Action -->
-        <section id="section-5" class="guide-section card" style="margin-bottom: 2rem;">
-            <h3 style="color: var(--color-primary);">۵. اولین آزمایش در عمل (تمرین کوتاه)</h3>
-            <p style="margin-top: 0.75rem;">برای اینکه کار را شروع کنید، به این ۶ پرسش درباره ایده‌تان فکر کنید (این تمرین جایگزین برنامه‌ریز کامل نمی‌شود):</p>
-            <div style="background: var(--color-background); padding: 1.25rem; border-radius: 6px; margin-top: 1rem;">
-                <ol style="padding-right: 1.2rem; line-height: 2.2;">
-                    <li>چه مسئله‌ای را دارم بررسی می‌کنم؟</li>
-                    <li>چه کسانی این مسئله را به طور ملموس تجربه کرده‌اند؟</li>
-                    <li>چه بخشی از ایده‌ام را هنوز اصلاً نمی‌دانم؟</li>
-                    <li>چه رفتار قابل‌مشاهده‌ای نشان می‌دهد که مخاطب این مشکل را جدی می‌داند؟</li>
-                    <li>کوچک‌ترین آزمایش بدون محصول برای سنجش این مورد چیست؟</li>
-                    <li>نتایج و یادداشت‌هایم را کجا ثبت خواهم کرد؟</li>
-                </ol>
-            </div>
-        </section>
-
-        <!-- Section 6: Common Beginner Mistakes -->
-        <section id="section-6" class="guide-section card" style="margin-bottom: 2rem;">
-            <h3 style="color: var(--color-primary);">۶. اشتباهات رایج تازه‌کارها</h3>
-            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
-                <li>ساخت محصول کامل قبل از اثبات تقاضا و کشف مسئله.</li>
-                <li>پرسیدن سوالات جهت‌دار و تشویق‌کننده از مخاطب.</li>
-                <li>انتخاب دوستان و اعضای خانواده به عنوان تنها گروه نمونه.</li>
-                <li>تفسیر تعداد بازدیدهای بالا به عنوان اثبات قطعی فروش.</li>
-                <li>تغییر دادن چند متغیر مختلف (قیمت، پیام، مخاطب) به‌صورت هم‌زمان در یک آزمایش.</li>
-                <li>ادامه دادن آزمایش بدون داشتن معیارهای موفقیت از پیش‌تعیین‌شده.</li>
-            </ul>
-        </section>
-
-        <!-- Section 7: Definition of Loop End -->
-        <section id="section-7" class="guide-section card" style="background: var(--color-background); border-color: var(--color-secondary);">
-            <h3 style="color: var(--color-primary);">۷. تعریف پایان یک دور آزمایش</h3>
-            <p style="margin-top: 0.5rem;">هدف از اجرای آزمایش‌ها در این جعبه‌ابزار، اثبات صددرصدی موفقیت کسب‌وکار نیست. هدف اصلی این است که <strong>یک لایه از عدم‌قطعیت را کم کنیم</strong> و مشخص کنیم قدم بعدی چیست: آیا مسیر را ادامه می‌دهیم، فرض خود را اصلاح می‌کنیم یا کلاً تغییر مسیر می‌دهیم؟</p>
-            <div style="margin-top: 1.5rem;">
-                <a href="01-business-basics.html" class="btn btn-primary" style="margin-left: 1rem;">شروع گام اول (شناخت کسب‌وکار)</a>
-                <a href="../workbench/experiment-planner.html" class="btn btn-secondary">رفتن به برنامه‌ریز آزمایش</a>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="button" onclick="copyExerciseSummary()" class="btn btn-primary">کپی خلاصه‌ی تمرین</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
             </div>
         </section>
     </main>
@@ -176,5 +211,78 @@
             <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
         </div>
     </footer>
+
+    <!-- جاوااسکریپت تعاملی برای انتخابگر و تمرین -->
+    <script>
+        const state = { q1: null, q2: null, q3: null };
+
+        function selectOption(questionKey, optionIndex, btnElement) {
+            // حذف حالت انتخاب از دکمه‌های هم‌گروه
+            const groupContainer = document.getElementById(questionKey + '-options');
+            groupContainer.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            
+            // انتخاب دکمه جدید
+            btnElement.classList.add('selected');
+            state[questionKey] = optionIndex;
+
+            evaluateRecommendation();
+        }
+
+        function evaluateRecommendation() {
+            // اگر هر ۳ سوال پاسخ داده شده باشند یا حداقل سوال اول پاسخ داده شده باشد
+            if (state.q1 === null) return;
+
+            const box = document.getElementById('recommendation-box');
+            const titleEl = document.getElementById('rec-title');
+            const descEl = document.getElementById('rec-desc');
+            const linkEl = document.getElementById('rec-link');
+
+            box.classList.add('active');
+
+            // منطق انطباق وضعیت کاربر با راهنماها و ابزارها
+            if (state.q1 === 0) {
+                // هنوز مشتری را نمی‌شناسد
+                titleEl.textContent = 'شناخت ایده، مسئله و مخاطب';
+                descEl.textContent = 'از آنجا که هنوز مخاطب و مسئله خود را دقیقاً نمی‌شناسید، بهتر است پیش از هرگونه طراحی آزمایش، با اصول پایه شناخت کسب‌وکار و تعریف مسئله آشنا شوید.';
+                linkEl.textContent = 'مطالعه راهنمای شناخت کسب‌وکار ←';
+                linkEl.href = '01-business-basics.html';
+            } else if (state.q1 === 1) {
+                // مخاطب را می‌شناسد ولی از مسئله مطمئن نیست
+                titleEl.textContent = 'طراحی مصاحبه مسئله‌محور';
+                descEl.textContent = 'برای اطمینان از وجود درد واقعی نزد مخاطب، بهترین ابزار گفت‌وگوی ساختاریافته بدون صحبت از راه‌حل است.';
+                linkEl.textContent = 'ورود به سازنده مصاحبه ←';
+                linkEl.href = '../workbench/interview-builder.html';
+            } else if (state.q1 === 2) {
+                // می‌خواهد بدون ساخت محصول آزمایش کند
+                titleEl.textContent = 'انتخاب روش بدون محصول و برنامه‌ریزی آزمایش';
+                descEl.textContent = 'با توجه به اینکه محصولی نساخته‌اید، بهترین کار انتخاب یک روش کم‌هزینه (مثل لندینگ پیج یا فرم) و طراحی گام‌به‌گام آزمایش است.';
+                linkEl.textContent = 'ورود به برنامه‌ریز آزمایش ←';
+                linkEl.href = '../workbench/experiment-planner.html';
+            } else if (state.q1 === 3) {
+                // آزمایش را اجرا کرده و نتایج را می‌خواهد بررسی کند
+                titleEl.textContent = 'تحلیل نتایج و تصمیم‌گیری';
+                descEl.textContent = 'اکنون که داده‌هایی در اختیار دارید، باید بدون قضاوت شتاب‌زده شواهد را تفکیک کرده و تصمیم بعدی (ادامه، اصلاح یا توقف) را بگیرید.';
+                linkEl.textContent = 'مطالعه راهنمای تحلیل نتایج ←';
+                linkEl.href = '06-results-and-decisions.html';
+            }
+        }
+
+        function copyExerciseSummary() {
+            const text = `=== خلاصه‌ی تمرین اولین اقدام (Idea Validation Lab) ===\n` +
+                `۱. ایده: ${document.getElementById('ex-idea').value || '-'}\n` +
+                `۲. مخاطب: ${document.getElementById('ex-audience').value || '-'}\n` +
+                `۳. نامعلوم‌ترین بخش: ${document.getElementById('ex-unknown').value || '-'}\n` +
+                `۴. رفتار قابل‌مشاهده: ${document.getElementById('ex-behavior').value || '-'}\n` +
+                `۵. اولین اقدام: ${document.getElementById('ex-action').value || '-'}\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const statusEl = document.getElementById('save-status');
+                statusEl.textContent = 'خلاصه‌ی تمرین در کلیپ‌بورد کپی شد.';
+                setTimeout(() => { statusEl.textContent = ''; }, 3000);
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+    </script>
 </body>
 </html>
