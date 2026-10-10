@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب کارت آزمایش (Experiment Card) | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .card-form-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card-hint { font-size: 0.82rem; color: var(--color-muted); margin-top: -0.4rem; margin-bottom: 0.75rem; }
+        .example-box { background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.7; }
+        
+        /* استایل‌های مخصوص چاپ */
+        @media print {
+            body { background: white; color: black; font-size: 12pt; }
+            .site-header, .site-footer, .no-print, button { display: none !important; }
+            .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .card-form-section { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; page-break-inside: avoid; margin-bottom: 1rem !important; padding: 1rem !important; }
+            input, textarea { border: none !important; border-bottom: 1px solid #999 !important; background: transparent !important; padding: 0.2rem 0 !important; font-family: inherit; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header no-print">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">قالب قالب کارت آزمایش</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="../workbench/experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="../index.html#templates">سایر قالب‌ها</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 850px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb no-print" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <span>قالب کارت آزمایش</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card no-print" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">قالب کارت آزمایش (Experiment Card Template)</h2>
+            <p style="color: var(--color-muted);">یک قالب ساده و استاندارد برای مکتوب کردن طرح آزمایش، قراردادن روی میز کار یا چاپ کردن به عنوان مرجع اجرایی.</p>
+            
+            <details style="margin-top: 1rem;">
+                <summary>💡 مشاهده مثال آموزشی (خدمات برنامه‌ریزی مالی شخصی)</summary>
+                <div class="example-box" style="margin-top: 0.75rem;">
+                    <p><strong>عنوان آزمایش:</strong> سنجش تمایل به رزرو مشاوره مالی شخصی</p>
+                    <p><strong>مسئله:</strong> کارمندان در پایان ماه دچار ابهام در مدیریت هزینه‌های خرد می‌شوند.</p>
+                    <p><strong>فرضیه قابل آزمون:</strong> اگر به کارمندان دورکار پیشنهاد بررسی دستی بودجه بدهیم، حداقل ۱۰ نفر فرم درخواست را تکمیل می‌کنند.</p>
+                    <p><strong>گروه مخاطب و معیار:</strong> کارمندان دورکار با حداقل ۲ سال سابقه که ماه گذشته دغدغه پس‌انداز داشتند.</p>
+                    <p><strong>روش و کوچک‌ترین اجرا:</strong> انتشار پست در کانال تخصصی و قرار دادن لینک فرم ساده درخواست مصاحبه.</p>
+                </div>
+            </details>
+        </div>
+
+        <form id="experiment-card-form">
+            
+            <!-- فیلدهای کارت آزمایش -->
+            <div class="card-form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">مشخصات اصلی آزمایش</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label>۱. عنوان آزمایش</label>
+                    <input type="text" id="card-title" placeholder="نام یا عنوان کوتاه آزمایش">
+                    <p class="card-hint">یک نام صریح که هدف این دور آزمایش را نشان دهد.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>۲. مسئله یا فرصت</label>
+                    <textarea id="card-problem" rows="2" placeholder="چه مشکلی را داریم بررسی می‌کنیم؟"></textarea>
+                    <p class="card-hint">درد یا چالشی که مخاطب با آن روبه‌روست.</p>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>۳. فرضیه قابل آزمون</label>
+                    <textarea id="card-hypothesis" rows="2" placeholder="اگر [اقدام ما] را انجام دهیم، [مخاطب] چنین [رفتاری] نشان خواهد داد، زیرا..."></textarea>
+                    <p class="card-hint">ادعایی مشخص که با این آزمایش رد یا تأیید می‌شود.</p>
+                </div>
+            </div>
+
+            <div class="card-form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">مخاطب و روش اجرا</h3>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۴. گروه مخاطب هدف</label>
+                        <input type="text" id="card-audience" placeholder="دقیقاً چه کسانی؟">
+                        <p class="card-hint">ویژگی‌های مشخص جامعه هدف.</p>
+                    </div>
+                    <div>
+                        <label>۵. معیار واجد شرایط بودن مخاطب</label>
+                        <input type="text" id="card-qualification" placeholder="شرط اصلی واجد شرایط بودن">
+                        <p class="card-hint">چه ویژگی‌ای نشان می‌دهد فرد واقعاً درگیر مسئله است؟</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۶. روش آزمایش</label>
+                        <input type="text" id="card-method" placeholder="مثلاً: صفحه فرود، مصاحبه، ارائه دستی">
+                        <p class="card-hint">کدام روش بدون محصول را انتخاب کرده‌اید؟</p>
+                    </div>
+                    <div>
+                        <label>۷. کوچک‌ترین اجرای ممکن (MVP Test)</label>
+                        <input type="text" id="card-mvp" placeholder="ساده‌ترین شکل پیاده‌سازی">
+                        <p class="card-hint">کمترین میزان کار برای دریافت پاسخ.</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>۸. اقدام مورد انتظار از مخاطب (Call to Action)</label>
+                    <input type="text" id="card-cta" placeholder="مخاطب چه قدم معناداری برمی‌دارد؟">
+                    <p class="card-hint">مثلاً تکمیل فرم، رزرو جلسه یا پرداخت بیعانه.</p>
+                </div>
+            </div>
+
+            <div class="card-form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">شاخص‌ها، تصمیم و منابع</h3>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۹. معیار اصلی سنجش (Metric)</label>
+                        <input type="text" id="card-metric" placeholder="مثلاً: تعداد درخواست‌های معتبر">
+                        <p class="card-hint">ملاک کمی بررسی موفقیت این آزمایش.</p>
+                    </div>
+                    <div>
+                        <label>۱۰. شرط تصمیم‌گیری پیش‌تعیین‌شده</label>
+                        <input type="text" id="card-success-rule" placeholder="چه عددی نشان‌دهنده ادامه است؟">
+                        <p class="card-hint">شرطی که پیش از شروع آزمایش مشخص کرده‌اید.</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-3">
+                    <div>
+                        <label>۱۱. مدت آزمایش</label>
+                        <input type="text" id="card-duration" placeholder="مثلاً: ۷ روز">
+                    </div>
+                    <div>
+                        <label>۱۲. هزینه نقدی و زمانی</label>
+                        <input type="text" id="card-cost" placeholder="مثلاً: صفر / ۱۰ ساعت">
+                    </div>
+                    <div>
+                        <label>۱۳. تاریخ شروع و بازبینی</label>
+                        <input type="text" id="card-dates" placeholder="شروع: [تاریخ] / بازبینی: [تاریخ]">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>۱۴. محدودیت‌ها، ریسک‌ها و یادداشت‌ها</label>
+                    <textarea id="card-risks" rows="2" placeholder="چه موانعی ممکن است پیش بیاید؟"></textarea>
+                </div>
+            </div>
+
+            <!-- دکمه‌های کنترل -->
+            <div class="no-print" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="window.print()" class="btn btn-primary">چاپ کارت آزمایش / PDF</button>
+                <button type="button" onclick="copyCardText()" class="btn btn-secondary">کپی متن کارت</button>
+                <button type="button" onclick="clearCardForm()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن فرم</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer no-print">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت ساده برای کپی و پاک کردن -->
+    <script>
+        function clearCardForm() {
+            if (confirm('آیا از پاک کردن تمام مقادیر فرم اطمینان دارید؟')) {
+                document.getElementById('experiment-card-form').reset();
+            }
+        }
+
+        function copyCardText() {
+            const text = `=== کارت آزمایش (Idea Validation Lab) ===\n` +
+                `۱. عنوان: ${document.getElementById('card-title').value}\n` +
+                `۲. مسئله: ${document.getElementById('card-problem').value}\n` +
+                `۳. فرضیه: ${document.getElementById('card-hypothesis').value}\n` +
+                `۴. مخاطب: ${document.getElementById('card-audience').value}\n` +
+                `۵. معیار واجد شرایط بودن: ${document.getElementById('card-qualification').value}\n` +
+                `۶. روش آزمایش: ${document.getElementById('card-method').value}\n` +
+                `۷. کوچک‌ترین اجرا: ${document.getElementById('card-mvp').value}\n` +
+                `۸. اقدام مورد انتظار: ${document.getElementById('card-cta').value}\n` +
+                `۹. معیار اصلی: ${document.getElementById('card-metric').value}\n` +
+                `۱۰. شرط تصمیم‌گیری: ${document.getElementById('card-success-rule').value}\n` +
+                `۱۱. مدت و هزینه: ${document.getElementById('card-duration').value} | ${document.getElementById('card-cost').value}\n` +
+                `۱۲. تاریخ‌ها: ${document.getElementById('card-dates').value}\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const statusEl = document.getElementById('save-status');
+                statusEl.textContent = 'متن کارت با موفقیت در کلیپ‌بورد کپی شد.';
+                setTimeout(() => { statusEl.textContent = ''; }, 3000);
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+    </script>
+</body>
+</html>
