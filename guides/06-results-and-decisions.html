@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل نتایج و تصمیم‌گیری | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">راهنمای تحلیل نتایج و تصمیم‌گیری</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="05-tools-and-measurement.html">راهنمای قبلی</a>
+                <a href="../workbench/experiment-review.html" class="nav-btn">بررسی آزمایش</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container">
+        <!-- Breadcrumb / مسیر راهنما -->
+        <div class="breadcrumb" style="margin-bottom: 2rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#guides">راهنماها</a> / <span>تحلیل نتایج و تصمیم‌گیری</span>
+        </div>
+
+        <!-- Guide Header / هدر راهنما -->
+        <div class="guide-header card" style="margin-bottom: 2.5rem; background: var(--color-surface);">
+            <span class="badge" style="background: var(--color-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">راهنمای شماره ۰۶</span>
+            <h2 style="margin-top: 0.75rem; color: var(--color-primary);">تحلیل نتایج و تصمیم‌گیری</h2>
+            <p style="color: var(--color-muted); margin-top: 0.5rem; font-size: 1.1rem;">چگونه داده‌های یک آزمایش را بدون نتیجه‌گیری شتاب‌زده یا تفسير بیش‌ازحد به اقدام بعدی تبدیل کنیم.</p>
+        </div>
+
+        <!-- Table of Contents / فهرست مطالب -->
+        <div class="card" style="background: var(--color-background); margin-bottom: 2rem;">
+            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">فهرست مطالب این راهنما</h4>
+            <ul style="padding-right: 1.2rem; line-height: 1.8; font-size: 0.95rem;">
+                <li><a href="#section-1">۱. پیش از دیدن نتایج: تعاریف و آستانه‌ها</a></li>
+                <li><a href="#section-2">۲. تفکیک سطوح مختلف نتیجه‌گیری</a></li>
+                <li><a href="#section-3">۳. فرمول‌های محاسباتی و نکات مخرج صفر</a></li>
+                <li><a href="#section-4">۴. نمونه داده فرضی و تحلیل مراحل</a></li>
+                <li><a href="#section-5">۵. واکاوی پاسخ‌های منفی و دلایل آن</a></li>
+                <li><a href="#section-6">۶. سه تصمیم اصلی پس از آزمایش</a></li>
+                <li><a href="#section-7">۷. قالب گزارش نهایی یک‌صفحه‌ای</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Before seeing results -->
+        <section id="section-1" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۱. پیش از دیدن نتایج: تعاریف و آستانه‌ها</h3>
+            <p style="margin-top: 0.75rem;">تصمیم‌گیری درست بعد از آزمایش، به شفافیت پیش از شروع آن وابسته است. پیش از اجرای هر آزمایش باید مشخص کنید:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li>فرضیه اصلی که قرار است سنجیده شود چیست؟</li>
+                <li>تعریف دقیق مخاطب واجد شرایط چیست؟</li>
+                <li>چه رویدادی موفقیت محسوب می‌شود (مثلاً ثبت‌نام در لیست یا رزرو جلسه)؟</li>
+                <li>حداقل شواهد موردنیاز و زمان توقف آزمایش چقدر است؟</li>
+            </ul>
+            <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--color-muted);">💡 توجه: هیچ آستانه عمومی و جادویی (مثل نرخ تبدیل ۵ درصد) وجود ندارد؛ آستانه‌ها باید با توجه به نوع کسب‌وکار، هزینه، ریسک و مرحله آزمایش تعیین شوند.</p>
+        </section>
+
+        <!-- Section 2: Breaking down results -->
+        <section id="section-2" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۲. تفکیک سطوح مختلف نتیجه‌گیری</h3>
+            <p style="margin-top: 0.75rem;">داده‌های آزمایش را در سطوح زیر جداگانه بررسی کنید تا دچار خطای تفسیر نشوید:</p>
+            <div class="grid-2" style="margin-top: 1rem;">
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>توجه و بازدید:</strong> نشان‌دهنده دیده شدن پیام است، اما اثبات‌کننده علاقه یا تقاضا نیست.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>علاقه و شروع تعامل:</strong> نشان می‌دهد عنوان یا پیشنهاد اولیه کنجکاوی ایجاد کرده است.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>تکمیل تعامل و درخواست:</strong> نشان‌دهنده تمایل جدی‌تر برای کسب اطلاعات یا ثبت‌نام است.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>تعهد یا پرداخت واقعی:</strong> بالاترین سطح شواهد؛ نشان‌دهنده ارزش واقعی و تمایل به پرداخت است.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Calculation Formulas -->
+        <section id="section-3" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۳. فرمول‌های محاسباتی</h3>
+            <p style="margin-top: 0.75rem;">معیارهای اصلی را با استفاده از مخرج‌های روشن و سازگار محاسبه کنید:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li><strong>نرخ پاسخ:</strong> تعداد پاسخ‌ها ÷ تعداد پیام‌های تحویل‌شده</li>
+                <li><strong>نرخ شروع تعامل:</strong> تعداد شروع‌ها ÷ تعداد بازدیدهای واجد شرایط</li>
+                <li><strong>نرخ تکمیل:</strong> تعداد تکمیل‌ها ÷ تعداد شروع‌کنندگان</li>
+                <li><strong>نرخ تبدیل به درخواست:</strong> تعداد درخواست‌ها ÷ تعداد بازدیدهای واجد شرایط</li>
+                <li><strong>هزینه نقدی هر درخواست:</strong> هزینه نقدی آزمایش ÷ تعداد درخواست‌ها (اگر درخواست صفر باشد، هزینه تعریف‌پذیر نیست و نباید صفر نمایش داده شود).</li>
+                <li><strong>هزینه زمانی هر درخواست:</strong> ساعات کل صرف‌شده ÷ تعداد درخواست‌ها</li>
+            </ul>
+        </section>
+
+        <!-- Section 4: Sample Data Example -->
+        <section id="section-4" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۴. نمونه داده فرضی و تحلیل مراحل</h3>
+            <p style="margin-top: 0.75rem;">فرض کنید در یک آزمایش فرضی:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.5rem;">
+                <li>تعداد بازدیدکنندگان واجد شرایط: ۱۰۰ نفر</li>
+                <li>تعداد شروع‌کنندگان تعامل (کلیک روی فرم): ۴۰ نفر</li>
+                <li>تعداد تکمیل‌کنندگان فرم (درخواست ثبت‌شده): ۱۰ نفر</li>
+                <li>تعداد خرید یا پرداخت واقعی: صفر نفر</li>
+            </ul>
+            <p style="margin-top: 0.75rem; font-size: 0.95rem; color: var(--color-secondary);"><strong>تحلیل:</strong> نرخ تکمیل مناسب است (۲۵ درصد از شروع‌کنندگان فرم را کامل کرده‌اند)، اما صفر بودن پرداخت‌ها نشان می‌دهد که اگرچه فرم برای عده‌ای جذاب بوده، اما هنوز تمایل به پرداخت یا تعهد جدی اثبات نشده است.</p>
+        </section>
+
+        <!-- Section 5: Negative Feedback -->
+        <section id="section-5" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۵. بررسی پاسخ‌های منفی و رهاکردن</h3>
+            <p style="margin-top: 0.75rem;">آمار خام علت شکست یا عدم استقبال را نشان نمی‌دهد. دلایل احتمالی را باید با مصاحبه یا بررسی کیفی واکاوی کرد:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.75rem;">
+                <li>مسئله برای مخاطب اولویت یا اهمیت بالایی نداشته است.</li>
+                <li>پیشنهاد یا ارزش آن به اندازه کافی شفاف نبوده است.</li>
+                <li>قیمت یا شرایط پیشنهادی مناسب نبوده یا مخاطب اشتباه هدف‌گرفته شده است.</li>
+                <li>اعتماد کافی در نگاه اول شکل نگرفته است.</li>
+            </ul>
+        </details>
+        </section>
+
+        <!-- Section 6: Three Main Decisions -->
+        <section id="section-6" class="guide-section card" style="margin-bottom: 2rem;">
+            <h3 style="color: var(--color-primary);">۶. سه تصمیم اصلی پس از آزمایش</h3>
+            <p style="margin-top: 0.75rem;">پس از بررسی شواهد، یکی از این سه تصمیم را اتخاذ کنید (از برچسب‌های مطلق شکست یا موفقیت پرهیز کنید):</p>
+            <div class="grid-3" style="margin-top: 1rem;">
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>ادامه آزمایش:</strong> شواهد اولیه امیدوارکننده است اما هنوز برای اطمینان کامل به داده‌های بیشتری نیاز داریم.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>اصلاح و تکرار:</strong> یک بخش مشخص از فرض، پیام یا مخاطب نیاز به تغییر و آزمایش مجدد دارد.
+                </div>
+                <div style="background: var(--color-background); padding: 1rem; border-radius: 6px;">
+                    <strong>توقف یا تغییر مسیر:</strong> شواهد، هزینه‌ها یا ریسک‌ها ادامه دادن در این مسیر را توجیه نمی‌کنند.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: One-Page Report Template -->
+        <section id="section-7" class="guide-section card" style="background: var(--color-background); border-color: var(--color-secondary);">
+            <h3 style="color: var(--color-primary);">۷. گزارش نهایی یک‌صفحه‌ای و اقدام بعدی</h3>
+            <p style="margin-top: 0.5rem;">برای ثبت نتایج آزمایش خود می‌توانید از قالب زیر استفاده کنید:</p>
+            <ul style="padding-right: 1.5rem; line-height: 2; margin-top: 0.5rem; font-size: 0.95rem;">
+                <li><strong>فرضیه و مخاطب:</strong> (خلاصه فرض اولیه)</li>
+                <li><strong>روش و مدت اجرا:</strong> (نوع آزمایش و روزهای صرف‌شده)</li>
+                <li><strong>هزینه نقدی و زمانی:</strong> (میزان منابع مصرفی)</li>
+                <li><strong>نتایج کمی و مشاهدات کیفی:</strong> (آمار و بازخوردهای دریافتی)</li>
+                <li><strong>تصمیم نهایی:</strong> (ادامه، اصلاح یا توقف)</li>
+            </ul>
+            <div style="margin-top: 1.5rem;">
+                <a href="../workbench/experiment-review.html" class="btn btn-primary" style="margin-left: 1rem;">ورود به ابزار بررسی آزمایش</a>
+                <a href="../workbench/experiment-planner.html" class="btn btn-secondary">ساخت آزمایش جدید</a>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-muted);">
+                سایر راهنماها: <a href="00-start-here.html">شروع کنید</a> | <a href="01-business-basics.html">شناخت کسب‌وکار</a> | <a href="02-experiments-without-product.html">روش‌های بدون محصول</a> | <a href="03-warm-to-cold-testing.html">تست گرم تا سرد</a> | <a href="04-audience-acquisition.html">جذب مخاطب</a> | <a href="05-tools-and-measurement.html">ابزارها و سنجش</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+</body>
+</html>
