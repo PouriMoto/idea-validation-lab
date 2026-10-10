@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سازنده مصاحبه و ثبت یادداشت | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .section-box { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; }
+        .question-item { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; align-items: center; }
+        .question-item input { margin-bottom: 0; flex: 1; }
+        .tab-buttons { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .tab-btn { background: var(--color-background); border: 1px solid var(--color-border); padding: 0.5rem 1rem; border-radius: var(--border-radius); cursor: pointer; font-weight: 600; color: var(--color-text); }
+        .tab-btn.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .table-container { overflow-x: auto; margin-top: 1rem; }
+        table.notes-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        table.notes-table th, table.notes-table td { padding: 0.5rem; border: 1px solid var(--color-border); }
+        table.notes-table th { background: var(--color-background); color: var(--color-primary); }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">میز کار: سازنده مصاحبه و ثبت یادداشت</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="channel-tracker.html">ردیاب کانال</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 1000px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>سازنده مصاحبه</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">سازنده راهنمای مصاحبه و ثبت یافته‌ها</h2>
+            <p style="color: var(--color-muted);">طراحی پرسش‌های خنثی و مسئله‌محور برای کشف رفتار واقعی مشتری، ثبت یادداشت‌های مصاحبه و استخراج الگوهای رفتاری.</p>
+            
+            <details style="margin-top: 1rem;">
+                <summary>💡 اصول طلایی مصاحبه اثربخش</summary>
+                <div style="margin-top: 0.5rem; font-size: 0.95rem; line-height: 1.8;">
+                    <p><strong>خوب:</strong> «آخرین بار که با این مشکل روبه‌رو شدی، چه کار کردی؟» (تمرکز بر رفتار گذشته)</p>
+                    <p><strong>نامناسب:</strong> «اگر اپلیکیشن ما این مشکل را حل کند، حاضری پول بدهی؟» (سوال فرضی و القایی که معمولاً تعارف به همراه دارد)</p>
+                    <p>به‌یاد داشته باشید: شما به دنبال کشف حقیقتِ رفتار گذشته مخاطب هستید، نه تأیید ایده‌تان توسط دیگران.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- Tab Navigation / تب‌های ابزار -->
+        <div class="tab-buttons">
+            <button type="button" class="tab-btn active" onclick="switchTab(1)">۱. اطلاعات اولیه</button>
+            <button type="button" class="tab-btn" onclick="switchTab(2)">۲. راهنمای مصاحبه</button>
+            <button type="button" class="tab-btn" onclick="switchTab(3)">۳. یادداشت‌های مصاحبه</button>
+            <button type="button" class="tab-btn" onclick="switchTab(4)">۴. جمع‌بندی و الگوها</button>
+        </div>
+
+        <form id="interview-builder-form">
+            
+            <!-- تب ۱: اطلاعات اولیه -->
+            <div id="tab-1" class="tab-content active section-box">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۱: مشخصات اولیه مصاحبه</h3>
+                <p style="color: var(--color-muted); margin-bottom: 1.5rem;">چهارچوب و هدف اصلی گفتگو با مخاطب را مشخص کنید.</p>
+                
+                <div style="margin-bottom: 1.2rem;">
+                    <label>عنوان فرضیه یا پروژه</label>
+                    <input type="text" id="iv-hypothesis" placeholder="مثلاً: سنجش مشکل مدیریت هزینه‌های ماهانه کارمندان">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>گروه مخاطب موردنظر</label>
+                    <input type="text" id="iv-audience" placeholder="مثلاً: کارمندان دفتری ۲۵ تا ۳۵ ساله">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>مسئله اصلی که می‌خواهیم بررسی کنیم</label>
+                    <textarea id="iv-problem" rows="2" placeholder="مثلاً: عدم آگاهی دقیق از نحوه خرج‌کردن پس‌انداز در روزهای پایانی ماه"></textarea>
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>رفتار یا موقعیت گذشته‌ای که باید کشف شود</label>
+                    <input type="text" id="iv-behavior" placeholder="مثلاً: آخرین باری که برای کنترل هزینه بودجه‌بندی کردید چه زمانی بود؟">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>مدت زمان هدف گفت‌وگو (دقیقه)</label>
+                    <input type="number" id="iv-duration" value="15" min="5" max="60">
+                </div>
+            </div>
+
+            <!-- تب ۲: راهنمای مصاحبه -->
+            <div id="tab-2" class="tab-content section-box">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۲: راهنمای ساختاریافته مصاحبه</h3>
+                <p style="color: var(--color-muted); margin-bottom: 1.5rem;">سؤالات استاندارد زیر را بر اساس ایده خود بررسی و ویرایش کنید. می‌توانید سوال جدید اضافه کنید.</p>
+                
+                <div id="questions-container">
+                    <!-- سوالات به صورت پویا یا ثابت قرار می‌گیرند -->
+                </div>
+
+                <button type="button" onclick="addQuestionField()" class="btn btn-secondary" style="margin-top: 1rem;">+ افزودن سؤال جدید</button>
+            </div>
+
+            <!-- تب ۳: یادداشت‌های مصاحبه -->
+            <div id="tab-3" class="tab-content section-box">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۳: ثبت یافته‌های مصاحبه با مشتری</h3>
+                <p style="color: var(--color-muted); margin-bottom: 1.5rem;">نظرات، نقل‌قول‌ها و رفتارهای مشاهده‌شده را حین یا بلافاصله پس از مصاحبه یادداشت کنید.</p>
+                
+                <div style="margin-bottom: 1.2rem;">
+                    <label>نام مصاحبه‌شونده (اختیاری یا کدشناسایی)</label>
+                    <input type="text" id="note-interviewee" placeholder="مثلاً: شرکت‌کننده شماره ۱ (علی)">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>نقل‌قول مهم یا پاسخ کلیدی</label>
+                    <textarea id="note-quote" rows="2" placeholder="عبارت دقیقی که کاربر درباره مشکل گفت..."></textarea>
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>راه‌حل فعلی که استفاده می‌کند</label>
+                    <input type="text" id="note-current-solution" placeholder="مثلاً: استفاده از فایل اکسل دستی یا یادداشت در گوشی">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>نشانه‌های شدت مسئله یا درد (چقدر آزاردهنده است؟)</label>
+                    <input type="text" id="note-severity" placeholder="مثلاً: ماه گذشته دو بار به‌خاطر کسری بودجه دچار استرس شد">
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>نکات نامطمئن یا تناقض‌ها</label>
+                    <input type="text" id="note-uncertainty" placeholder="مثلاً: علاقه‌مند به ابزار بود اما خودش حوصله وارد کردن دستی نداشت">
+                </div>
+
+                <button type="button" onclick="saveInterviewNote()" class="btn btn-primary" style="margin-top: 0.5rem;">ثبت یادداشت در فهرست</button>
+
+                <div class="table-container">
+                    <table class="notes-table" id="notes-table">
+                        <thead>
+                            <tr>
+                                <th>مخاطب</th>
+                                <th>نقل‌قول کلیدی</th>
+                                <th>راه‌حل فعلی</th>
+                                <th>شدت درد</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notes-tbody">
+                            <!-- یادداشت‌ها -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- تب ۴: جمع‌بندی و الگوها -->
+            <div id="tab-4" class="tab-content section-box">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۴: جمع‌بندی و استخراج الگوها</h3>
+                <p style="color: var(--color-muted); margin-bottom: 1.5rem;">پس از انجام چند مصاحبه، الگوهای مشترک را استخراج کنید:</p>
+                
+                <div style="margin-bottom: 1.2rem;">
+                    <label>الگوهای تکرارشونده در صحبت‌ها</label>
+                    <textarea id="sum-patterns" rows="2" placeholder="چه مواردی در صحبت اکثر افراد مشترک بود؟"></textarea>
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>شواهد مخالف فرضیه (نقض‌کننده‌ها)</label>
+                    <textarea id="sum-counter" rows="2" placeholder="چه مواردی فرضیه اولیه ما را زیر سوال برد؟"></textarea>
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>مواردی که هنوز نامطمئن هستیم</label>
+                    <textarea id="sum-unknowns" rows="2" placeholder="چه ابهاماتی باقی مانده که نیاز به بررسی دارد؟"></textarea>
+                </div>
+                <div style="margin-bottom: 1.2rem;">
+                    <label>تصمیم بعدی (اصلاح فرضیه یا آزمایش جدید)</label>
+                    <textarea id="sum-next" rows="2" placeholder="بر اساس این مصاحبه‌ها، قدم بعدی چیست؟"></textarea>
+                </div>
+            </div>
+
+            <!-- کنترل‌ها و دکمه‌های عمومی -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="saveAllData()" class="btn btn-primary">ذخیره اطلاعات</button>
+                <button type="button" onclick="copySummaryText()" class="btn btn-secondary">کپی خلاصه راهنما</button>
+                <button type="button" onclick="window.print()" class="btn btn-secondary">چاپ / PDF</button>
+                <button type="button" onclick="clearLocalStorageData()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن کل داده‌ها</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت اختصاصی سازنده مصاحبه -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_interview_v1';
+
+        // سوالات پیش‌فرض استاندارد
+        const defaultQuestions = [
+            "۱. مقدمه: ممنون از وقتتان. ما در حال بررسی چالش‌های [موضوع] هستیم. هدفم فروش چیزی نیست، فقط می‌خواهم تجربه واقعی شما را بفهمم. اجازه می‌دهید نکات مهم را یادداشت کنم؟",
+            "۲. شرایط فعلی: لطفاً کمی درباره نقش یا کارهای روزمره مرتبط با [مسئله] توضیح دهید.",
+            "۳. آخرین رویداد: آخرین باری که با این مشکل روبه‌رو شدید چه زمانی بود؟ دقیقاً چه اتفاقی افتاد؟",
+            "۴. راه‌حل فعلی: برای حل این مشکل در حال حاضر چه کار می‌کنید؟ از چه ابزار یا روشی استفاده می‌کنید؟",
+            "۵. هزینه‌ها: این روش فعلی چقدر برایتان زمان‌بر یا هزینه‌بر است؟",
+            "۶. گزینه‌های قبلی: آیا تا به حال ابزار یا راه‌حل دیگری را امتحان کرده‌اید که رضایت‌بخش نباشد؟ چرا کنار گذاشتید؟",
+            "۷. موانع تغییر: چه چیزی مانع از این می‌شود که به دنبال یک راه‌حل ایده‌آل‌تر باشید؟",
+            "۸. جمع‌بندی: آیا نکته دیگری وجود دارد که من نپرسیدم و به نظرتان در این زمینه مهم است؟"
+        ];
+
+        let interviewNotes = [];
+        let customQuestions = [...defaultQuestions];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            renderQuestions();
+            renderNotesTable();
+
+            // ذخیره خودکار هنگام تغییر ورودی‌ها
+            document.querySelectorAll('input, textarea').forEach(el => {
+                el.addEventListener('input', () => {
+                    saveAllData(false);
+                });
+            });
+        });
+
+        function switchTab(tabNum) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            document.querySelectorAll('.tab-btn')[tabNum - 1].classList.add('active');
+            document.getElementById('tab-' + tabNum).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            customQuestions.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question-item';
+                div.innerHTML = `
+                    <input type="text" value="${escapeHtml(q)}" onchange="updateQuestion(${idx}, this.value)">
+                    <button type="button" onclick="removeQuestion(${idx})" class="btn" style="background: #fee2e2; color: #dc2626; padding: 0.5rem; font-size: 0.8rem;">حذف</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addQuestionField() {
+            customQuestions.push('سؤال جدید...');
+            renderQuestions();
+            saveAllData(false);
+        }
+
+        function updateQuestion(idx, val) {
+            customQuestions[idx] = val;
+            saveAllData(false);
+        }
+
+        function removeQuestion(idx) {
+            customQuestions.splice(idx, 1);
+            renderQuestions();
+            saveAllData(false);
+        }
+
+        function saveInterviewNote() {
+            const interviewee = document.getElementById('note-interviewee').value.trim();
+            const quote = document.getElementById('note-quote').value.trim();
+            const currentSolution = document.getElementById('note-current-solution').value.trim();
+            const severity = document.getElementById('note-severity').value.trim();
+            const uncertainty = document.getElementById('note-uncertainty').value.trim();
+
+            if (!interviewee && !quote) {
+                alert('لطفاً حداقل نام مصاحبه‌شونده یا نقل‌قول کلیدی را وارد کنید.');
+                return;
+            }
+
+            interviewNotes.push({ interviewee, quote, currentSolution, severity, uncertainty });
+            
+            // پاک کردن فرم یادداشت
+            document.getElementById('note-interviewee').value = '';
+            document.getElementById('note-quote').value = '';
+            document.getElementById('note-current-solution').value = '';
+            document.getElementById('note-severity').value = '';
+            document.getElementById('note-uncertainty').value = '';
+
+            renderNotesTable();
+            saveAllData(true);
+        }
+
+        function renderNotesTable() {
+            const tbody = document.getElementById('notes-tbody');
+            tbody.innerHTML = '';
+            if (interviewNotes.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--color-muted);">هنوز یادداشتی ثبت نشده است.</td></tr>`;
+                return;
+            }
+
+            interviewNotes.forEach((note, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${escapeHtml(note.interviewee || 'بدون نام')}</strong></td>
+                    <td>${escapeHtml(note.quote || '-')}</td>
+                    <td>${escapeHtml(note.currentSolution || '-')}</td>
+                    <td>${escapeHtml(note.severity || '-')}</td>
+                    <td><button type="button" onclick="deleteNote(${idx})" class="btn" style="background: #fee2e2; color: #dc2626; padding: 0.2rem 0.5rem; font-size: 0.8rem;">حذف</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteNote(idx) {
+            interviewNotes.splice(idx, 1);
+            renderNotesTable();
+            saveAllData(true);
+        }
+
+        function saveAllData(showAlert = true) {
+            try {
+                const data = {
+                    hypothesis: document.getElementById('iv-hypothesis').value,
+                    audience: document.getElementById('iv-audience').value,
+                    problem: document.getElementById('iv-problem').value,
+                    behavior: document.getElementById('iv-behavior').value,
+                    duration: document.getElementById('iv-duration').value,
+                    questions: customQuestions,
+                    notes: interviewNotes,
+                    summary: {
+                        patterns: document.getElementById('sum-patterns').value,
+                        counter: document.getElementById('sum-counter').value,
+                        unknowns: document.getElementById('sum-unknowns').value,
+                        next: document.getElementById('sum-next').value
+                    },
+                    updatedAt: new Date().toISOString()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                if (showAlert) {
+                    showStatus('اطلاعات با موفقیت ذخیره شد.');
+                }
+            } catch (e) {
+                console.error('Storage error', e);
+                if (showAlert) alert('خطا در ذخیره‌سازی اطلاعات.');
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    document.getElementById('iv-hypothesis').value = data.hypothesis || '';
+                    document.getElementById('iv-audience').value = data.audience || '';
+                    document.getElementById('iv-problem').value = data.problem || '';
+                    document.getElementById('iv-behavior').value = data.behavior || '';
+                    document.getElementById('iv-duration').value = data.duration || '15';
+
+                    if (data.questions && Array.isArray(data.questions)) {
+                        customQuestions = data.questions;
+                    }
+                    if (data.notes && Array.isArray(data.notes)) {
+                        interviewNotes = data.notes;
+                    }
+                    if (data.summary) {
+                        document.getElementById('sum-patterns').value = data.summary.patterns || '';
+                        document.getElementById('sum-counter').value = data.summary.counter || '';
+                        document.getElementById('sum-unknowns').value = data.summary.unknowns || '';
+                        document.getElementById('sum-next').value = data.summary.next || '';
+                    }
+                }
+            } catch (e) {
+                console.error('Load error', e);
+            }
+        }
+
+        function clearLocalStorageData() {
+            if (confirm('آیا از پاک کردن تمام اطلاعات مصاحبه‌ها و تنظیمات اطمینان دارید؟')) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        function copySummaryText() {
+            const text = `=== خلاصه راهنما و نتایج مصاحبه ===\n` +
+                `فرضیه: ${document.getElementById('iv-hypothesis').value}\n` +
+                `مخاطب: ${document.getElementById('iv-audience').value}\n` +
+                `تعداد یادداشت‌ها: ${interviewNotes.length}\n` +
+                `الگوهای تکرارشونده: ${document.getElementById('sum-patterns').value}\n` +
+                `تصمیم بعدی: ${document.getElementById('sum-next').value}\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('خلاصه متن در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+
+        function showStatus(msg) {
+            const statusEl = document.getElementById('save-status');
+            statusEl.textContent = msg;
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
