@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ردیاب کانال‌های جذب مخاطب | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .table-container { overflow-x: auto; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+        table.data-table { width: 100%; border-collapse: collapse; background: var(--color-surface); text-align: right; font-size: 0.9rem; }
+        table.data-table th, table.data-table td { padding: 0.75rem; border: 1px solid var(--color-border); }
+        table.data-table th { background: var(--color-background); color: var(--color-primary); font-weight: bold; }
+        .collapsible-content { display: none; padding: 1rem; background: var(--color-background); border-radius: 6px; margin-top: 0.5rem; margin-bottom: 1rem; border-right: 4px solid var(--color-secondary); }
+        .collapsible-content.active { display: block; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">میز کار: ردیاب کانال‌های جذب مخاطب</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="experiment-planner.html">برنامه‌ریز آزمایش</a>
+                <a href="metrics-calculator.html">محاسبه‌گر معیارها</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 1100px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>ردیاب کانال</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">ردیاب و مقایسه کانال‌های جذب مخاطب</h2>
+            <p style="color: var(--color-muted);">کانال‌های مختلف آزمایش خود را ثبت کنید، معیارهای تبدیل را بسنجید و بازدهی آن‌ها را با هم مقایسه کنید.</p>
+            
+            <div style="margin-top: 1rem;">
+                <button type="button" class="btn btn-secondary" onclick="toggleFormToggle()">+ افزودن کانال جدید</button>
+                <button type="button" class="btn" style="background: #e2e8f0; color: var(--color-text); margin-right: 0.5rem;" onclick="toggleForm('formula-guide')">📚 راهنمای فرمول‌ها و تفسیر</button>
+            </div>
+
+            <!-- راهنمای فرمول‌ها (بازشونده) -->
+            <div id="formula-guide" class="collapsible-content">
+                <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">راهنمای محاسبه شاخص‌ها و نکات تفسیری</h4>
+                <ul style="line-height: 1.8; padding-right: 1.2rem; font-size: 0.9rem;">
+                    <li><strong>نرخ کلیک (CTR):</strong> حاصل تقسیم کلیک‌ها بر تعداد افراد در معرض پیام. (نکته: کلیک با بازدید واقعی برابر نیست).</li>
+                    <li><strong>نرخ شروع تعامل:</strong> بازدیدکنندگانی که وارد جریان تعامل شدند تقسیم بر بازدیدهای واقعی.</li>
+                    <li><strong>نرخ تبدیل به لید:</strong> تعداد لیدهای به دست آمده تقسیم بر کلیک‌ها یا بازدیدها.</li>
+                    <li><strong>هزینه هر لید (CPL):</strong> کل هزینه نقدی تقسیم بر تعداد لیدها. (داده ناکافی یا صفر به عنوان هشدار نمایش داده می‌شود).</li>
+                    <li><strong>قانون تحلیلی:</strong> تعداد لید به تنهایی کیفیت لید را نشان نمی‌دهد؛ کیفیت را در «لیدهای واجد شرایط» و «خریدها» بررسی کنید.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- فرم افزودن / ویرایش کانال (درون بخش بازشونده) -->
+        <div id="channel-form-card" class="card" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem; display: none;">
+            <h3 id="form-title" style="color: var(--color-primary); margin-bottom: 1.5rem;">افزودن کانال جدید</h3>
+            <form id="channel-input-form">
+                <input type="hidden" id="channel-index" value="-1">
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">نام کانال *</label>
+                        <input type="text" id="ch-name" placeholder="مثلاً: گروه‌های تلگرامی همکار" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;" required>
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">گروه مخاطب</label>
+                        <input type="text" id="ch-audience" placeholder="مثلاً: کارمندان دورکار" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">پیام یا پیشنهاد (Offer)</label>
+                        <input type="text" id="ch-offer" placeholder="مثلاً: تخفیف پیش‌خرید ۳۰ درصدی" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">تعداد افراد در معرض پیام (Reach)</label>
+                        <input type="number" id="ch-reach" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">کلیک‌ها</label>
+                        <input type="number" id="ch-clicks" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">بازدیدهای واقعی (Sessions)</label>
+                        <input type="number" id="ch-visits" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">لیدها (Leads)</label>
+                        <input type="number" id="ch-leads" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">لیدهای واجد شرایط (Qualified)</label>
+                        <input type="number" id="ch-qualified" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">تعهدها یا خریدها (Purchases)</label>
+                        <input type="number" id="ch-purchases" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">هزینه نقدی (تومان)</label>
+                        <input type="number" id="ch-cost" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">زمان صرف‌شده (ساعت)</label>
+                        <input type="number" id="ch-time" value="0" min="0" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">توضیحات و بازخورد منفی</label>
+                        <input type="text" id="ch-notes" placeholder="مثلاً: افراد قیمت را بالا دانستند" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="button" onclick="saveChannel()" class="btn btn-primary">ذخیره کانال</button>
+                    <button type="button" onclick="toggleFormToggle()" class="btn" style="background: #e2e8f0; color: var(--color-text);">انصراف</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- جدول مقایسه و تحلیل کانال‌ها -->
+        <div class="card" style="background: var(--color-surface); padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <h3 style="color: var(--color-primary);">لیست و تحلیل کانال‌های ثبت‌شده</h3>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button type="button" onclick="exportCSV()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">خروجی CSV</button>
+                    <button type="button" onclick="exportJSON()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">خروجی JSON</button>
+                    <button type="button" onclick="window.print()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">چاپ / PDF</button>
+                    <button type="button" onclick="clearAllChannels()" class="btn" style="background: #fee2e2; color: #dc2626; font-size: 0.85rem; padding: 0.5rem 1rem;">حذف همه</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table" id="channels-table">
+                    <thead>
+                        <tr>
+                            <th>نام کانال</th>
+                            <th>پیشنهاد / پیام</th>
+                            <th>بازدید</th>
+                            <th>کلیک (CTR)</th>
+                            <th>لیدها</th>
+                            <th>لید واجد شرایط</th>
+                            <th>خرید</th>
+                            <th>هزینه هر لید (CPL)</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="channels-tbody">
+                        <!-- داده‌ها به صورت پویا پر می‌شوند -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="empty-state" style="text-align: center; color: var(--color-muted); padding: 2rem; display: none;">
+                هنوز هیچ کانالی ثبت نشده است. از دکمه «افزودن کانال جدید» استفاده کنید.
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت منطق ردیاب کانال -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_channels_v1';
+        let channels = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            renderTable();
+        });
+
+        function toggleForm(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('active');
+        }
+
+        function toggleFormToggle() {
+            const card = document.getElementById('channel-form-card');
+            if (card.style.display === 'none' || card.style.display === '') {
+                card.style.display = 'block';
+                document.getElementById('channel-index').value = '-1';
+                document.getElementById('form-title').textContent = 'افزودن کانال جدید';
+                document.getElementById('channel-input-form').reset();
+                card.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                card.style.display = 'none';
+            }
+        }
+
+        function saveChannel() {
+            const name = document.getElementById('ch-name').value.trim();
+            if (!name) {
+                alert('لطفاً نام کانال را وارد کنید.');
+                return;
+            }
+
+            const channelData = {
+                name: name,
+                audience: document.getElementById('ch-audience').value,
+                offer: document.getElementById('ch-offer').value,
+                reach: parseInt(document.getElementById('ch-reach').value) || 0,
+                clicks: parseInt(document.getElementById('ch-clicks').value) || 0,
+                visits: parseInt(document.getElementById('ch-visits').value) || 0,
+                leads: parseInt(document.getElementById('ch-leads').value) || 0,
+                qualified: parseInt(document.getElementById('ch-qualified').value) || 0,
+                purchases: parseInt(document.getElementById('ch-purchases').value) || 0,
+                cost: parseFloat(document.getElementById('ch-cost').value) || 0,
+                time: parseFloat(document.getElementById('ch-time').value) || 0,
+                notes: document.getElementById('ch-notes').value
+            };
+
+            const index = parseInt(document.getElementById('channel-index').value);
+            if (index === -1) {
+                channels.push(channelData);
+            } else {
+                channels[index] = channelData;
+            }
+
+            saveToLocalStorage();
+            renderTable();
+            toggleFormToggle();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('channels-tbody');
+            const emptyState = document.getElementById('empty-state');
+            tbody.innerHTML = '';
+
+            if (channels.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            } else {
+                emptyState.style.display = 'none';
+            }
+
+            channels.forEach((ch, idx) => {
+                // محاسبات ایمن بدون خطای مخرج صفر
+                const ctr = ch.reach > 0 ? ((ch.clicks / ch.reach) * 100).toFixed(1) + '%' : 'نامشخص';
+                const cpl = ch.leads > 0 ? (ch.cost / ch.leads).toLocaleString() + ' تومان' : 'داده ناکافی';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${escapeHtml(ch.name)}</strong><br><small style="color: var(--color-muted);">${escapeHtml(ch.audience)}</small></td>
+                    <td>${escapeHtml(ch.offer || '-')}</td>
+                    <td>${ch.visits}</td>
+                    <td>${ch.clicks} (${ctr})</td>
+                    <td>${ch.leads}</td>
+                    <td>${ch.qualified}</td>
+                    <td>${ch.purchases}</td>
+                    <td><span style="color: ${ch.leads > 0 ? 'inherit' : 'var(--color-muted);'}">${cpl}</span></td>
+                    <td>
+                        <button type="button" onclick="editChannel(${idx})" class="btn-sm" style="background: var(--color-secondary); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; margin-left: 0.25rem;">ویرایش</button>
+                        <button type="button" onclick="deleteChannel(${idx})" class="btn-sm" style="background: #fee2e2; color: #dc2626; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">حذف</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function editChannel(idx) {
+            const ch = channels[idx];
+            document.getElementById('channel-index').value = idx;
+            document.getElementById('form-title').textContent = 'ویرایش کانال: ' + ch.name;
+            document.getElementById('ch-name').value = ch.name;
+            document.getElementById('ch-audience').value = ch.audience;
+            document.getElementById('ch-offer').value = ch.offer;
+            document.getElementById('ch-reach').value = ch.reach;
+            document.getElementById('ch-clicks').value = ch.clicks;
+            document.getElementById('ch-visits').value = ch.visits;
+            document.getElementById('ch-leads').value = ch.leads;
+            document.getElementById('ch-qualified').value = ch.qualified;
+            document.getElementById('ch-purchases').value = ch.purchases;
+            document.getElementById('ch-cost').value = ch.cost;
+            document.getElementById('ch-time').value = ch.time;
+            document.getElementById('ch-notes').value = ch.notes;
+
+            document.getElementById('channel-form-card').style.display = 'block';
+            document.getElementById('channel-form-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteChannel(idx) {
+            if (confirm('آیا از حذف این کانال اطمینان دارید؟')) {
+                channels.splice(idx, 1);
+                saveToLocalStorage();
+                renderTable();
+            }
+        }
+
+        function clearAllChannels() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید تمام کانال‌ها را پاک کنید؟')) {
+                channels = [];
+                localStorage.removeItem(STORAGE_KEY);
+                renderTable();
+            }
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(channels));
+            } catch (e) {
+                console.error('Error saving to localStorage', e);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    channels = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error('Error loading from localStorage', e);
+            }
+        }
+
+        function exportCSV() {
+            if (channels.length === 0) {
+                alert('داده‌ای برای خروجی گرفتن وجود ندارد.');
+                return;
+            }
+            let csv = 'Name,Audience,Offer,Reach,Clicks,Visits,Leads,Qualified,Purchases,Cost,Time,Notes\n';
+            channels.forEach(ch => {
+                csv += `"${ch.name}","${ch.audience}","${ch.offer}",${ch.reach},${ch.clicks},${ch.visits},${ch.leads},${ch.qualified},${ch.purchases},${ch.cost},${ch.time},"${ch.notes}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'channel-tracker-report.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function exportJSON() {
+            if (channels.length === 0) {
+                alert('داده‌ای برای خروجی گرفتن وجود ندارد.');
+                return;
+            }
+            const blob = new Blob([JSON.stringify(channels, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'channel-tracker-data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function escapeHtml(str) {
+            return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
