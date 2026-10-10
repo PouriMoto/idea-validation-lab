@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب یادداشت مصاحبه با مخاطب | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .form-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .table-container { overflow-x: auto; margin-top: 1rem; }
+        table.interview-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        table.interview-table th, table.interview-table td { padding: 0.75rem 0.5rem; border: 1px solid var(--color-border); vertical-align: top; }
+        table.interview-table th { background: var(--color-background); color: var(--color-primary); font-weight: bold; }
+        table.interview-table input, table.interview-table textarea { width: 100%; font-size: 0.85rem; padding: 0.4rem; border: 1px solid var(--color-border); border-radius: 4px; background: var(--color-background); }
+        .notice-box { background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.7; }
+
+        /* استایل‌های مخصوص چاپ */
+        @media print {
+            body { background: white; color: black; font-size: 11pt; }
+            .site-header, .site-footer, .no-print, button { display: none !important; }
+            .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .form-section { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; page-break-inside: avoid; margin-bottom: 1rem !important; padding: 1rem !important; }
+            input, textarea { border: none !important; border-bottom: 1px solid #999 !important; background: transparent !important; padding: 0.2rem 0 !important; font-family: inherit; }
+            table.interview-table input, table.interview-table textarea { border: 1px solid #ccc !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header no-print">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">قالب ثبت یادداشت مصاحبه</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="../workbench/interview-builder.html">سازنده مصاحبه</a>
+                <a href="../guides/06-results-and-decisions.html">تحلیل نتایج</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 1000px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb no-print" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <span>قالب یادداشت مصاحبه</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card no-print" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">قالب یادداشت مصاحبه با مخاطب (Interview Notes Template)</h2>
+            <p style="color: var(--color-muted);">این قالب مکمل <a href="../workbench/interview-builder.html" style="color: var(--color-secondary);">سازنده مصاحبه</a> است و برای ثبت داده‌های عینی، تفکیک نقل‌قول‌ها از تفسیرها و مرور بعدی یافته‌ها استفاده می‌شود.</p>
+            
+            <div class="notice-box" style="margin-top: 1rem; margin-bottom: 0;">
+                <p><strong>⚠️ نکته مهم روش‌شناختی:</strong> گفته یک نفر به‌تنهایی نماینده تمام بازار نیست و پاسخ فرضی درباره خرید، هرگز معادل خرید واقعی نیست. بین «آنچه کاربر واقعاً گفته» و «برداشت شما» تمایز قائل شوید.</p>
+            </div>
+        </div>
+
+        <form id="interview-notes-form">
+            
+            <!-- بخش اول: اطلاعات جلسه -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۱. اطلاعات جلسه مصاحبه</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>شناسه یا عنوان مصاحبه (کد شرکت‌کننده)</label>
+                        <input type="text" id="int-id" placeholder="مثلاً: مصاحبه شماره ۱ - کارمند مالی">
+                    </div>
+                    <div>
+                        <label>تاریخ مصاحبه</label>
+                        <input type="date" id="int-date">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-3">
+                    <div>
+                        <label>گروه مخاطب</label>
+                        <input type="text" id="int-audience" placeholder="مثلاً: کارمندان دورکار">
+                    </div>
+                    <div>
+                        <label>روش پیدا کردن مخاطب</label>
+                        <input type="text" id="int-channel" placeholder="مثلاً: پیام مستقیم در شبکه کاری">
+                    </div>
+                    <div>
+                        <label>معیار واجد شرایط بودن</label>
+                        <input type="text" id="int-qualification" placeholder="تجربه مشکل در ۳۰ روز گذشته">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>اجازه یادداشت‌برداری اخذ شد؟</label>
+                        <select id="int-permission">
+                            <option value="yes">بله، صراحتاً موافقت کرد</option>
+                            <option value="no">خیر / یادداشت پس از جلسه ثبت شد</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>هدف اصلی مصاحبه</label>
+                        <input type="text" id="int-goal" placeholder="مثلاً: کشف روش فعلی مدیریت بودجه ماهانه">
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش دوم: جدول پرسش و پاسخ و تفسیر -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">۲. پرسش‌ها، پاسخ‌های واقعی و تفسیرها</h3>
+                <p style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 1rem;">در این بخش مراقب باشید نقل‌قول دقیق کاربر را از برداشت ذهنی خودتان جدا نگه دارید.</p>
+
+                <div class="table-container">
+                    <table class="interview-table" id="qa-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">پرسش مطرح‌شده</th>
+                                <th style="width: 25%;">پاسخ یا نقل‌قول کوتاه (دقیق)</th>
+                                <th style="width: 20%;">رفتار یا لحن مشاهده‌شده</th>
+                                <th style="width: 25%;">برداشت و تفسیر مصاحبه‌کننده</th>
+                                <th style="width: 10%;" class="no-print">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="qa-tbody">
+                            <!-- ردیف‌های پویا -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button" onclick="addQARow()" class="btn btn-secondary no-print" style="margin-top: 1rem;">+ افزودن ردیف پرسش و پاسخ</button>
+            </div>
+
+            <!-- بخش سوم: جمع‌بندی و استخراج شواهد -->
+            <div class="form-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۳. جمع‌بندی و استخراج شواهد جلسه</h3>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>مسئله‌ای که مخاطب توصیف کرد</label>
+                        <textarea id="sum-problem" rows="2" placeholder="شرح درد به زبان خود کاربر..."></textarea>
+                    </div>
+                    <div>
+                        <label>راه‌حل فعلی مورد استفاده</label>
+                        <textarea id="sum-solution" rows="2" placeholder="هم‌اکنون برای حل مشکل چه کار می‌کند؟"></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>هزینه یا دشواری راه‌حل فعلی</label>
+                        <input type="text" id="sum-cost" placeholder="زمان‌بر بودن، استرس یا هزینه مالی روش فعلی">
+                    </div>
+                    <div>
+                        <label>رفتار واقعی گزارش‌شده</label>
+                        <input type="text" id="sum-behavior" placeholder="نمونه‌ای از آخرین باری که این مشکل رخ داد">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>شواهد موافق فرضیه</label>
+                        <textarea id="sum-pro" rows="2" placeholder="کدام بخش از صحبت‌ها فرض ما را تأیید کرد؟"></textarea>
+                    </div>
+                    <div>
+                        <label>شواهد مخالف فرضیه</label>
+                        <textarea id="sum-con" rows="2" placeholder="کدام بخش از صحبت‌ها فرض ما را زیر سوال برد؟"></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>نکات نامعلوم و ابهامات</label>
+                        <input type="text" id="sum-unknowns" placeholder="مواردی که هنوز پاسخ روشنی نگرفتیم">
+                    </div>
+                    <div>
+                        <label>اقدام بعدی مشخص</label>
+                        <input type="text" id="sum-next-action" placeholder="مثلاً: اصلاح سوالات مصاحبه بعدی یا تست پیشنهاد">
+                    </div>
+                </div>
+            </div>
+
+            <!-- دکمه‌های کنترل -->
+            <div class="no-print" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="window.print()" class="btn btn-primary">چاپ یادداشت مصاحبه / PDF</button>
+                <button type="button" onclick="copyNotesSummary()" class="btn btn-secondary">کپی متن جمع‌بندی</button>
+                <button type="button" onclick="clearNotesForm()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن فرم</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer no-print">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت قالب یادداشت مصاحبه -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_interview_notes_template_v1';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+            if (document.getElementById('qa-tbody').children.length === 0) {
+                // افزودن چند ردیف پیش‌فرض خالی
+                addQARow('شرایط فعلی و نقش کاربر', '', '', '');
+                addQARow('آخرین بار چه زمانی با مشکل مواجه شدید؟', '', '', '');
+                addQARow('برای حل این مشکل در حال حاضر چه کار می‌کنید؟', '', '', '');
+            }
+
+            // ذخیره خودکار هنگام تغییر ورودی‌ها (در حافظه محلی مرورگر)
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                el.addEventListener('input', () => saveToStorage(false));
+            });
+        });
+
+        function addQARow(question = '', quote = '', behavior = '', interpretation = '') {
+            const tbody = document.getElementById('qa-tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><textarea rows="2" placeholder="سؤال پرسیده شده...">${escapeHtml(question)}</textarea></td>
+                <td><textarea rows="2" placeholder="نقل‌قول دقیق کاربر...">${escapeHtml(quote)}</textarea></td>
+                <td><textarea rows="2" placeholder="لحن، مکث یا رفتار...">${escapeHtml(behavior)}</textarea></td>
+                <td><textarea rows="2" placeholder="برداشت مصاحبه‌کننده...">${escapeHtml(interpretation)}</textarea></td>
+                <td class="no-print" style="text-align: center;"><button type="button" onclick="this.closest('tr').remove(); saveToStorage(false);" class="btn" style="background: #fee2e2; color: #dc2626; padding: 0.2rem 0.5rem; font-size: 0.8rem;">حذف</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function getTableData() {
+            const rows = document.querySelectorAll('#qa-tbody tr');
+            const data = [];
+            rows.forEach(row => {
+                const textareas = row.querySelectorAll('textarea');
+                if (textareas.length >= 4) {
+                    data.push({
+                        q: textareas[0].value,
+                        quote: textareas[1].value,
+                        behavior: textareas[2].value,
+                        interp: textareas[3].value
+                    });
+                }
+            });
+            return data;
+        }
+
+        function saveToStorage(showAlert = true) {
+            try {
+                const data = {
+                    id: document.getElementById('int-id').value,
+                    date: document.getElementById('int-date').value,
+                    audience: document.getElementById('int-audience').value,
+                    channel: document.getElementById('int-channel').value,
+                    qualification: document.getElementById('int-qualification').value,
+                    permission: document.getElementById('int-permission').value,
+                    goal: document.getElementById('int-goal').value,
+                    qaRows: getTableData(),
+                    sumProblem: document.getElementById('sum-problem').value,
+                    sumSolution: document.getElementById('sum-solution').value,
+                    sumCost: document.getElementById('sum-cost').value,
+                    sumBehavior: document.getElementById('sum-behavior').value,
+                    sumPro: document.getElementById('sum-pro').value,
+                    sumCon: document.getElementById('sum-con').value,
+                    sumUnknowns: document.getElementById('sum-unknowns').value,
+                    sumNextAction: document.getElementById('sum-next-action').value
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                if (showAlert) {
+                    showStatus('یادداشت مصاحبه در حافظه محلی مرورگر ذخیره شد.');
+                }
+            } catch (e) {
+                console.error('Storage error', e);
+            }
+        }
+
+        function loadFromStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const d = JSON.parse(saved);
+                    document.getElementById('int-id').value = d.id || '';
+                    document.getElementById('int-date').value = d.date || '';
+                    document.getElementById('int-audience').value = d.audience || '';
+                    document.getElementById('int-channel').value = d.channel || '';
+                    document.getElementById('int-qualification').value = d.qualification || '';
+                    document.getElementById('int-permission').value = d.permission || 'yes';
+                    document.getElementById('int-goal').value = d.goal || '';
+
+                    if (d.qaRows && Array.isArray(d.qaRows) && d.qaRows.length > 0) {
+                        const tbody = document.getElementById('qa-tbody');
+                        tbody.innerHTML = '';
+                        d.qaRows.forEach(row => {
+                            addQARow(row.q, row.quote, row.behavior, row.interp);
+                        });
+                    }
+
+                    document.getElementById('sum-problem').value = d.sumProblem || '';
+                    document.getElementById('sum-solution').value = d.sumSolution || '';
+                    document.getElementById('sum-cost').value = d.sumCost || '';
+                    document.getElementById('sum-behavior').value = d.sumBehavior || '';
+                    document.getElementById('sum-pro').value = d.sumPro || '';
+                    document.getElementById('sum-con').value = d.sumCon || '';
+                    document.getElementById('sum-unknowns').value = d.sumUnknowns || '';
+                    document.getElementById('sum-next-action').value = d.sumNextAction || '';
+                }
+            } catch (e) {
+                console.error('Load error', e);
+            }
+        }
+
+        function clearNotesForm() {
+            if (confirm('آیا از پاک کردن تمام اطلاعات این یادداشت اطمینان دارید؟')) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        function copyNotesSummary() {
+            const text = `=== خلاصه یادداشت مصاحبه ===\n` +
+                `شناسه: ${document.getElementById('int-id').value} (تاریخ: ${document.getElementById('int-date').value})\n` +
+                `مخاطب: ${document.getElementById('int-audience').value}\n` +
+                `مسئله توصیف‌شده: ${document.getElementById('sum-problem').value}\n` +
+                `راه‌حل فعلی: ${document.getElementById('sum-solution').value}\n` +
+                `شواهد موافق: ${document.getElementById('sum-pro').value}\n` +
+                `شواهد مخالف: ${document.getElementById('sum-con').value}\n` +
+                `اقدام بعدی: ${document.getElementById('sum-next-action').value}\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('متن جمع‌بندی با موفقیت در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+
+        function showStatus(msg) {
+            const statusEl = document.getElementById('save-status');
+            statusEl.textContent = msg;
+            setTimeout(() => { statusEl.textContent = ''; }, 4000);
+        }
+
+        function escapeHtml(str) {
+            return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
