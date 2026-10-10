@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه‌ریز آزمایش | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; }
+        .progress-bar-container { background: var(--color-border); border-radius: 4px; height: 8px; margin-bottom: 2rem; overflow: hidden; }
+        .progress-bar-fill { background: var(--color-secondary); height: 100%; width: 14.28%; transition: width 0.3s ease; }
+        .step-indicator { font-size: 0.9rem; color: var(--color-muted); margin-bottom: 0.5rem; }
+        .method-option { border: 2px solid var(--color-border); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s; }
+        .method-option:hover { border-color: var(--color-secondary); background: var(--color-background); }
+        .method-option.selected { border-color: var(--color-primary); background: #f0fdf4; }
+        .card-preview { background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1.5rem; border-radius: 6px; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">میز کار: برنامه‌ریز آزمایش</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="../guides/00-start-here.html">راهنماها</a>
+                <a href="interview-builder.html">سازنده مصاحبه</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 800px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <a href="../index.html#workbench">میز کار</a> / <span>برنامه‌ریز آزمایش</span>
+        </div>
+
+        <div class="card" style="background: var(--color-surface); padding: 2rem;">
+            <div class="step-indicator" id="step-indicator-text">مرحله ۱ از ۷: تعریف آزمایش</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+
+            <form id="experiment-wizard-form">
+                
+                <!-- مرحله ۱: تعریف آزمایش -->
+                <div class="wizard-step active" data-step="1">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۱: تعریف ایده و فرضیه</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">پایه و اساس آزمایش خود را مشخص کنید. فرض کنید قرار است مهم‌ترین ریسک کسب‌وکارتان را بسنجید.</p>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">نام ایده یا پروژه</label>
+                        <input type="text" id="exp-name" placeholder="مثلاً: پلتفرم غذای خانگی کارمندان" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مخاطب هدف</label>
+                        <input type="text" id="exp-audience" placeholder="مثلاً: کارمندان شرکت‌های دفتری در محدوده مرکزی شهر" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مسئله اصلی مخاطب</label>
+                        <textarea id="exp-problem" rows="2" placeholder="مثلاً: عدم دسترسی به غذای خانگی سالم و مقرون‌به‌صرفه در ساعت ناهار" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;"></textarea>
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">فرضیه اصلی که باید آزمایش شود</label>
+                        <textarea id="exp-hypothesis" rows="2" placeholder="مثلاً: معتقدیم حداقل ۳۰٪ از کارمندان این شرکت‌ها حاضرند منوی هفتگی را روز قبل پیش‌خرید کنند." style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;"></textarea>
+                    </div>
+                </div>
+
+                <!-- مرحله ۲: وضعیت فعلی -->
+                <div class="wizard-step" data-step="2">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۲: وضعیت فعلی شما چیست؟</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">انتخاب کنید در چه نقطه‌ای قرار دارید تا بهترین روش آزمایش پیشنهاد شود.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <label><input type="radio" name="current-status" value="idea-only" checked> فقط یک ایده دارم و هنوز با کسی صحبت نکرده‌ام</label>
+                        <label><input type="radio" name="current-status" value="interviews-done"> چند مصاحبه اکتشافی با مشتریان انجام داده‌ام</label>
+                        <label><input type="radio" name="current-status" value="prototype-exists"> نمونه اولیه ساده یا ماکت طرح را دارم</label>
+                        <label><input type="radio" name="current-status" value="landing-page"> صفحه فرود یا فرم ثبت‌نام اولیه دارم</label>
+                        <label><input type="radio" name="current-status" value="leads-exist"> تعدادی مخاطب علاقه‌مند (لید) دارم</label>
+                    </div>
+                </div>
+
+                <!-- مرحله ۳: انتخاب روش -->
+                <div class="wizard-step" data-step="3">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۳: انتخاب روش آزمایش</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">بر اساس وضعیت شما، یکی از روش‌های زیر پیشنهاد می‌شود. می‌توانید روش دلخواه را انتخاب کنید:</p>
+                    
+                    <div class="method-option selected" onclick="selectMethod('interview')">
+                        <strong>۱. مصاحبه عمیق مسئله (Problem Interview)</strong>
+                        <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">مناسب برای زمان نامشخص بودن ابعاد درد مشتری. بدون صحبت از راه‌حل، شدت مشکل را می‌سنجید.</p>
+                    </div>
+                    <div class="method-option" onclick="selectMethod('landing-test')">
+                        <strong>۲. تست پیام و لندینگ پیج (Landing Page & Smoke Test)</strong>
+                        <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">مناسب برای سنجش تقاضای عمومی. ساخت یک صفحه ساده و ارزیابی تمایل به ثبت‌نام.</p>
+                    </div>
+                    <div class="method-option" onclick="selectMethod('manual-service')">
+                        <strong>۳. اجرای دستی خدمات (Concierge / Wizard of Oz)</strong>
+                        <p style="font-size: 0.9rem; color: var(--color-muted); margin-top: 0.25rem;">ارائه خدمت به شکل دستی و بدون ساخت نرم‌افزار برای بررسی ارزش واقعی.</p>
+                    </div>
+                    <input type="hidden" id="selected-method" value="interview">
+                </div>
+
+                <!-- مرحله ۴: معیار موفقیت -->
+                <div class="wizard-step" data-step="4">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۴: تعیین معیار موفقیت (متریک)</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">موفقیت در این آزمایش چگونه تعریف می‌شود؟ عدد هدف را واقع‌بینانه انتخاب کنید.</p>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">معیار اصلی ارزیابی</label>
+                        <input type="text" id="metric-name" placeholder="مثلاً: تعداد افراد ثبت‌نام‌کننده در فرم پیش‌خرید" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مقدار هدف (Target)</label>
+                        <input type="text" id="metric-target" placeholder="مثلاً: حداقل ۲۰ ثبت‌نام معتبر" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">مدت زمان اجرا (روز یا هفته)</label>
+                        <input type="text" id="exp-duration" placeholder="مثلاً: ۷ روز کاری" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                </div>
+
+                <!-- مرحله ۵: برنامه اجرا -->
+                <div class="wizard-step" data-step="5">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۵: برنامه اجرایی</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">چگونه و از چه کانالی این آزمایش را اجرا می‌کنید؟</p>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">کانال جذب مخاطب</label>
+                        <input type="text" id="exec-channel" placeholder="مثلاً: گروه‌های کاری تلگرام، لینکدین یا تماس مستقیم" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">بودجه تقریبی و زمان صرف‌شده</label>
+                        <input type="text" id="exec-resources" placeholder="مثلاً: صفر تومان / ۵ ساعت در هفته" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">سه اقدام فوری بعدی (Action Items)</label>
+                        <textarea id="exec-actions" rows="3" placeholder="۱. نوشتن پرسش‌نامه مصاحبه&#10;۲. شناسایی ۵ مخاطب هدف&#10;۳. هماهنگی زمان گفتگو" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;"></textarea>
+                    </div>
+                </div>
+
+                <!-- مرحله ۶: قانون تصمیم -->
+                <div class="wizard-step" data-step="6">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۶: قانون تصمیم‌گیری</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">پیش از شروع، مشخص کنید پس از پایان آزمایش چه تصمیمی خواهید گرفت.</p>
+                    
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">اگر نتیجه مثبت بود (هدف محقق شد):</label>
+                        <input type="text" id="decision-pass" placeholder="مثلاً: طراحی نمونه اولیه واقعی و تست قیمت" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 1.2rem;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 0.4rem;">اگر نتیجه ضعیف بود (شکست فرضیه):</label>
+                        <input type="text" id="decision-fail" placeholder="مثلاً: تغییر گروه مخاطب هدف یا بازنگری در مسئله" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                    </div>
+                </div>
+
+                <!-- مرحله ۷: کارت نهایی آزمایش -->
+                <div class="wizard-step" data-step="7">
+                    <h2 style="color: var(--color-primary); margin-bottom: 1rem;">مرحله ۷: کارت نهایی آزمایش</h2>
+                    <p style="color: var(--color-muted); margin-bottom: 1rem;">برنامه آزمایش شما آماده است. می‌توانید آن را مرور کرده، کپی کنید یا خروجی بگیرید.</p>
+                    
+                    <div class="card-preview" id="final-card-preview">
+                        <!-- محتوا به صورت پویا پر می‌شود -->
+                    </div>
+
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                        <button type="button" onclick="copyCardText()" class="btn btn-secondary">کپی متن برنامه</button>
+                        <button type="button" onclick="downloadJSON()" class="btn btn-secondary">دانلود فایل JSON</button>
+                        <button type="button" onclick="window.print()" class="btn btn-secondary">چاپ / ذخیره PDF</button>
+                        <button type="button" onclick="resetWizard()" class="btn" style="background: #e2e8f0; color: var(--color-text);">شروع آزمایش جدید</button>
+                    </div>
+                </div>
+
+                <!-- دکمه‌های ناوبری و کنترل ویزارد -->
+                <div style="display: flex; justify-content: space-between; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                    <button type="button" id="prev-btn" onclick="changeStep(-1)" class="btn" style="background: #e2e8f0; color: var(--color-text); display: none;">مرحله قبل</button>
+                    <div style="margin-right: auto;"></div>
+                    <button type="button" id="next-btn" onclick="changeStep(1)" class="btn btn-primary">مرحله بعد</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت ویزارد و لوکال‌استوریج -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_planner_v1';
+        let currentStep = 1;
+        const totalSteps = 7;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            updateWizardView();
+
+            // ذخیره خودکار به ازای تغییرات ورودی‌ها
+            document.querySelectorAll('input, textarea').forEach(el => {
+                el.addEventListener('input', saveToLocalStorage);
+            });
+        });
+
+        function changeStep(direction) {
+            if (direction === 1 && !validateCurrentStep()) return;
+            currentStep += direction;
+            if (currentStep < 1) currentStep = 1;
+            if (currentStep > totalSteps) currentStep = totalSteps;
+
+            if (currentStep === 7) {
+                generateFinalPreview();
+            }
+
+            updateWizardView();
+            saveToLocalStorage();
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) {
+                const name = document.getElementById('exp-name').value.trim();
+                if (!name) {
+                    alert('لطفاً حداقل نام ایده را وارد کنید.');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function updateWizardView() {
+            document.querySelectorAll('.wizard-step').forEach(stepEl => {
+                stepEl.classList.remove('active');
+                if (parseInt(stepEl.dataset.step) === currentStep) {
+                    stepEl.classList.add('active');
+                }
+            });
+
+            const percent = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('step-indicator-text').textContent = `مرحله ${currentStep} از ${totalSteps}`;
+
+            document.getElementById('prev-btn').style.display = currentStep === 1 ? 'none' : 'inline-block';
+            document.getElementById('next-btn').style.display = currentStep === totalSteps ? 'none' : 'inline-block';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectMethod(methodVal) {
+            document.getElementById('selected-method').value = methodVal;
+            document.querySelectorAll('.method-option').forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            saveToLocalStorage();
+        }
+
+        function generateFinalPreview() {
+            const data = getFormData();
+            const previewHtml = `
+                <h3 style="color: var(--color-primary); margin-bottom: 0.75rem;">📋 کارت آزمایش: ${data.name || 'بدون نام'}</h3>
+                <p><strong>مخاطب هدف:</strong> ${data.audience || 'ثبت نشده'}</p>
+                <p><strong>مسئله:</strong> ${data.problem || 'ثبت نشده'}</p>
+                <p><strong>فرضیه اصلی:</strong> ${data.hypothesis || 'ثبت نشده'}</p>
+                <hr style="margin: 0.75rem 0; border: 0; border-top: 1px solid var(--color-border);">
+                <p><strong>روش انتخابی:</strong> ${data.method}</p>
+                <p><strong>معیار موفقیت:</strong> ${data.metricName} (هدف: ${data.metricTarget})</p>
+                <p><strong>مدت زمان:</strong> ${data.duration}</p>
+                <p><strong>کانال جذب:</strong> ${data.channel}</p>
+                <p><strong>اقدامات بعدی:</strong><br>${(data.actions || '').replace(/\n/g, '<br>')}</p>
+                <p><strong>قانون تصمیم (موفقیت):</strong> ${data.decisionPass}</p>
+                <p><strong>قانون تصمیم (شکست):</strong> ${data.decisionFail}</p>
+            `;
+            document.getElementById('final-card-preview').innerHTML = previewHtml;
+        }
+
+        function getFormData() {
+            return {
+                name: document.getElementById('exp-name').value,
+                audience: document.getElementById('exp-audience').value,
+                problem: document.getElementById('exp-problem').value,
+                hypothesis: document.getElementById('exp-hypothesis').value,
+                status: document.querySelector('input[name="current-status"]:checked')?.value || '',
+                method: document.getElementById('selected-method').value,
+                metricName: document.getElementById('metric-name').value,
+                metricTarget: document.getElementById('metric-target').value,
+                duration: document.getElementById('exp-duration').value,
+                channel: document.getElementById('exec-channel').value,
+                resources: document.getElementById('exec-resources').value,
+                actions: document.getElementById('exec-actions').value,
+                decisionPass: document.getElementById('decision-pass').value,
+                decisionFail: document.getElementById('decision-fail').value,
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function saveToLocalStorage() {
+            try {
+                const data = getFormData();
+                data.currentStep = currentStep;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } ca
