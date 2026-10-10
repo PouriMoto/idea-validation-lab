@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب گزارش نهایی آزمایش | آزمایشگاه تست ایده</title>
+    <!-- استایل مشترک پروژه -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <style>
+        .report-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .report-hint { font-size: 0.82rem; color: var(--color-muted); margin-top: -0.4rem; margin-bottom: 0.75rem; }
+        
+        /* استایل‌های مخصوص چاپ */
+        @media print {
+            body { background: white; color: black; font-size: 11pt; }
+            .site-header, .site-footer, .no-print, button { display: none !important; }
+            .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .report-section { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; page-break-inside: avoid; margin-bottom: 1rem !important; padding: 1rem !important; }
+            input, textarea, select { border: none !important; border-bottom: 1px solid #999 !important; background: transparent !important; padding: 0.2rem 0 !important; font-family: inherit; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / هدر سایت -->
+    <header class="site-header no-print">
+        <div class="container header-container">
+            <div class="logo">
+                <h1><a href="../index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">قالب گزارش نهایی آزمایش</p>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html">صفحه اصلی</a>
+                <a href="../workbench/experiment-review.html">ابزار بررسی آزمایش</a>
+                <a href="../guides/06-results-and-decisions.html">راهنمای تحلیل نتایج</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section-container" style="max-width: 900px;">
+        <!-- Breadcrumb / مسیر -->
+        <div class="breadcrumb no-print" style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.9rem;">
+            <a href="../index.html">صفحه اصلی</a> / <span>قالب گزارش نهایی آزمایش</span>
+        </div>
+
+        <!-- Guide Header -->
+        <div class="card no-print" style="background: var(--color-surface); padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">قالب گزارش نهایی آزمایش (Experiment Report Template)</h2>
+            <p style="color: var(--color-muted);">این قالب مکمل <a href="../workbench/experiment-review.html" style="color: var(--color-secondary);">ابزار بررسی آزمایش</a> است و برای تنظیم، ثبت و چاپ گزارش ساختاریافته نتایج استفاده می‌شود.</p>
+            
+            <div class="notice-box" style="margin-top: 1rem; margin-bottom: 0; background: var(--color-background); border: 1px dashed var(--color-secondary); padding: 1rem; border-radius: var(--border-radius); font-size: 0.9rem;">
+                <p><strong>💡 یادآوری:</strong> اطلاعات در این فرم صرفاً در حافظه محلی مرورگر شما ذخیره می‌شود و به سرور منتقل نمی‌گردد. نبود شواهد کافی به معنای شکست قطعی ایده نیست.</p>
+            </div>
+        </div>
+
+        <form id="experiment-report-form">
+            
+            <!-- بخش ۱ و ۲ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۱ و ۲. مشخصات و فرضیه</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۱. عنوان آزمایش</label>
+                        <input type="text" id="rep-title" placeholder="نام مشخص آزمایش...">
+                        <p class="report-hint">یک عنوان کوتاه برای شناسایی این دور آزمایش.</p>
+                    </div>
+                    <div>
+                        <label>تاریخ تنظیم گزارش</label>
+                        <input type="date" id="rep-date">
+                        <p class="report-hint">تاریخ تکمیل این گزارش.</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label>۲. مسئله و فرضیه</label>
+                    <textarea id="rep-hypothesis" rows="2" placeholder="چه مسئله‌ای را بررسی کردیم و فرض ما چه بود؟"></textarea>
+                    <p class="report-hint">شرح مختصر درد مخاطب و ادعای قابل آزمون.</p>
+                </div>
+            </div>
+
+            <!-- بخش ۳ و ۴ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۳ و ۴. مخاطب و روش اجرا</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۳. گروه مخاطب و معیار واجد شرایط بودن</label>
+                        <input type="text" id="rep-audience" placeholder="مخاطب هدف و شرط واجد شرایط بودن...">
+                        <p class="report-hint">چه کسانی و با چه ویژگی‌هایی بررسی شدند؟</p>
+                    </div>
+                    <div>
+                        <label>۴. روش و مراحل اجرا</label>
+                        <input type="text" id="rep-method" placeholder="مثلاً: لندینگ پِیج و فرم ثبت‌نام...">
+                        <p class="report-hint">کدام روش بدون محصول پیاده‌سازی شد؟</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۵ و ۶ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۵ و ۶. شاخص‌ها و نمونه آماری</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۵. معیارهای تعیین‌شده پیش از آزمایش</label>
+                        <input type="text" id="rep-criteria" placeholder="شرط موفقیت یا ادامه که از قبل تعیین کرده بودید...">
+                        <p class="report-hint">ملاکی که قبل از دیدن داده‌ها مشخص کرده بودید.</p>
+                    </div>
+                    <div>
+                        <label>۶. تعداد نمونه و توضیح روش جذب</label>
+                        <input type="text" id="rep-sample" placeholder="تعداد افراد و کانال جذب مخاطب...">
+                        <p class="report-hint">چند نفر بررسی شدند و از چه مسیری آمدند؟</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۷ و ۸ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۷ و ۸. نتایج کمی و کیفی</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۷. نتایج کمی (اعداد و نرخ‌ها)</label>
+                        <textarea id="rep-quant" rows="2" placeholder="بازدیدها، نرخ شروع و تکمیل، لیدها..."></textarea>
+                        <p class="report-hint">داده‌های عددی عینی ثبت‌شده.</p>
+                    </div>
+                    <div>
+                        <label>۸. یافته‌های کیفی (رفتارها و بازخوردها)</label>
+                        <textarea id="rep-qual" rows="2" placeholder="نقل‌قول‌ها، تردیدها یا واکنش‌های مخاطب..."></textarea>
+                        <p class="report-hint">برداشت‌های رفتاری و کیفی از تعامل با مخاطب.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۹ و ۱۰ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۹ و ۱۰. شواهد موافق و مخالف</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۹. شواهد موافق فرضیه</label>
+                        <textarea id="rep-pro" rows="2" placeholder="چه مواردی فرض ما را تأیید کرد؟"></textarea>
+                        <p class="report-hint">شواهدی که به пользу فرضیه بودند.</p>
+                    </div>
+                    <div>
+                        <label>۱۰. شواهد مخالف فرضیه</label>
+                        <textarea id="rep-con" rows="2" placeholder="چه مواردی فرض ما را رد کرد یا زیر سوال برد؟"></textarea>
+                        <p class="report-hint">شواهدی که مغایر با فرض اولیه بودند.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۱۱ و ۱۲ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۱۱ و ۱۲. محدودیت‌ها و منابع مصرفی</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-2">
+                    <div>
+                        <label>۱۱. محدودیت‌ها و مشکلات اجرایی</label>
+                        <input type="text" id="rep-limits" placeholder="خطاهای نمونه، مشکلات فنی یا ابهام داده‌ها...">
+                        <p class="report-hint">چه موانعی روی دقت آزمایش اثر گذاشت؟</p>
+                    </div>
+                    <div>
+                        <label>۱۲. هزینه نقدی و زمان صرف‌شده</label>
+                        <input type="text" id="rep-cost" placeholder="هزینه نقدی و ساعت‌های کارکرد...">
+                        <p class="report-hint">میزان منابع مصرف‌شده برای این آزمایش.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ۱۳، ۱۴ و ۱۵ -->
+            <div class="report-section">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">۱۳، ۱۴ و ۱۵. تصمیم و اقدامات بعدی</h3>
+                
+                <div style="margin-bottom: 1rem;" class="grid-3">
+                    <div>
+                        <label>۱۳. تصمیم بعدی</label>
+                        <select id="rep-decision">
+                            <option value="continue">ادامه آزمایش و شواهد بیشتر</option>
+                            <option value="pivot">اصلاح فرضیه یا روش (پیروت)</option>
+                            <option value="stop">توقف آزمایش یا تغییر مسیر</option>
+                            <option value="uncertain">نیاز به بررسی بیشتر (نامشخص)</option>
+                        </select>
+                        <p class="report-hint">تصمیم اتخاذشده بر اساس شواهد.</p>
+                    </div>
+                    <div>
+                        <label>۱۴. آزمایش یا اقدام بعدی</label>
+                        <input type="text" id="rep-next-action" placeholder="گام اجرایی بعدی...">
+                        <p class="report-hint">قدم مشخص بعدی چیست؟</p>
+                    </div>
+                    <div>
+                        <label>۱۵. تاریخ بازبینی</label>
+                        <input type="date" id="rep-review-date">
+                        <p class="report-hint">چه زمانی دوباره نتایج بررسی می‌شوند؟</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- دکمه‌های کنترل -->
+            <div class="no-print" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <button type="button" onclick="window.print()" class="btn btn-primary">چاپ گزارش / PDF</button>
+                <button type="button" onclick="copyReport()" class="btn btn-secondary">کپی متنی گزارش</button>
+                <button type="button" onclick="clearReportForm()" class="btn" style="background: #fee2e2; color: #dc2626;">پاک کردن فرم</button>
+                <span id="save-status" style="align-self: center; font-size: 0.9rem; color: var(--color-secondary);"></span>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer / فوتر -->
+    <footer class="site-footer no-print">
+        <div class="container footer-container">
+            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+            <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت قالب گزارش نهایی سازگار با shared.js -->
+    <script>
+        const STORAGE_KEY = 'idea_validation_lab_experiment_report_template_v1';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+
+            // ذخیره خودکار هنگام تغییر ورودی‌ها در حافظه محلی مرورگر
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                el.addEventListener('input', () => saveToStorage(false));
+                el.addEventListener('change', () => saveToStorage(false));
+            });
+        });
+
+        function saveToStorage(showAlert = true) {
+            try {
+                const data = {
+                    title: document.getElementById('rep-title').value,
+                    date: document.getElementById('rep-date').value,
+                    hypothesis: document.getElementById('rep-hypothesis').value,
+                    audience: document.getElementById('rep-audience').value,
+                    method: document.getElementById('rep-method').value,
+                    criteria: document.getElementById('rep-criteria').value,
+                    sample: document.getElementById('rep-sample').value,
+                    quant: document.getElementById('rep-quant').value,
+                    qual: document.getElementById('rep-qual').value,
+                    pro: document.getElementById('rep-pro').value,
+                    con: document.getElementById('rep-con').value,
+                    limits: document.getElementById('rep-limits').value,
+                    cost: document.getElementById('rep-cost').value,
+                    decision: document.getElementById('rep-decision').value,
+                    nextAction: document.getElementById('rep-next-action').value,
+                    reviewDate: document.getElementById('rep-review-date').value
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                if (showAlert) {
+                    showStatus('گزارش در حافظه محلی مرورگر ذخیره شد.');
+                }
+            } catch (e) {
+                console.error('Storage error:', e);
+            }
+        }
+
+        function loadFromStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const d = JSON.parse(saved);
+                    document.getElementById('rep-title').value = d.title || '';
+                    document.getElementById('rep-date').value = d.date || '';
+                    document.getElementById('rep-hypothesis').value = d.hypothesis || '';
+                    document.getElementById('rep-audience').value = d.audience || '';
+                    document.getElementById('rep-method').value = d.method || '';
+                    document.getElementById('rep-criteria').value = d.criteria || '';
+                    document.getElementById('rep-sample').value = d.sample || '';
+                    document.getElementById('rep-quant').value = d.quant || '';
+                    document.getElementById('rep-qual').value = d.qual || '';
+                    document.getElementById('rep-pro').value = d.pro || '';
+                    document.getElementById('rep-con').value = d.con || '';
+                    document.getElementById('rep-limits').value = d.limits || '';
+                    document.getElementById('rep-cost').value = d.cost || '';
+                    document.getElementById('rep-decision').value = d.decision || 'continue';
+                    document.getElementById('rep-next-action').value = d.nextAction || '';
+                    document.getElementById('rep-review-date').value = d.reviewDate || '';
+                }
+            } catch (e) {
+                console.error('Load error:', e);
+            }
+        }
+
+        function clearReportForm() {
+            if (confirm('آیا از پاک کردن تمام اطلاعات این گزارش اطمینان دارید؟')) {
+                localStorage.removeItem(STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        function copyReport() {
+            const text = `=== گزارش نهایی آزمایش: ${document.getElementById('rep-title').value} ===\n` +
+                `تاریخ: ${document.getElementById('rep-date').value}\n` +
+                `مسئله و فرضیه: ${document.getElementById('rep-hypothesis').value}\n` +
+                `مخاطب: ${document.getElementById('rep-audience').value} | روش: ${document.getElementById('rep-method').value}\n` +
+                `نتایج کمی: ${document.getElementById('rep-quant').value}\n` +
+                `یافته‌های کیفی: ${document.getElementById('rep-qual').value}\n` +
+                `شواهد موافق: ${document.getElementById('rep-pro').value}\n` +
+                `شواهد مخالف: ${document.getElementById('rep-con').value}\n` +
+                `تصمیم اتخاذشده: ${document.getElementById('rep-decision').value}\n` +
+                `اقدام بعدی: ${document.getElementById('rep-next-action').value} (تاریخ بازبینی: ${document.getElementById('rep-review-date').value})\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('متن گزارش با موفقیت در کلیپ‌بورد کپی شد.');
+            }).catch(() => {
+                alert('خطا در کپی کردن متن.');
+            });
+        }
+
+        function showStatus(msg) {
+            const statusEl = document.getElementById('save-status');
+            statusEl.textContent = msg;
+            setTimeout(() => { statusEl.textContent = ''; }, 4000);
+        }
+    </script>
+</body>
+</html>
