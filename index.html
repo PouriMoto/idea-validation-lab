@@ -3,182 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آزمایشگاه تست ایده | Idea Validation Lab</title>
-    <!-- استایل مشترک پروژه -->
+    <title>آزمایشگاه تست ایده | اعتبارسنجی ایده کسب‌وکار بدون کدنویسی</title>
+    <!-- سیستم طراحی مشترک پروژه -->
     <link rel="stylesheet" href="assets/css/shared.css">
+    <style>
+        /* استایل‌های اختصاصی هدر و بخش هیرو صفحه اصلی */
+        .hero-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .hero-title {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--color-muted);
+            max-width: 680px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.8;
+        }
+        
+        /* مسیر بصری اعتبارسنجی */
+        .roadmap-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        .roadmap-step {
+            flex: 1;
+            min-width: 120px;
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: 1rem 0.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .roadmap-step strong {
+            display: block;
+            color: var(--color-primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+        .roadmap-step span {
+            font-size: 0.8rem;
+            color: var(--color-muted);
+        }
+        .roadmap-arrow {
+            color: var(--color-muted);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* کارت‌های مسیر اصلی */
+        .path-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .path-card:hover {
+            border-color: var(--color-secondary);
+        }
+        .path-card h3 {
+            color: var(--color-primary);
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        .path-card p {
+            color: var(--color-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* بخش ابزارهای ثانویه */
+        .secondary-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+        }
+        .tool-link-item {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s ease;
+        }
+        .tool-link-item:hover {
+            background: var(--color-background);
+            border-color: var(--color-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.75rem; }
+            .hero-section { padding: 2rem 1rem; }
+            .roadmap-container { flex-direction: column; }
+            .roadmap-arrow { transform: rotate(90deg); margin: 0.25rem 0; }
+            .roadmap-step { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header / هدر سایت -->
+    <!-- Header / هدر اصلی -->
     <header class="site-header">
         <div class="container header-container">
             <div class="logo">
-                <h1>آزمایشگاه تست ایده</h1>
-                <p class="tagline">جعبه‌ابزار عملی اعتبارسنجی کسب‌وکار</p>
+                <h1><a href="index.html" style="color: inherit; text-decoration: none;">آزمایشگاه تست ایده</a></h1>
+                <p class="tagline">جعبه‌ابزار اعتبارسنجی کسب‌وکار</p>
             </div>
             <nav class="site-nav">
-                <a href="#paths">مسیرها</a>
-                <a href="#guides">راهنماها</a>
-                <a href="#workbench">ابزارها</a>
-                <a href="guides/00-start-here.html" class="nav-btn">شروع کنید</a>
+                <a href="guides/00-start-here.html">شروع کنید</a>
+                <a href="#main-paths">مسیرهای اصلی</a>
+                <a href="#workbench">میز کار و ابزارها</a>
             </nav>
         </div>
     </header>
 
-    <main>
-        <!-- Hero Section / بخش قهرمان -->
+    <main class="container section-container">
+
+        <!-- بخش اول: Hero (معرفی اصلی و اکشن اصلی) -->
         <section class="hero-section">
-            <div class="container">
-                <div class="hero-content">
-                    <span class="badge">یادگیری قبل از ساخت</span>
-                    <h2>قبل از اینکه بیشتر بسازی، ایده‌ات را آزمایش کن.</h2>
-                    <p class="hero-desc">
-                        یک جعبه‌ابزار عملی برای کشف مشتری، آزمایش تقاضا، جذب مخاطب و تصمیم‌گیری براساس شواهد واقعی؛ بدون نیاز به بودجه‌های کلان یا دانش پیشرفته.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="guides/00-start-here.html" class="btn btn-primary">از ابتدا شروع می‌کنم</a>
-                        <a href="workbench/experiment-planner.html" class="btn btn-secondary">مستقیم به ابزارها می‌روم</a>
+            <h2 class="hero-title">قبل از اینکه ایده‌ات را بسازی، امتحانش کن.</h2>
+            <p class="hero-subtitle">
+                با چند قدم ساده بفهم چه چیزی را باید درباره مشتری، مسئله و راه‌حل خود بررسی کنی؛ بدون نیاز به ساخت محصول کامل، کدنویسی یا صرف هزینه فراوان.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="guides/00-start-here.html" class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1.05rem;">
+                    از اینجا شروع کن (نقشه راه) ←
+                </a>
+                <a href="#main-paths" class="btn btn-secondary" style="padding: 0.85rem 1.5rem;">
+                    انتخاب بر اساس وضعیت شما
+                </a>
+            </div>
+        </section>
+
+        <!-- بخش دوم: ۴ مسیر اصلی بر اساس نیاز کاربر -->
+        <section id="main-paths" style="margin-bottom: 3.5rem;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: var(--color-primary); font-size: 1.5rem;">الآن در چه وضعیتی قرار داری؟</h3>
+                <p style="color: var(--color-muted); font-size: 0.95rem; margin-top: 0.25rem;">
+                    مسیر مناسب خود را انتخاب کن تا مستقیم به راهنما یا ابزار مربوط بروی:
+                </p>
+            </div>
+
+            <div class="grid-2">
+                <!-- مسیر ۱ -->
+                <div class="path-card">
+                    <div>
+                        <h3>۱. هنوز نمی‌دانم مشتری من کیست</h3>
+                        <p>می‌خواهم دقیقاً بفهمم چه کسانی مشکل دارند، مسئله آن‌ها چقدر جدی است و چطور ایده و مخاطب اولیه را مشخص کنم.</p>
+                    </div>
+                    <a href="guides/01-business-basics.html" class="btn btn-secondary">
+                        شناخت ایده و مخاطب ←
+                    </a>
+                </div>
+
+                <!-- مسیر ۲ -->
+                <div class="path-card">
+                    <div>
+                        <h3>۲. می‌خواهم بدون ساخت محصول ایده را آزمایش کنم</h3>
+                        <p>می‌خواهم روش‌های کم‌هزینه و واقعی مثل مصاحبه، لندینگ پیج و فرم را یاد بگیرم تا قبل از ساخت، تقاضا را بسنجم.</p>
+                    </div>
+                    <a href="guides/02-experiments-without-product.html" class="btn btn-secondary">
+                        روش‌های آزمایش بدون محصول ←
+                    </a>
+                </div>
+
+                <!-- مسیر ۳ -->
+                <div class="path-card">
+                    <div>
+                        <h3>۳. می‌خواهم یک آزمایش طراحی کنم</h3>
+                        <p>مخاطب و فرض اولیه مشخص است؛ می‌خواهم در چند گام ساده و ساختاریافته، یک آزمایش واقعی را برنامه‌ریزی و ثبت کنم.</p>
+                    </div>
+                    <a href="workbench/experiment-planner.html" class="btn btn-secondary">
+                        ورود به برنامه‌ریز آزمایش ←
+                    </a>
+                </div>
+
+                <!-- مسیر ۴ -->
+                <div class="path-card">
+                    <div>
+                        <h3>۴. آزمایش کرده‌ام؛ حالا چه تصمیمی بگیرم؟</h3>
+                        <p>داده‌ها و نتایج اولیه را جمع کرده‌ام؛ می‌خواهم بدون نتیجه‌گیری شتاب‌زده بفهمم قدم بعدی ادامه است، اصلاح یا توقف.</p>
+                    </div>
+                    <a href="guides/06-results-and-decisions.html" class="btn btn-secondary">
+                        تحلیل نتایج و تصمیم‌گیری ←
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش سوم: نمای بصری مسیر منطقی اعتبارسنجی -->
+        <section class="card" style="margin-bottom: 3.5rem; background: var(--color-surface);">
+            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.25rem;">
+                مسیر کلی اعتبارسنجی در یک نگاه
+            </h3>
+            <p style="color: var(--color-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                هر آزمایش موفق، این ۶ مرحله ساده و پیوسته را طی می‌کند:
+            </p>
+
+            <div class="roadmap-container">
+                <div class="roadmap-step">
+                    <strong>۱. مسئله</strong>
+                    <span>شناخت چالش واقعی</span>
+                </div>
+                <div class="roadmap-arrow">←</div>
+                <div class="roadmap-step">
+                    <strong>۲. مخاطب</strong>
+                    <span>شناسایی افراد درگیر</span>
+                </div>
+                <div class="roadmap-arrow">←</div>
+                <div class="roadmap-step">
+                    <strong>۳. فرضیه</strong>
+                    <span>تعریف ادعای قابل تست</span>
+                </div>
+                <div class="roadmap-arrow">←</div>
+                <div class="roadmap-step">
+                    <strong>۴. آزمایش</strong>
+                    <span>اجرای ابزار کم‌هزینه</span>
+                </div>
+                <div class="roadmap-arrow">←</div>
+                <div class="roadmap-step">
+                    <strong>۵. شواهد</strong>
+                    <span>ثبت رفتار واقعی</span>
+                </div>
+                <div class="roadmap-arrow">←</div>
+                <div class="roadmap-step">
+                    <strong>۶. تصمیم</strong>
+                    <span>ادامه، اصلاح یا توقف</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش چهارم: ابزارها و قالب‌های ثانویه -->
+        <section id="workbench" class="secondary-section">
+            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.3rem;">
+                ابزارها و قالب‌های کاربردی میز کار
+            </h3>
+            <p style="color: var(--color-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                بر اساس نیازی که در مراحل مختلف آزمایش داری، می‌توانی مستقیماً از این ابزارها استفاده کنی:
+            </p>
+
+            <div class="grid-2">
+                <!-- ابزارهای تعاملی -->
+                <div>
+                    <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.05rem;">🛠️ ابزارهای تعاملی میز کار</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <a href="workbench/interview-builder.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">سازنده راهنمای مصاحبه</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">طراحی سوالات خنثی و ثبت یافته‌های مصاحبه</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="workbench/landing-page-planner.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">برنامه‌ریز صفحه فرود</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">طراحی متن و مسیر تبدیل لندینگ پیج آزمایشی</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="workbench/channel-tracker.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">ردیاب کانال‌های جذب</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">مقایسه عملکرد و بازده کانال‌های جذب مخاطب</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="workbench/metrics-calculator.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">محاسبه‌گر معیارها</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">محاسبه دقیق نرخ‌های تبدیل و هزینه‌های نقدی و زمانی</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="workbench/experiment-review.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">ابزار بررسی آزمایش</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">مقایسه شواهد و فرم تدوین اقدام بعدی</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- قالب‌ها و چک‌لیست‌های قابل چاپ -->
+                <div>
+                    <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.05rem;">📄 قالب‌ها و چک‌لیست‌های آماده</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <a href="templates/experiment-card.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">قالب کارت آزمایش</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">قالب یک‌صفحه‌ای و قابل چاپ برای ثبت طرح آزمایش</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="templates/interview-notes.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">قالب یادداشت مصاحبه</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">فرم ثبت نقل‌قول‌ها و تفکیک شواهد کیفی</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="templates/landing-page-checklist.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">چک‌لیست صفحه فرود</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">چک‌لیست تعاملی بررسی آمادگی قبل و حین انتشار</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="templates/experiment-report.html" class="tool-link-item">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">قالب گزارش نهایی آزمایش</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">فرم یک‌صفحه‌ای ثبت نتایج و تصمیم نهایی</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
+
+                        <a href="guides/00-start-here.html" class="tool-link-item" style="background: var(--color-background);">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">تمام راهنماهای آموزشی</strong>
+                                <span style="font-size: 0.85rem; color: var(--color-muted);">دسترسی به راهنماهای شماره ۰۰ تا ۰۶</span>
+                            </div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">←</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Path Selection / انتخاب مسیر -->
-        <section id="paths" class="section-container">
-            <div class="container">
-                <div class="section-title">
-                    <h3>در چه نقطه‌ای از مسیر هستید؟</h3>
-                    <p>بر اساس وضعیت فعلی خود، نقطه شروع مناسب را انتخاب کنید:</p>
-                </div>
-                <div class="grid-3">
-                    <div class="card path-card">
-                        <div class="card-icon">💡</div>
-                        <h4>فقط یک ایده دارم</h4>
-                        <p>هنوز ابعاد مسئله و مخاطب دقیقاً روشن نیست. می‌خواهم اصول اولیه و نحوه شناخت بازار را یاد بگیرم.</p>
-                        <a href="guides/00-start-here.html" class="card-link">شروع با راهنمای مبتدیان ←</a>
-                    </div>
-                    <div class="card path-card">
-                        <div class="card-icon">🧪</div>
-                        <h4>می‌خواهم فرضیه بسازم</h4>
-                        <p>ایده مشخصی دارم و می‌خواهم مهم‌ترین ریسک آن را با یک آزمایش کم‌هزینه و عملی بسزم.</p>
-                        <a href="workbench/experiment-planner.html" class="card-link">ورود به برنامه‌ریز آزمایش ←</a>
-                    </div>
-                    <div class="card path-card">
-                        <div class="card-icon">📊</div>
-                        <h4>نتیجه را آزمایش کرده‌ام</h4>
-                        <p>داده‌ها یا بازخوردهای آزمایش را جمع‌آوری کرده‌ام و می‌خواهم درباره گام بعدی تصمیم بگیرم.</p>
-                        <a href="workbench/experiment-review.html" class="card-link">بررسی نتایج و تصمیم‌گیری ←</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Main Guides / شش بخش اصلی آزمایشگاه -->
-        <section id="guides" class="section-container bg-surface">
-            <div class="container">
-                <div class="section-title">
-                    <h3>راهنماهای آموزشی</h3>
-                    <p>مفاهیم کلیدی اعتبارسنجی به زبان ساده و کاربردی</p>
-                </div>
-                <div class="grid-3">
-                    <div class="card">
-                        <span class="guide-num">۰۱</span>
-                        <h4>شناخت کسب‌وکار</h4>
-                        <p>شناخت ایده، مخاطب هدف، فرضیات کلیدی و ریسک‌های اصلی کسب‌وکار.</p>
-                        <a href="guides/01-business-basics.html" class="card-link">مطالعه راهنما</a>
-                    </div>
-                    <div class="card">
-                        <span class="guide-num">۰۲</span>
-                        <h4>روش‌های بدون محصول</h4>
-                        <p>اجرای مصاحبه، تست پیام، فرم‌های ارزیابی و نمونه‌های اولیه دستی.</p>
-                        <a href="guides/02-experiments-without-product.html" class="card-link">مطالعه راهنما</a>
-                    </div>
-                    <div class="card">
-                        <span class="guide-num">۰۳</span>
-                        <h4>تست گرم تا سرد</h4>
-                        <p>انتخاب و اجرای مناسب‌ترین آزمایش بر اساس میزان آشنایی مخاطب با شما.</p>
-                        <a href="guides/03-warm-to-cold-testing.html" class="card-link">مطالعه راهنما</a>
-                    </div>
-                    <div class="card">
-                        <span class="guide-num">۰۴</span>
-                        <h4>جذب مخاطب</h4>
-                        <p>آشنایی با کانال‌های جذب، روش‌های معرفی محصول و توزیع پیام.</p>
-                        <a href="guides/04-audience-acquisition.html" class="card-link">مطالعه راهنما</a>
-                    </div>
-                    <div class="card">
-                        <span class="guide-num">۰۵</span>
-                        <h4>ابزارها و اندازه‌گیری</h4>
-                        <p>طراحی لندینگ پیج، لینک‌های ردیابی، رویدادها و معیارهای کلیدی ارزیابی.</p>
-                        <a href="guides/05-tools-and-measurement.html" class="card-link">مطالعه راهنما</a>
-                    </div>
-                    <div class="card">
-                        <span class="guide-num">۰۶</span>
-                        <h4>تحلیل نتیجه و تصمیم</h4>
-                        <p>تحلیل شواهد جمع‌آوری‌شده و انتخاب اقدام بعدی (تغییر مسیر، تداوم یا توقف).</p>
-                        <a href="guides/06-results-and-decisions.html" class="card-link">مطالعه راهنما</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Workbench Tools / ابزارهای اجرایی -->
-        <section id="workbench" class="section-container">
-            <div class="container">
-                <div class="section-title">
-                    <h3>میز کار (ابزارهای اجرایی)</h3>
-                    <p>فرم‌ها و ابزارهای تعاملی برای طراحی و پیاده‌سازی آزمایش‌ها</p>
-                </div>
-                <div class="grid-3">
-                    <div class="card tool-card">
-                        <h4>برنامه‌ریز آزمایش</h4>
-                        <p>ساخت برنامه اجرایی، تعریف فرضیه و شاخص‌های موفقیت یک آزمایش.</p>
-                        <a href="workbench/experiment-planner.html" class="btn-sm">اجرای ابزار</a>
-                    </div>
-                    <div class="card tool-card">
-                        <h4>سازنده مصاحبه</h4>
-                        <p>طراحی سؤالات استاندارد کشف مسئله و ثبت یادداشت‌های مصاحبه با مشتری.</p>
-                        <a href="workbench/interview-builder.html" class="btn-sm">اجرای ابزار</a>
-                    </div>
-                    <div class="card tool-card">
-                        <h4>برنامه‌ریز لندینگ</h4>
-                        <p>طراحی ساختار صفحه فرود و مشخص کردن مسیر تبدیل بازدیدکننده.</p>
-                        <a href="workbench/landing-page-planner.html" class="btn-sm">اجرای ابزار</a>
-                    </div>
-                    <div class="card tool-card">
-                        <h4>ردیاب کانال</h4>
-                        <p>مقایسه عملکرد کانال‌های مختلف جذب مخاطب و ترافیک.</p>
-                        <a href="workbench/channel-tracker.html" class="btn-sm">اجرای ابزار</a>
-                    </div>
-                    <div class="card tool-card">
-                        <h4>محاسبه‌گر معیارها</h4>
-                        <p>محاسبه نرخ تبدیل، هزینه‌های جذب و ارزیابی اقتصادی آزمایش.</p>
-                        <a href="workbench/metrics-calculator.html" class="btn-sm">اجرای ابزار</a>
-                    </div>
-                    <div class="card tool-card">
-                        <h4>بررسی نتیجه آزمایش</h4>
-                        <p>ثبت شواهد نهایی، مقایسه با پیش‌بینی‌ها و تعیین تصمیم بعدی.</p>
-                        <a href="workbench/experiment-review.html" class="btn-sm">اجرای ابزار</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Guiding Principle Callout / اصل راهنما -->
-        <section class="container">
-            <div class="notice-box">
-                <h4>💡 اصل راهنمای آزمایشگاه</h4>
-                <p>«هدف، ساخت محصول کامل نیست. هدف، آزمایش مهم‌ترین فرضیه با کمترین هزینه معقول و یادگیری از رفتار واقعی مخاطب است.»</p>
-            </div>
-        </section>
     </main>
 
     <!-- Footer / فوتر -->
     <footer class="site-footer">
         <div class="container footer-container">
-            <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong> — ابزاری برای کارآفرینان مستقل و تیم‌های چابک.</p>
+            <div>
+                <p><strong>آزمایشگاه تست ایده (Idea Validation Lab)</strong></p>
+                <p style="font-size: 0.85rem; color: var(--color-muted); margin-top: 0.25rem;">
+                    جعبه‌ابزار ایستا و محلی برای اعتبارسنجی فرضیات کسب‌وکار. تمام داده‌ها در مرورگر شما باقی می‌مانند.
+                </p>
+            </div>
             <p><a href="#" class="back-to-top">بازگشت به بالا ↑</a></p>
         </div>
     </footer>
 
+    <!-- جاوااسکریپت مشترک پروژه -->
+    <script src="assets/js/shared.js"></script>
 </body>
 </html>
